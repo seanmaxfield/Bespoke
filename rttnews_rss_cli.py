@@ -11,6 +11,7 @@ import json
 import datetime as dt
 import curses
 import io
+import threading
 import contextlib
 import tkinter as tk
 from tkinter import scrolledtext
@@ -59,10 +60,12 @@ def build_feeds() -> List[Dict[str, str]]:
 		{"abbr": "NYT", "title": "The New York Times - Home Page", "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"},
 		{"abbr": "WP", "title": "The Washington Post - Politics", "url": "https://feeds.washingtonpost.com/rss/politics"},
 		{"abbr": "GDNME", "title": "The Guardian - Middle East", "url": "https://www.theguardian.com/world/middleeast/rss"},
-		{"abbr": "PLCO", "title": "Politico - Politics", "url": "https://www.politico.com/rss/politics.xml"},
+		{"abbr": "PLCO", "title": "Politico - Congress", "url": "https://rss.politico.com/congress.xml"},
+		{"abbr": "PLDEF", "title": "Politico - Defense", "url": "https://rss.politico.com/defense.xml"},
+		{"abbr": "PLPOL", "title": "Politico - Politics", "url": "https://rss.politico.com/politics-news.xml"},
 		{"abbr": "BBC", "title": "BBC News - Top Stories", "url": "https://feeds.bbci.co.uk/news/rss.xml"},
 		# Special utility
-		{"abbr": "STOCK", "title": "Stock Lookup (price, fundamentals, news) - use: 34 TICKER", "url": ""},
+		{"abbr": "STOCK", "title": "Stock Lookup (price, fundamentals, news) - use: 35 TICKER", "url": ""},
 		# Extra utility
 		{"abbr": "LM", "title": "LiveUAMap", "url": "https://liveuamap.com"},
 		{"abbr": "CMDTY", "title": "Commodities Snapshot (price, 1w, 1m change)", "url": ""},
@@ -791,6 +794,423 @@ def run_tui() -> int:
 	return curses.wrapper(tui) or 0
 
 
+# --- Scrolling ticker and data helpers for GUI ---
+class TickerTape:
+	def __init__(self, parent: tk.Misc, height: int = 26, bg: str = "#111111", fg: str = "#EEEEEE", speed_px_per_step: int = 2, step_ms: int = 20):
+		self.canvas = tk.Canvas(parent, height=height, bg=bg, highlightthickness=0)
+		self.fg = fg
+		self.speed = max(1, int(speed_px_per_step))
+		self.step_ms = max(10, int(step_ms))
+		self.text_id = self.canvas.create_text(0, height // 2, text="", anchor="w", fill=self.fg)
+		self.text_width = 0  # total width of content
+		self.items: List[int] = []  # for segmented colored items
+		self.offsets: List[int] = []  # x-offsets for each item when laid out from right edge
+		self.started = False
+		self.canvas.bind("<Configure>", self._on_resize)
+
+	def widget(self) -> tk.Canvas:
+		return self.canvas
+
+	def _on_resize(self, event):
+		canvas_w = int(self.canvas.winfo_width())
+		canvas_h = int(self.canvas.winfo_height())
+		if self.text_id is not None:
+			try:
+				x, y = self.canvas.coords(self.text_id)
+			except Exception:
+				return
+			if x + self.text_width <= 0 or x > canvas_w:
+				self.canvas.coords(self.text_id, canvas_w, canvas_h // 2)
+		elif self.items:
+			# If content goes out of range on resize, snap group back to right edge
+			try:
+				min_x = min(self.canvas.coords(i)[0] for i in self.items)
+			except Exception:
+				return
+			if min_x + self.text_width <= 0 or min_x > canvas_w:
+				self._layout_from_right(canvas_w, canvas_h // 2)
+
+	def set_text(self, text: str) -> None:
+		# Clear segmented items
+		for it in self.items:
+			try:
+				self.canvas.delete(it)
+			except Exception:
+				pass
+		self.items = []
+		self.offsets = []
+		if self.text_id is None:
+			self.text_id = self.canvas.create_text(0, int(self.canvas.winfo_height()) // 2, text="", anchor="w", fill=self.fg)
+		self.canvas.itemconfig(self.text_id, text=text)
+		self.canvas.update_idletasks()
+		bbox = self.canvas.bbox(self.text_id)
+		if bbox:
+			self.text_width = bbox[2] - bbox[0]
+		self.canvas.coords(self.text_id, int(self.canvas.winfo_width()), int(self.canvas.winfo_height()) // 2)
+		if not self.started:
+			self.started = True
+			self._scroll_step()
+
+	def set_segments(self, segments: List[Tuple[str, str]]) -> None:
+		# Remove single text path if present
+		if self.text_id is not None:
+			try:
+				self.canvas.delete(self.text_id)
+			except Exception:
+				pass
+			self.text_id = None
+		# Clear previous items
+		for it in self.items:
+			try:
+				self.canvas.delete(it)
+			except Exception:
+				pass
+		self.items = []
+		self.offsets = []
+		y = int(self.canvas.winfo_height()) // 2
+		x = int(self.canvas.winfo_width())
+		total_w = 0
+		# Create items sequentially, measure widths
+		for text, color in segments:
+			item_id = self.canvas.create_text(x + total_w, y, text=text, anchor="w", fill=color)
+			self.canvas.update_idletasks()
+			bbox = self.canvas.bbox(item_id)
+			w = (bbox[2] - bbox[0]) if bbox else 0
+			self.items.append(item_id)
+			self.offsets.append(total_w)
+			total_w += w
+		self.text_width = total_w
+		if not self.started:
+			self.started = True
+			self._scroll_step()
+
+	def _layout_from_right(self, right_edge_x: int, baseline_y: int) -> None:
+		# Lay items starting at right edge using stored offsets
+		for idx, item_id in enumerate(self.items):
+			self.canvas.coords(item_id, right_edge_x + self.offsets[idx], baseline_y)
+
+	def _scroll_step(self) -> None:
+		if self.text_id is not None:
+			try:
+				self.canvas.move(self.text_id, -self.speed, 0)
+				x, y = self.canvas.coords(self.text_id)
+				if x + self.text_width <= 0:
+					self.canvas.coords(self.text_id, int(self.canvas.winfo_width()), y)
+			except Exception:
+				pass
+		elif self.items:
+			try:
+				for it in self.items:
+					self.canvas.move(it, -self.speed, 0)
+				min_x = min(self.canvas.coords(i)[0] for i in self.items)
+				if min_x + self.text_width <= 0:
+					self._layout_from_right(int(self.canvas.winfo_width()), int(self.canvas.winfo_height()) // 2)
+			except Exception:
+				pass
+		self.canvas.after(self.step_ms, self._scroll_step)
+
+
+def yahoo_multi_quote(symbols: List[str]) -> Dict[str, Dict[str, object]]:
+	if not symbols:
+		return {}
+	# Try multiple URL variants and hosts with a realistic User-Agent; Yahoo can be picky
+	encoded = ",".join(urllib.parse.quote(s) for s in symbols)
+	plain = ",".join(symbols)
+	urls = [
+		f"https://query1.finance.yahoo.com/v7/finance/quote?symbols={encoded}&lang=en-US&region=US",
+		f"https://query2.finance.yahoo.com/v7/finance/quote?symbols={encoded}&lang=en-US&region=US",
+		f"https://query1.finance.yahoo.com/v7/finance/quote?symbols={urllib.parse.quote(plain)}&lang=en-US&region=US",
+		f"https://query2.finance.yahoo.com/v7/finance/quote?symbols={urllib.parse.quote(plain)}&lang=en-US&region=US",
+	]
+	headers = {
+		"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
+		"Accept": "application/json,text/javascript,*/*;q=0.1",
+		"Accept-Language": "en-US,en;q=0.9",
+		"Pragma": "no-cache",
+		"Cache-Control": "no-cache",
+	}
+	collected: Dict[str, Dict[str, object]] = {}
+	for url in urls:
+		try:
+			req = urllib.request.Request(url, headers=headers)
+			with urllib.request.urlopen(req, timeout=15) as resp:
+				data_bytes = resp.read()
+			payload = json.loads(data_bytes.decode("utf-8", errors="ignore"))
+			results = payload.get("quoteResponse", {}).get("result", []) or []
+			for item in results:
+				s = item.get("symbol")
+				if isinstance(s, str):
+					collected[s] = item
+			if collected and len(collected) >= len(symbols):
+				break
+		except Exception:
+			continue
+	# Fallback and augmentation: Yahoo Chart v8 per-symbol to derive last price and change %
+	def chart_meta(symbol: str) -> Optional[Dict[str, object]]:
+		chart_urls = [
+			f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?range=5d&interval=1d",
+			f"https://query2.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?range=5d&interval=1d",
+		]
+		for cu in chart_urls:
+			try:
+				req = urllib.request.Request(cu, headers=headers)
+				with urllib.request.urlopen(req, timeout=15) as resp:
+					raw = resp.read()
+				data = json.loads(raw.decode("utf-8", errors="ignore"))
+				results = data.get("chart", {}).get("result", []) or []
+				if not results:
+					continue
+				meta = results[0].get("meta", {}) or {}
+				indicators = results[0].get("indicators", {}) or {}
+				quotes = indicators.get("quote", []) or []
+				last_close = None
+				if quotes:
+					closes = quotes[0].get("close", []) or []
+					# find last non-None
+					for v in reversed(closes):
+						if v is not None:
+							last_close = float(v)
+							break
+				price = meta.get("regularMarketPrice")
+				if price is None and last_close is not None:
+					price = float(last_close)
+				prev = meta.get("previousClose")
+				if prev in (None, 0):
+					prev = meta.get("chartPreviousClose")
+				change_pct = None
+				try:
+					if price is not None and prev not in (None, 0):
+						change_pct = (float(price) - float(prev)) / float(prev) * 100.0
+				except Exception:
+					change_pct = None
+				out: Dict[str, object] = {}
+				if price is not None:
+					out["regularMarketPrice"] = float(price)
+				if prev is not None:
+					out["regularMarketPreviousClose"] = float(prev)
+					out["previousClose"] = float(prev)
+					out["chartPreviousClose"] = float(prev)
+				if change_pct is not None:
+					out["regularMarketChangePercent"] = float(change_pct)
+				return out if out else None
+			except Exception:
+				continue
+		return None
+
+	def ensure_change_percent(symbol: str, data: Dict[str, object]) -> Dict[str, object]:
+		# If we already have a percent and previous close, keep it
+		price = data.get("regularMarketPrice")
+		prev = data.get("regularMarketPreviousClose") or data.get("previousClose") or data.get("chartPreviousClose")
+		chg = data.get("regularMarketChangePercent")
+		try:
+			if chg is None and price is not None and prev not in (None, 0):
+				chg = (float(price) - float(prev)) / float(prev) * 100.0
+		except Exception:
+			chg = None
+		if chg is None:
+			meta = chart_meta(symbol)
+			if meta:
+				# backfill missing pieces
+				if price is None and meta.get("regularMarketPrice") is not None:
+					price = meta["regularMarketPrice"]
+					data["regularMarketPrice"] = price  # type: ignore[index]
+				if prev is None and (meta.get("regularMarketPreviousClose") is not None or meta.get("previousClose") is not None or meta.get("chartPreviousClose") is not None):
+					prev = meta.get("regularMarketPreviousClose") or meta.get("previousClose") or meta.get("chartPreviousClose")
+					if prev is not None:
+						data["regularMarketPreviousClose"] = prev  # type: ignore[index]
+						data["previousClose"] = prev  # type: ignore[index]
+						data["chartPreviousClose"] = prev  # type: ignore[index]
+				if meta.get("regularMarketChangePercent") is not None:
+					chg = meta.get("regularMarketChangePercent")
+		if chg is not None:
+			try:
+				data["regularMarketChangePercent"] = float(chg)  # type: ignore[index]
+			except Exception:
+				pass
+		return data
+
+	# If we didn't get any v7 data, build from pure chart_meta
+	if not collected:
+		fallback: Dict[str, Dict[str, object]] = {}
+		for s in symbols:
+			meta = chart_meta(s)
+			if meta:
+				fallback[s] = meta
+		return fallback
+
+	# Augment missing fields using chart_meta
+	for s in symbols:
+		collected[s] = ensure_change_percent(s, collected.get(s, {}))
+	return collected
+
+
+def _format_change_pct(value: Optional[float]) -> str:
+	try:
+		num = float(value)
+	except Exception:
+		return ""
+	sign = "+" if num >= 0 else ""
+	return f"{sign}{num:.2f}%"
+
+
+def build_markets_tape_text() -> str:
+	# Major indices, commodities, and FX symbols on Yahoo
+	indices: List[Tuple[str, str]] = [
+		("S&P 500", "^GSPC"),
+		("Dow", "^DJI"),
+		("Nasdaq", "^IXIC"),
+		("FTSE 100", "^FTSE"),
+		("DAX", "^GDAXI"),
+		("Nikkei 225", "^N225"),
+		("Hang Seng", "^HSI"),
+	]
+	commodities: List[Tuple[str, str]] = [
+		("WTI", "CL=F"),
+		("Brent", "BZ=F"),
+		("Gold", "GC=F"),
+		("Silver", "SI=F"),
+		("NatGas", "NG=F"),
+		("Copper", "HG=F"),
+	]
+	fx: List[Tuple[str, str]] = [
+		("EUR/USD", "EURUSD=X"),
+		("GBP/USD", "GBPUSD=X"),
+		("USD/JPY", "JPY=X"),
+		("USD/CHF", "CHF=X"),
+	]
+	all_pairs = indices + commodities + fx
+	symbols = [s for _, s in all_pairs]
+	quotes = yahoo_multi_quote(symbols)
+
+	def piece(label: str, sym: str) -> str:
+		q = quotes.get(sym, {})
+		# Prefer regular market values; fall back to post/pre market if needed
+		price = q.get("regularMarketPrice")
+		if price is None:
+			price = q.get("postMarketPrice") if q.get("postMarketPrice") is not None else q.get("preMarketPrice")
+		chg_pct = q.get("regularMarketChangePercent")
+		if chg_pct is None:
+			chg_pct = q.get("postMarketChangePercent") if q.get("postMarketChangePercent") is not None else q.get("preMarketChangePercent")
+		try:
+			price_str = f"{float(price):.2f}"
+		except Exception:
+			price_str = "n/a"
+		pct_str = _format_change_pct(chg_pct)
+		if pct_str:
+			return f"{label} {price_str} {pct_str}"
+		return f"{label} {price_str}"
+
+	parts_idx = [piece(l, s) for (l, s) in indices]
+	parts_cmd = [piece(l, s) for (l, s) in commodities]
+	parts_fx = [piece(l, s) for (l, s) in fx]
+	return "   |   ".join(parts_idx + parts_cmd + parts_fx)
+
+
+def build_markets_tape_segments() -> List[Tuple[str, str]]:
+	# Colors
+	WHITE = "#F2F2F2"
+	GREEN = "#4CAF50"
+	RED = "#E53935"
+	# Symbols
+	indices: List[Tuple[str, str]] = [
+		("S&P 500", "^GSPC"),
+		("Dow", "^DJI"),
+		("Nasdaq", "^IXIC"),
+		("FTSE 100", "^FTSE"),
+		("DAX", "^GDAXI"),
+		("Nikkei 225", "^N225"),
+		("Hang Seng", "^HSI"),
+	]
+	commodities: List[Tuple[str, str]] = [
+		("WTI", "CL=F"),
+		("Brent", "BZ=F"),
+		("Gold", "GC=F"),
+		("Silver", "SI=F"),
+		("NatGas", "NG=F"),
+		("Copper", "HG=F"),
+	]
+	fx: List[Tuple[str, str]] = [
+		("EUR/USD", "EURUSD=X"),
+		("GBP/USD", "GBPUSD=X"),
+		("USD/JPY", "JPY=X"),
+		("USD/CHF", "CHF=X"),
+	]
+	all_pairs = indices + commodities + fx
+	symbols = [s for _, s in all_pairs]
+	quotes = yahoo_multi_quote(symbols)
+
+	def seg(label: str, sym: str) -> List[Tuple[str, str]]:
+		q = quotes.get(sym, {})
+		price = q.get("regularMarketPrice")
+		if price is None:
+			price = q.get("postMarketPrice") if q.get("postMarketPrice") is not None else q.get("preMarketPrice")
+		prev = q.get("regularMarketPreviousClose") or q.get("previousClose") or q.get("chartPreviousClose")
+		chg_pct = None
+		# Prefer computing from price/prev; fallback to Yahoo's percent
+		try:
+			if price is not None and prev not in (None, 0):
+				chg_pct = (float(price) - float(prev)) / float(prev) * 100.0
+		except Exception:
+			chg_pct = None
+		if chg_pct is None:
+			tmp = q.get("regularMarketChangePercent")
+			if tmp is None:
+				tmp = q.get("postMarketChangePercent") if q.get("postMarketChangePercent") is not None else q.get("preMarketChangePercent")
+			try:
+				if tmp is not None:
+					chg_pct = float(tmp)
+			except Exception:
+				chg_pct = None
+		try:
+			price_str = f"{float(price):.2f}"
+		except Exception:
+			price_str = "n/a"
+		pct_str = ""
+		color = WHITE
+		if chg_pct is not None:
+			sign = "+" if chg_pct >= 0 else ""
+			pct_str = f"{sign}{chg_pct:.2f}%"
+			color = GREEN if chg_pct >= 0 else RED
+		# Return pieces: name (white), space, price (colored), space, pct (colored or empty)
+		pieces: List[Tuple[str, str]] = []
+		pieces.append((f"{label} ", WHITE))
+		pieces.append((price_str, color))
+		if pct_str:
+			pieces.append((f" {pct_str}", color))
+		return pieces
+
+	segments: List[Tuple[str, str]] = []
+	def add_group(pairs: List[Tuple[str, str]]) -> None:
+		nonlocal segments
+		for idx, (l, s) in enumerate(pairs):
+			if segments:
+				segments.append(("   |   ", WHITE))
+			segments.extend(seg(l, s))
+
+	add_group(indices)
+	add_group(commodities)
+	add_group(fx)
+	return segments
+
+
+def fetch_politico_top_titles(limit: int = 5) -> List[str]:
+	url = "https://rss.politico.com/politics-news.xml"
+	try:
+		xml_bytes = fetch_xml(url)
+		root = ET.fromstring(xml_bytes)
+		items = find_items(root)[:limit]
+		out: List[str] = []
+		for it in items:
+			known = extract_known_fields(it)
+			title = known.get("title") or ""
+			title = normalize_text(title)
+			if title:
+				out.append(title)
+		return out
+	except Exception:
+		return []
+
+
 def run_gui() -> int:
 	feeds = build_feeds()
 	try:
@@ -801,6 +1221,12 @@ def run_gui() -> int:
 
 	root.title("Bespoke Search")
 	root.geometry("900x700")
+
+	# Top-of-window ticker tapes
+	markets_tape = TickerTape(root, height=26, bg="#0F0F0F", fg="#F2F2F2", speed_px_per_step=2, step_ms=20)
+	markets_tape.widget().pack(side=tk.TOP, fill=tk.X)
+	news_tape = TickerTape(root, height=24, bg="#151515", fg="#E6E6E6", speed_px_per_step=2, step_ms=20)
+	news_tape.widget().pack(side=tk.TOP, fill=tk.X)
 
 	text = scrolledtext.ScrolledText(root, wrap=tk.WORD)
 	text.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
@@ -864,6 +1290,37 @@ def run_gui() -> int:
 		entry.delete(0, tk.END)
 
 	entry.bind("<Return>", on_submit)
+	# Initial ticker population and periodic refresh (every 90 seconds)
+	def refresh_markets():
+		def worker():
+			try:
+				segments = build_markets_tape_segments()
+			except Exception:
+				segments = []
+			def apply_text():
+				if segments:
+					markets_tape.set_segments(segments)
+			root.after(0, apply_text)
+		threading.Thread(target=worker, daemon=True).start()
+		root.after(90_000, refresh_markets)
+
+	def refresh_politico():
+		def worker():
+			try:
+				titles = fetch_politico_top_titles(5)
+				content = "   •   ".join(titles) if titles else ""
+			except Exception:
+				content = ""
+			def apply_text():
+				if content:
+					news_tape.set_text(content)
+			root.after(0, apply_text)
+		threading.Thread(target=worker, daemon=True).start()
+		root.after(90_000, refresh_politico)
+
+	# Kick off refresh loops immediately
+	refresh_markets()
+	refresh_politico()
 	root.mainloop()
 	return 0
 
