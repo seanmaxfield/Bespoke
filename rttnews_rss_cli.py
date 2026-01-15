@@ -942,11 +942,27 @@ def main(argv: List[str]) -> int:
 
 
 if __name__ == "__main__":
-	if any(arg == "--gui" for arg in sys.argv[1:]):
+	args = sys.argv[1:]
+	if any(arg == "--gui" for arg in args):
 		sys.exit(run_gui())
-	elif any(arg == "--tui" for arg in sys.argv[1:]):
+	elif any(arg == "--tui" for arg in args):
 		sys.exit(run_tui())
-	else:
+	elif any(arg == "--cli" for arg in args):
 		sys.exit(main(sys.argv))
+	else:
+		# Default to GUI automatically; if unavailable, gracefully fall back to TUI, then CLI.
+		try:
+			code = run_gui()
+		except Exception:
+			code = 1
+		if code == 0:
+			sys.exit(0)
+		# Try TUI fallback if GUI failed
+		try:
+			code = run_tui()
+			sys.exit(code or 0)
+		except Exception:
+			# Final fallback to simple CLI
+			sys.exit(main(sys.argv))
 
 
