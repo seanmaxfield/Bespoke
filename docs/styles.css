@@ -39,6 +39,7 @@ body{
 	border-right:1px solid #e0e3e7;
 	display:flex;
 	flex-direction:column;
+	min-width:0; /* prevent left pane from forcing layout overflow */
 }
 .feed-controls{
 	display:flex;gap:10px;align-items:flex-end;margin-bottom:10px
@@ -54,6 +55,9 @@ body{
 	border-radius:8px;
 	padding:10px;
 	background:#ffffff;
+	/* Allow long URLs/words to wrap instead of expanding the pane */
+	overflow-wrap:anywhere;
+	word-break:break-word;
 }
 #cmd-bar{display:flex;gap:10px;margin:10px 0}
 #cmd-input{
