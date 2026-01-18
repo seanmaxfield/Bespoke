@@ -534,8 +534,34 @@ async function main() {
 		const name = tds[0].textContent || "";
 		const org = tds[1].textContent || "";
 		const email = tds[3].textContent || "";
-		const block = await fetchRecentBlock(name, org, email);
-		renderOutputBlock(block);
+		// Try prebuilt recent.json first (built by Python), then fall back to live fetch
+		try {
+			if (!window.__recentMap) {
+				window.__recentMap = await fetchJSON("data/recent.json");
+			}
+		} catch {}
+		let usedPrebuilt = false;
+		if (window.__recentMap) {
+			const key = `${name}|${org}|${email}`;
+			const items = window.__recentMap[key] || [];
+			if (items && items.length) {
+				const lines = [];
+				lines.push(`Recent work for ${name} — ${org}`.trim());
+				lines.push("----------------------------------------");
+				items.slice(0, 10).forEach((it, i) => {
+					lines.push(`${String(i+1).padStart(2," ")}. ${it.title || ""}`);
+					if (it.pubDate) lines.push(`    ${it.pubDate}`);
+					if (it.link) lines.push(`    ${it.link}`);
+				});
+				lines.push("");
+				renderOutputBlock(lines.join("\n"));
+				usedPrebuilt = true;
+			}
+		}
+		if (!usedPrebuilt) {
+			const block = await fetchRecentBlock(name, org, email);
+			renderOutputBlock(block);
+		}
 	}
 	btnRecent.addEventListener("click", async () => {
 		await showRecentForSelected();

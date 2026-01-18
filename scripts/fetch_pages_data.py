@@ -138,6 +138,67 @@ def build_politico(limit=5):
 	except Exception:
 		return []
 
+def load_csv_rows(path: str) -> List[Dict[str,str]]:
+	try:
+		import csv
+		with open(path, "r", encoding="utf-8", newline="") as f:
+			return list(csv.DictReader(f))
+	except Exception:
+		return []
+
+def google_news_recent(name: str, org: str, email: str, max_items: int = 10) -> List[Dict[str,str]]:
+	q = f"\"{name}\""
+	domain = ""
+	if email and "@" in email:
+		domain = email.split("@",1)[1].lower().strip()
+		mapper = {
+			"washpost.com":"washingtonpost.com",
+			"bloomberg.net":"bloomberg.com",
+		}
+		site = mapper.get(domain, domain)
+	else:
+		site = ""
+	if site:
+		q += f" site:{site}"
+	elif org:
+		q += f" \"{org}\""
+	base = "https://news.google.com/rss/search"
+	params = urllib.parse.urlencode({"q": q, "hl": "en-US", "gl": "US", "ceid": "US:en"})
+	url = f"{base}?{params}"
+	try:
+		raw = fetch(url, headers={
+			"User-Agent":"Mozilla/5.0 (CLI RSS Reader)",
+			"Accept":"application/rss+xml",
+			"Cache-Control":"no-cache","Pragma":"no-cache",
+		})
+		root = ET.fromstring(raw)
+		items = root.findall(".//item")[:max_items]
+		out = []
+		for it in items:
+			title = (it.findtext("title") or "").strip()
+			link = (it.findtext("link") or "").strip()
+			pub = (it.findtext("pubDate") or "").strip()
+			out.append({"title":title,"link":link,"pubDate":pub})
+		return out
+	except Exception:
+		return []
+
+def build_recent_map() -> Dict[str, List[Dict[str,str]]]:
+	recent: Dict[str, List[Dict[str,str]]] = {}
+	researchers = load_csv_rows(os.path.join(ROOT, "dc_researchers_with_emails_CONSOLIDATED.csv"))
+	journalists = load_csv_rows(os.path.join(ROOT, "journalists_china_asia_FULL.csv"))
+	for rows in (researchers, journalists):
+		for r in rows:
+			name = (r.get("name") or "").strip()
+			org = (r.get("think_tank") or r.get("publication") or "").strip()
+			email = (r.get("email") or "").strip()
+			if not name:
+				continue
+			key = f"{name}|{org}|{email}"
+			recent[key] = google_news_recent(name, org, email)
+			time.sleep(0.15)  # gentle pacing
+	return recent
+
 def build_commodities_snapshot():
 	# Same symbols as the CLI for parity
 	commodities = [
@@ -295,6 +356,8 @@ def main():
 	for f in feeds:
 		feeds_payload["data"][f["abbr"]] = fetch_feed(f["url"])
 	write_json(os.path.join(OUT_DIR, "feeds.json"), feeds_payload)
+	# Precompute recent work for directory entries using Python (avoids browser CORS)
+	write_json(os.path.join(OUT_DIR, "recent.json"), build_recent_map())
 	print("Wrote data files to docs/data/")
 
 if __name__ == "__main__":
