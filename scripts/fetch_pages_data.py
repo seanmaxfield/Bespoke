@@ -184,6 +184,10 @@ def main():
 		{"abbr":"PLDEF","title":"Politico - Defense","url":"https://rss.politico.com/defense.xml"},
 		{"abbr":"PLPOL","title":"Politico - Politics","url":"https://rss.politico.com/politics-news.xml"},
 		{"abbr":"BBC","title":"BBC News - Top Stories","url":"https://feeds.bbci.co.uk/news/rss.xml"},
+		# Special utility for parity with CLI
+		{"abbr":"STOCK","title":"Stock Lookup (price, news) — use: STOCK TICKER","url":""},
+		{"abbr":"LM","title":"LiveUAMap (opens site)","url":"https://liveuamap.com"},
+		{"abbr":"CMDTY","title":"Commodities Snapshot (price, 1w, 1m change)","url":""},
 		{"abbr":"WSJMK","title":"WSJ - Markets","url":"https://feeds.content.dowjones.io/public/rss/RSSMarketsMain"},
 		{"abbr":"WSJWR","title":"WSJ - World News","url":"https://feeds.content.dowjones.io/public/rss/RSSWorldNews"},
 		{"abbr":"WSJECO","title":"WSJ - Economy","url":"https://feeds.content.dowjones.io/public/rss/socialeconomyfeed"},
