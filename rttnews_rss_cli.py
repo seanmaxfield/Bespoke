@@ -15,8 +15,10 @@ import threading
 import contextlib
 import tkinter as tk
 from tkinter import scrolledtext
+from tkinter import ttk
 import re
 import webbrowser
+import csv
 from email.utils import parsedate_to_datetime
 from typing import List, Dict, Optional, Tuple
 
@@ -1222,13 +1224,27 @@ def run_gui() -> int:
 	root.title("Bespoke Search")
 	root.geometry("900x700")
 
-	# Top-of-window ticker tapes
-	markets_tape = TickerTape(root, height=26, bg="#0F0F0F", fg="#F2F2F2", speed_px_per_step=2, step_ms=20)
+	# Top-level horizontal paned layout: left (main UI) | right (researcher/journalist db)
+	main_pane = tk.PanedWindow(root, orient=tk.HORIZONTAL, sashwidth=8, sashrelief=tk.RAISED, cursor="sb_h_double_arrow")
+	main_pane.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+	left_frame = tk.Frame(main_pane)
+	right_frame = tk.Frame(main_pane, width=360)
+	main_pane.add(left_frame)
+	main_pane.add(right_frame)
+	# Make panes stretch and set minimum sizes to ensure sash is draggable
+	try:
+		main_pane.paneconfigure(left_frame, minsize=220, stretch="always")
+		main_pane.paneconfigure(right_frame, minsize=240, stretch="always")
+	except Exception:
+		pass
+
+	# Top-of-window ticker tapes inside left pane
+	markets_tape = TickerTape(left_frame, height=26, bg="#0F0F0F", fg="#F2F2F2", speed_px_per_step=2, step_ms=20)
 	markets_tape.widget().pack(side=tk.TOP, fill=tk.X)
-	news_tape = TickerTape(root, height=24, bg="#151515", fg="#E6E6E6", speed_px_per_step=2, step_ms=20)
+	news_tape = TickerTape(left_frame, height=24, bg="#151515", fg="#E6E6E6", speed_px_per_step=2, step_ms=20)
 	news_tape.widget().pack(side=tk.TOP, fill=tk.X)
 
-	text = scrolledtext.ScrolledText(root, wrap=tk.WORD)
+	text = scrolledtext.ScrolledText(left_frame, wrap=tk.WORD)
 	text.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 	text.configure(state=tk.NORMAL)
 	initial = get_feed_list_string(feeds)
@@ -1264,7 +1280,7 @@ def run_gui() -> int:
 	# Insert initial content at top, editable
 	insert_with_links(text, "1.0", initial)
 
-	entry_frame = tk.Frame(root)
+	entry_frame = tk.Frame(left_frame)
 	entry_frame.pack(side=tk.BOTTOM, fill=tk.X)
 	prompt = tk.Label(entry_frame, text="> ")
 	prompt.pack(side=tk.LEFT)
@@ -1290,6 +1306,259 @@ def run_gui() -> int:
 		entry.delete(0, tk.END)
 
 	entry.bind("<Return>", on_submit)
+	# ---- Right researcher panel ----
+	# Load CSV data
+	def load_researchers_csv(path: str) -> List[Dict[str, str]]:
+		rows: List[Dict[str, str]] = []
+		try:
+			with open(path, "r", encoding="utf-8", newline="") as f:
+				reader = csv.DictReader(f)
+				for r in reader:
+					name = (r.get("name") or "").strip()
+					org = (r.get("think_tank") or "").strip()
+					# Prefer consolidated topic when available
+					topic_val = (r.get("consolidated_topic") or "").strip()
+					if not topic_val:
+						topic_val = (r.get("topic") or "").strip()
+					email = (r.get("email") or "").strip()
+					if not name:
+						continue
+					rows.append({"name": name, "think_tank": org, "topic": topic_val, "email": email})
+		except Exception:
+			return []
+		return rows
+
+	def load_journalists_csv(path: str) -> List[Dict[str, str]]:
+		rows: List[Dict[str, str]] = []
+		try:
+			with open(path, "r", encoding="utf-8", newline="") as f:
+				reader = csv.DictReader(f)
+				for r in reader:
+					name = (r.get("name") or "").strip()
+					org = (r.get("publication") or "").strip()
+					topic_val = (r.get("beat") or "").strip()
+					email = (r.get("email") or "").strip()
+					if not name:
+						continue
+					rows.append({"name": name, "think_tank": org, "topic": topic_val, "email": email})
+		except Exception:
+			return []
+		return rows
+
+	# Path to user's CSVs
+	researchers_csv_path = os.path.join(os.path.dirname(__file__), "dc_researchers_with_emails_CONSOLIDATED.csv")
+	journalists_csv_path = os.path.join(os.path.dirname(__file__), "journalists_china_asia_FULL.csv")
+	researchers = load_researchers_csv(researchers_csv_path)
+	orgs = sorted({r["think_tank"] for r in researchers if r.get("think_tank")})
+	topics = sorted({r["topic"] for r in researchers if r.get("topic")})
+
+	# Right panel UI
+	side_title = tk.Label(right_frame, text="Researcher Database", fg="#FFFFFF", bg="#1A1A1A")
+	side_title.pack(side=tk.TOP, fill=tk.X)
+
+	# Dataset toggle (Researchers / Journalists)
+	mode_frame = tk.Frame(right_frame)
+	mode_frame.pack(side=tk.TOP, fill=tk.X, padx=6, pady=(6, 0))
+	mode_var = tk.StringVar(value="researchers")
+	def on_mode_change():
+		nonlocal researchers, orgs, topics
+		kind = mode_var.get()
+		if kind == "journalists":
+			side_title.config(text="Journalists Database")
+			researchers = load_journalists_csv(journalists_csv_path)
+		else:
+			side_title.config(text="Researcher Database")
+			researchers = load_researchers_csv(researchers_csv_path)
+		orgs = sorted({r["think_tank"] for r in researchers if r.get("think_tank")})
+		topics = sorted({r["topic"] for r in researchers if r.get("topic")})
+		org_combo.configure(values=[""] + orgs)
+		topic_combo.configure(values=[""] + topics)
+		org_var.set("")
+		topic_var.set("")
+		search_var.set("")
+		refresh_tree()
+	rb_res = ttk.Radiobutton(mode_frame, text="Researchers", variable=mode_var, value="researchers", command=on_mode_change)
+	rb_jrn = ttk.Radiobutton(mode_frame, text="Journalists", variable=mode_var, value="journalists", command=on_mode_change)
+	rb_res.pack(side=tk.LEFT)
+	rb_jrn.pack(side=tk.LEFT, padx=(12, 0))
+	filters_frame = tk.Frame(right_frame)
+	filters_frame.pack(side=tk.TOP, fill=tk.X, padx=6, pady=6)
+	# Organization filter
+	org_lbl = tk.Label(filters_frame, text="Organization")
+	org_lbl.grid(row=0, column=0, sticky="w")
+	org_var = tk.StringVar(value="")
+	org_combo = ttk.Combobox(filters_frame, textvariable=org_var, values=[""] + orgs, state="readonly")
+	org_combo.grid(row=1, column=0, sticky="we", padx=(0, 6))
+	# Topic filter
+	topic_lbl = tk.Label(filters_frame, text="Topic")
+	topic_lbl.grid(row=0, column=1, sticky="w")
+	topic_var = tk.StringVar(value="")
+	topic_combo = ttk.Combobox(filters_frame, textvariable=topic_var, values=[""] + topics, state="readonly")
+	topic_combo.grid(row=1, column=1, sticky="we")
+	# Search box
+	search_lbl = tk.Label(filters_frame, text="Search")
+	search_lbl.grid(row=2, column=0, sticky="w", pady=(8, 0))
+	search_var = tk.StringVar(value="")
+	search_entry = ttk.Entry(filters_frame, textvariable=search_var)
+	search_entry.grid(row=3, column=0, columnspan=2, sticky="we")
+	filters_frame.grid_columnconfigure(0, weight=1)
+	filters_frame.grid_columnconfigure(1, weight=1)
+
+	# Results Treeview
+	cols = ("name", "think_tank", "topic", "email")
+	tree_frame = tk.Frame(right_frame)
+	tree_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True, padx=6, pady=(0, 6))
+	tree_scroll = tk.Scrollbar(tree_frame, orient=tk.VERTICAL)
+	tree = ttk.Treeview(tree_frame, columns=cols, show="headings", yscrollcommand=tree_scroll.set, selectmode="browse")
+	tree_scroll.config(command=tree.yview)
+	tree_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+	tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+	tree.heading("name", text="Name")
+	tree.heading("think_tank", text="Organization")
+	tree.heading("topic", text="Topic")
+	tree.heading("email", text="Email")
+	tree.column("name", width=160, stretch=True)
+	tree.column("think_tank", width=200, stretch=True)
+	tree.column("topic", width=180, stretch=True)
+	tree.column("email", width=180, stretch=True)
+
+	def filter_rows() -> List[Dict[str, str]]:
+		org_sel = org_var.get().strip()
+		topic_sel = topic_var.get().strip()
+		q = search_var.get().strip().lower()
+		out: List[Dict[str, str]] = []
+		for r in researchers:
+			if org_sel and r["think_tank"] != org_sel:
+				continue
+			if topic_sel and r["topic"] != topic_sel:
+				continue
+			if q:
+				if q not in r["name"].lower() and q not in r["think_tank"].lower() and q not in r["topic"].lower() and q not in r["email"].lower():
+					continue
+			out.append(r)
+		return out
+
+	def refresh_tree():
+		for iid in tree.get_children():
+			tree.delete(iid)
+		for r in filter_rows():
+			tree.insert("", "end", values=(r["name"], r["think_tank"], r["topic"], r["email"]))
+
+	def on_open_email(event=None):
+		sel = tree.selection()
+		if not sel:
+			return
+		item = tree.item(sel[0])
+		vals = item.get("values") or []
+		if len(vals) >= 4:
+			email = vals[3]
+			if email:
+				try:
+					webbrowser.open(f"mailto:{email}")
+				except Exception:
+					pass
+
+	org_combo.bind("<<ComboboxSelected>>", lambda e: refresh_tree())
+	topic_combo.bind("<<ComboboxSelected>>", lambda e: refresh_tree())
+	search_entry.bind("<KeyRelease>", lambda e: refresh_tree())
+	tree.bind("<Double-1>", on_open_email)
+	# Initial population
+	refresh_tree()
+
+	# Recent work fetcher
+	def _map_email_domain_to_site(domain: str) -> str:
+		m = {
+			"washpost.com": "washingtonpost.com",
+			"bloomberg.net": "bloomberg.com",
+			"nytimes.com": "nytimes.com",
+			"wsj.com": "wsj.com",
+			"ft.com": "ft.com",
+			"thomsonreuters.com": "reuters.com",
+			"reuters.com": "reuters.com",
+			"ap.org": "apnews.com",
+			"politico.com": "politico.com",
+			"foreignpolicy.com": "foreignpolicy.com",
+			"thediplomat.com": "thediplomat.com",
+			"scmp.com": "scmp.com",
+			"nikkei.com": "asia.nikkei.com",
+			"japantimes.co.jp": "japantimes.co.jp",
+			"axios.com": "axios.com",
+			"nbcuni.com": "nbcnews.com",
+			"abc.com": "abcnews.go.com",
+			"foxnews.com": "foxnews.com",
+			"cbsnews.com": "cbsnews.com",
+			"nationalinterest.org": "nationalinterest.org",
+			"warontherocks.com": "warontherocks.com",
+			"semafor.com": "semafor.com",
+			"businessinsider.com": "businessinsider.com",
+		}
+		return m.get(domain.lower(), domain.lower())
+
+	def _build_news_query(name: str, org: str, email: str) -> str:
+		q = f"\"{name}\""
+		domain = ""
+		if "@" in email:
+			domain = email.split("@", 1)[1]
+		site = _map_email_domain_to_site(domain) if domain else ""
+		if site:
+			q += f" site:{site}"
+		elif org:
+			q += f" \"{org}\""
+		return q
+
+	def fetch_recent_work_block(name: str, org: str, email: str, max_items: int = 8) -> str:
+		query = _build_news_query(name, org, email)
+		base = "https://news.google.com/rss/search"
+		params = urllib.parse.urlencode({"q": query, "hl": "en-US", "gl": "US", "ceid": "US:en"})
+		url = f"{base}?{params}"
+		try:
+			xml_bytes = fetch_xml(url)
+			root = ET.fromstring(xml_bytes)
+			items = find_items(root)[:max_items]
+			if not items:
+				return f"No recent work found for {name}.\n"
+			lines: List[str] = []
+			lines.append(f"Recent work for {name} — {org}".strip())
+			lines.append("----------------------------------------")
+			for idx, it in enumerate(items, start=1):
+				known = extract_known_fields(it)
+				title = known.get("title", "").strip()
+				link = known.get("link", "").strip()
+				date = known.get("pubDate", "").strip()
+				line = f"{idx:2d}. {title}"
+				lines.append(line)
+				meta_bits = []
+				if date:
+					meta_bits.append(date)
+				if meta_bits:
+					lines.append("    " + " | ".join(meta_bits))
+				if link:
+					lines.append("    " + link)
+			lines.append("")  # trailing newline
+			return "\n".join(lines)
+		except Exception as e:
+			return f"Failed to fetch recent work for {name}: {e}\n"
+
+	def on_show_recent():
+		sel = tree.selection()
+		if not sel:
+			append_top("Select a person first, then press 'Show Recent Work'.")
+			return
+		item = tree.item(sel[0])
+		vals = item.get("values") or []
+		if len(vals) < 4:
+			return
+		name, org, topic, email = vals[0], vals[1], vals[2], vals[3]
+		def worker():
+			block = fetch_recent_work_block(name, org, email, max_items=10)
+			root.after(0, lambda: append_top(block))
+		threading.Thread(target=worker, daemon=True).start()
+
+	btn_frame = tk.Frame(right_frame)
+	btn_frame.pack(side=tk.BOTTOM, fill=tk.X, padx=6, pady=6)
+	show_btn = ttk.Button(btn_frame, text="Show Recent Work", command=on_show_recent)
+	show_btn.pack(side=tk.RIGHT)
+
 	# Initial ticker population and periodic refresh (every 90 seconds)
 	def refresh_markets():
 		def worker():
