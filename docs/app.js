@@ -510,6 +510,9 @@ async function main() {
 				tr.classList.add("selected");
 				tr.dataset.selected = "1";
 			});
+			tr.addEventListener("dblclick", async () => {
+				await showRecentForSelected();
+			});
 			tableBody.appendChild(tr);
 		});
 	}
@@ -519,15 +522,24 @@ async function main() {
 	topicSel.addEventListener("change", renderTable);
 	searchBox.addEventListener("input", renderTable);
 
-	btnRecent.addEventListener("click", async () => {
+	async function showRecentForSelected() {
 		const sel = Array.from(tableBody.children).find(tr => tr.classList.contains("selected"));
-		if (!sel) { renderOutputBlock("Select a person first, then click Show Recent Work."); return; }
+		if (!sel) { renderOutputBlock("Select a person first to show recent work."); return; }
 		const tds = sel.querySelectorAll("td");
 		const name = tds[0].textContent || "";
 		const org = tds[1].textContent || "";
 		const email = tds[3].textContent || "";
 		const block = await fetchRecentBlock(name, org, email);
 		renderOutputBlock(block);
+	}
+	btnRecent.addEventListener("click", async () => {
+		await showRecentForSelected();
+	});
+	// Enter key triggers recent work when a person is selected
+	document.addEventListener("keydown", async (e) => {
+		if (e.key === "Enter" && document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA") {
+			await showRecentForSelected();
+		}
 	});
 
 	// Command parsing and execution
