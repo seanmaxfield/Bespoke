@@ -670,17 +670,8 @@ async function main() {
 		header.appendChild(close);
 		const body = document.createElement("div");
 		body.className = "floating-body";
-		// TradingView widget container
-		const container = document.createElement("div");
-		container.className = "tradingview-widget-container";
-		const widget = document.createElement("div");
-		widget.className = "tradingview-widget-container__widget";
-		container.appendChild(widget);
-		const script = document.createElement("script");
-		script.type = "text/javascript";
-		script.async = true;
-		script.src = "https://s3.tradingview.com/external-embedding/embed-widget-events.js";
-		script.innerHTML = JSON.stringify({
+		// TradingView Economic Calendar via iframe embed to avoid environment errors
+		const cfg = {
 			colorTheme: "light",
 			isTransparent: false,
 			width: "100%",
@@ -688,9 +679,16 @@ async function main() {
 			locale: "en",
 			importanceFilter: "-1,0,1",
 			currencyFilter: ""
-		});
-		container.appendChild(script);
-		body.appendChild(container);
+		};
+		const iframe = document.createElement("iframe");
+		iframe.setAttribute("allowtransparency", "true");
+		iframe.setAttribute("frameborder", "0");
+		iframe.style.width = "100%";
+		iframe.style.height = "100%";
+		// TradingView supports config in hash after JSON-encoded string
+		const hash = encodeURIComponent(JSON.stringify(cfg));
+		iframe.src = `https://s.tradingview.com/embed-widget/events/?locale=en#${hash}`;
+		body.appendChild(iframe);
 		overlay.appendChild(header);
 		overlay.appendChild(body);
 		document.body.appendChild(overlay);
