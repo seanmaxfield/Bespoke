@@ -1,0 +1,742 @@
+{
+  "feeds": [
+    {
+      "abbr": "TS",
+      "title": "Top Stories"
+    },
+    {
+      "abbr": "BN",
+      "title": "Breaking News"
+    },
+    {
+      "abbr": "ERN",
+      "title": "Earnings News"
+    },
+    {
+      "abbr": "POL",
+      "title": "Political News"
+    },
+    {
+      "abbr": "ECO",
+      "title": "Economic News"
+    },
+    {
+      "abbr": "IPO",
+      "title": "IPO News/Alerts"
+    },
+    {
+      "abbr": "MA",
+      "title": "Market Analysis"
+    },
+    {
+      "abbr": "CMT",
+      "title": "Commentary"
+    },
+    {
+      "abbr": "USMU",
+      "title": "US Market Updates"
+    },
+    {
+      "abbr": "EUMU",
+      "title": "European Market Updates"
+    },
+    {
+      "abbr": "ASMU",
+      "title": "Asian Market Updates"
+    },
+    {
+      "abbr": "PMTA",
+      "title": "Pre-Market Trading Alerts"
+    },
+    {
+      "abbr": "STSA",
+      "title": "Short-Term Stock Alerts"
+    },
+    {
+      "abbr": "HOT",
+      "title": "Hot Stocks"
+    },
+    {
+      "abbr": "CAN",
+      "title": "Canadian News"
+    },
+    {
+      "abbr": "SECT",
+      "title": "Market/Sector Trends"
+    },
+    {
+      "abbr": "ENTTOP",
+      "title": "Entertainment Top Story"
+    },
+    {
+      "abbr": "MUSIC",
+      "title": "Music News"
+    },
+    {
+      "abbr": "MOVREV",
+      "title": "Movie Reviews"
+    },
+    {
+      "abbr": "FXTOP",
+      "title": "Forex Top Story"
+    },
+    {
+      "abbr": "CURR",
+      "title": "Currency Market"
+    },
+    {
+      "abbr": "HEALTH",
+      "title": "Health News"
+    },
+    {
+      "abbr": "BIO",
+      "title": "Biotech"
+    },
+    {
+      "abbr": "TECH",
+      "title": "Technology"
+    },
+    {
+      "abbr": "NYT",
+      "title": "The New York Times - Home Page"
+    },
+    {
+      "abbr": "WP",
+      "title": "The Washington Post - Politics"
+    },
+    {
+      "abbr": "GDNME",
+      "title": "The Guardian - Middle East"
+    },
+    {
+      "abbr": "PLCO",
+      "title": "Politico - Congress"
+    },
+    {
+      "abbr": "PLDEF",
+      "title": "Politico - Defense"
+    },
+    {
+      "abbr": "PLPOL",
+      "title": "Politico - Politics"
+    },
+    {
+      "abbr": "BBC",
+      "title": "BBC News - Top Stories"
+    },
+    {
+      "abbr": "WSJMK",
+      "title": "WSJ - Markets"
+    },
+    {
+      "abbr": "WSJWR",
+      "title": "WSJ - World News"
+    },
+    {
+      "abbr": "WSJECO",
+      "title": "WSJ - Economy"
+    },
+    {
+      "abbr": "GDNWR",
+      "title": "The Guardian - World"
+    }
+  ],
+  "data": {
+    "TS": [],
+    "BN": [],
+    "ERN": [],
+    "POL": [],
+    "ECO": [],
+    "IPO": [],
+    "MA": [],
+    "CMT": [],
+    "USMU": [],
+    "EUMU": [],
+    "ASMU": [],
+    "PMTA": [],
+    "STSA": [],
+    "HOT": [],
+    "CAN": [],
+    "SECT": [],
+    "ENTTOP": [],
+    "MUSIC": [],
+    "MOVREV": [],
+    "FXTOP": [],
+    "CURR": [],
+    "HEALTH": [],
+    "BIO": [],
+    "TECH": [],
+    "NYT": [
+      {
+        "title": "After Trump Reignites a Trade War Over Greenland, Europe Weighs Going All-Out",
+        "link": "https://www.nytimes.com/2026/01/18/world/europe/greenland-us-trade-war.html",
+        "pubDate": "Sun, 18 Jan 2026 17:10:23 +0000"
+      },
+      {
+        "title": "Danes Feel Betrayed and Bewildered by Trump Amid Greenland Threats",
+        "link": "https://www.nytimes.com/2026/01/18/world/europe/denmark-greenland-trump.html",
+        "pubDate": "Sun, 18 Jan 2026 19:24:32 +0000"
+      },
+      {
+        "title": "D.H.S.’s Role Questioned as Immigration Officers Flood U.S. Cities",
+        "link": "https://www.nytimes.com/2026/01/18/us/dhs-cities-bush-sept-11.html",
+        "pubDate": "Sun, 18 Jan 2026 10:00:07 +0000"
+      },
+      {
+        "title": "Inside Trump’s Deportation Machine",
+        "link": "https://www.nytimes.com/video/us/politics/100000010652139/inside-trumps-deportation-machine.html",
+        "pubDate": "Sun, 18 Jan 2026 10:01:50 +0000"
+      },
+      {
+        "title": "Pentagon Tells 1,500 Troops to Prepare for Possible Deployment to Minnesota",
+        "link": "https://www.nytimes.com/2026/01/18/us/politics/pentagon-troops-minnesota.html",
+        "pubDate": "Sun, 18 Jan 2026 16:28:59 +0000"
+      },
+      {
+        "title": "Springsteen Denounces ICE Deployments and Renee Good’s Killing",
+        "link": "https://www.nytimes.com/2026/01/18/arts/music/springsteen-ice-minneapolis.html",
+        "pubDate": "Sun, 18 Jan 2026 19:49:16 +0000"
+      },
+      {
+        "title": "Under Patel, F.B.I. Scours Its Records to Discredit Trump Opponents",
+        "link": "https://www.nytimes.com/2026/01/18/us/politics/kash-patel-grassley-payback.html",
+        "pubDate": "Sun, 18 Jan 2026 17:32:22 +0000"
+      },
+      {
+        "title": "$1 Billion in Cash Buys a Permanent Seat on Trump’s ‘Board of Peace’",
+        "link": "https://www.nytimes.com/2026/01/18/world/middleeast/trump-board-of-peace-gaza.html",
+        "pubDate": "Sun, 18 Jan 2026 14:37:01 +0000"
+      },
+      {
+        "title": "Trump’s Campaign Manager Resolves Daily Beast Defamation Suit",
+        "link": "https://www.nytimes.com/2026/01/18/business/media/chris-lacivita-daily-beast-defamation-suit.html",
+        "pubDate": "Sun, 18 Jan 2026 15:46:11 +0000"
+      },
+      {
+        "title": "Buttigieg, Booker Lead Midterm Democratic Health Care Push",
+        "link": "https://www.nytimes.com/2026/01/18/us/politics/democrats-health-care-booker-buttigieg.html",
+        "pubDate": "Sun, 18 Jan 2026 19:33:33 +0000"
+      }
+    ],
+    "WP": [
+      {
+        "title": "Trump urges lawmaker to challenge Sen. Bill Cassidy in GOP primary",
+        "link": "https://www.washingtonpost.com/politics/2026/01/18/trump-letlow-cassidy-louisiana-primary/",
+        "pubDate": "Sun, 18 Jan 2026 20:35:48 +0000"
+      },
+      {
+        "title": "European nations weigh retaliation after Trump’s Greenland threats",
+        "link": "https://www.washingtonpost.com/politics/2026/01/18/greenland-trump-tariffs-europe/",
+        "pubDate": "Sun, 18 Jan 2026 19:43:05 +0000"
+      },
+      {
+        "title": "Pentagon readies 1,500 soldiers to possibly deploy to Minnesota, officials say",
+        "link": "https://www.washingtonpost.com/national-security/2026/01/18/trump-minnesota-insurrection-act/",
+        "pubDate": "Sun, 18 Jan 2026 17:28:55 +0000"
+      },
+      {
+        "title": "Voters oppose ICE amid shootings in Minneapolis, polls show",
+        "link": "https://www.washingtonpost.com/politics/2026/01/18/trump-ice-minneapolis-polls-immigration/",
+        "pubDate": "Sun, 18 Jan 2026 17:21:28 +0000"
+      },
+      {
+        "title": "The growing list of probes into officials Trump has criticized",
+        "link": "https://www.washingtonpost.com/politics/2026/01/12/trump-administration-critics-investigations/",
+        "pubDate": "Sun, 18 Jan 2026 14:19:34 +0000"
+      },
+      {
+        "title": "Trump wants to get rid of the Fed chair. Why a DOJ inquiry has backfired.",
+        "link": "https://www.washingtonpost.com/politics/2026/01/18/powell-trump-subpoena-fed-chair/",
+        "pubDate": "Sun, 18 Jan 2026 11:00:00 +0000"
+      },
+      {
+        "title": "She protested at Stephen Miller’s home. Now police are investigating.",
+        "link": "https://www.washingtonpost.com/dc-md-va/2026/01/18/stephen-miller-neighborhood-protest-investigation/",
+        "pubDate": "Sun, 18 Jan 2026 10:00:00 +0000"
+      },
+      {
+        "title": "Trump will order TV networks to ‘protect’ Army-Navy football game",
+        "link": "https://www.washingtonpost.com/politics/2026/01/18/trump-army-navy-tv-football/",
+        "pubDate": "Sun, 18 Jan 2026 06:00:26 +0000"
+      },
+      {
+        "title": "Pardoned Jan. 6 rioter driven from Minneapolis rally by large counterprotest",
+        "link": "https://www.washingtonpost.com/nation/2026/01/17/minneapolis-protests-jake-lang-somali/",
+        "pubDate": "Sun, 18 Jan 2026 01:00:28 +0000"
+      },
+      {
+        "title": "Trump announces tariffs on European countries opposing Greenland takeover",
+        "link": "https://www.washingtonpost.com/politics/2026/01/17/trump-greenland-europe-tariffs/",
+        "pubDate": "Sat, 17 Jan 2026 23:39:58 +0000"
+      }
+    ],
+    "GDNME": [
+      {
+        "title": "Iran warns attack on Khamenei would be declaration of war",
+        "link": "https://www.theguardian.com/world/2026/jan/18/iran-warns-world-that-any-attack-on-ayatollah-ali-khamenei-would-be-declaration-of-war",
+        "pubDate": "Sun, 18 Jan 2026 18:10:58 GMT"
+      },
+      {
+        "title": "Israel far-right ministers reject US-backed postwar Gaza panel",
+        "link": "https://www.theguardian.com/world/2026/jan/18/israel-far-right-ministers-reject-us-backed-postwar-gaza-panel",
+        "pubDate": "Sun, 18 Jan 2026 12:43:03 GMT"
+      },
+      {
+        "title": "Iran cannot be bombed into democracy. But it can be helped to find its way there | Simon Tisdall",
+        "link": "https://www.theguardian.com/commentisfree/2026/jan/18/iran-democracy-independent-media-civil-society-rule-of-law",
+        "pubDate": "Sun, 18 Jan 2026 08:00:49 GMT"
+      },
+      {
+        "title": "Syrian army surges into Kurdish-held towns in ‘betrayal’ shattering prospects of accord",
+        "link": "https://www.theguardian.com/world/2026/jan/18/syrian-army-surges-into-kurdish-held-towns-in-betrayal-shattering-hopes-of-accord",
+        "pubDate": "Sun, 18 Jan 2026 05:44:02 GMT"
+      },
+      {
+        "title": "‘He hoped Trump’s help would arrive’: why protesters in Iran feel betrayed",
+        "link": "https://www.theguardian.com/world/2026/jan/18/why-protesters-iran-feel-betrayed-donald-trump",
+        "pubDate": "Sun, 18 Jan 2026 05:00:46 GMT"
+      },
+      {
+        "title": "Israel objects to White House’s pick of leaders for ‘board of peace’",
+        "link": "https://www.theguardian.com/world/2026/jan/17/israel-objects-to-white-houses-pick-of-leaders-for-board-of-peace",
+        "pubDate": "Sat, 17 Jan 2026 19:08:49 GMT"
+      },
+      {
+        "title": "Newborn baby becomes eighth to die of hypothermia in Gaza this winter",
+        "link": "https://www.theguardian.com/world/2026/jan/17/child-mortality-crisis-continues-in-gaza-with-more-than-100-killed-since-ceasefire",
+        "pubDate": "Sat, 17 Jan 2026 17:59:26 GMT"
+      },
+      {
+        "title": "Ali Khamenei says thousands killed in Iran protests, some in ‘inhuman, savage manner’",
+        "link": "https://www.theguardian.com/world/2026/jan/17/senior-iranian-cleric-calls-for-protester-executions-in-defiance-of-trump-claims",
+        "pubDate": "Sat, 17 Jan 2026 16:02:02 GMT"
+      },
+      {
+        "title": "‘It will take a generation’: Iranians abroad on the protests – and change",
+        "link": "https://www.theguardian.com/world/2026/jan/17/iranians-abroad-protests-change",
+        "pubDate": "Sat, 17 Jan 2026 13:39:00 GMT"
+      },
+      {
+        "title": "Confidence runs high in London’s Little Morocco as Afcon glory beckons",
+        "link": "https://www.theguardian.com/uk-news/2026/jan/17/afcon-little-morocco-london-confidence-high",
+        "pubDate": "Sat, 17 Jan 2026 13:00:28 GMT"
+      }
+    ],
+    "PLCO": [
+      {
+        "title": "Louisiana’s Letlow prepares Senate bid after Trump endorsement",
+        "link": "https://www.politico.com/news/2026/01/18/louisianas-letlow-prepares-senate-bid-00735697",
+        "pubDate": "Sun, 18 Jan 2026 12:51:32 EST"
+      },
+      {
+        "title": "Hochul’s sharper stance on ICE complicates life for vulnerable Democrats",
+        "link": "https://www.politico.com/news/2026/01/17/hochul-ice-proposals-new-york-swing-seat-democrats-00733843",
+        "pubDate": "Sat, 17 Jan 2026 14:00:00 EST"
+      },
+      {
+        "title": "Denmark presses Hill to avoid narrow Greenland vote",
+        "link": "https://www.politico.com/news/2026/01/16/denmark-greenland-vote-congress-00735132",
+        "pubDate": "Fri, 16 Jan 2026 18:02:58 EST"
+      },
+      {
+        "title": "House Ethics Committee considering allegations against Nancy Mace",
+        "link": "https://www.politico.com/news/2026/01/16/house-ethics-allegations-nancy-mace-00734467",
+        "pubDate": "Fri, 16 Jan 2026 16:11:49 EST"
+      },
+      {
+        "title": "‘Dumbest thing I’ve ever heard’: Republicans amp up their resistance to Trump’s Greenland push",
+        "link": "https://www.politico.com/news/2026/01/16/greenland-trump-republicans-congress-00732945",
+        "pubDate": "Fri, 16 Jan 2026 04:45:00 EST"
+      },
+      {
+        "title": "Trump, Schumer hold rare White House meeting",
+        "link": "https://www.politico.com/live-updates/2026/01/15/congress/trump-and-schumer-meet-00732580",
+        "pubDate": "Thu, 15 Jan 2026 17:32:42 EST"
+      },
+      {
+        "title": "Congress clears first funding bills since government shutdown ended",
+        "link": "https://www.politico.com/news/2026/01/15/congress-funding-government-shutdown-00732209",
+        "pubDate": "Thu, 15 Jan 2026 16:48:39 EST"
+      },
+      {
+        "title": "Billy Long apologizes for joking about Iceland as '52nd state'",
+        "link": "https://www.politico.com/live-updates/2026/01/15/congress/billy-long-apologizes-to-iceland-00732007",
+        "pubDate": "Thu, 15 Jan 2026 15:31:58 EST"
+      },
+      {
+        "title": "Bill Cassidy raises $1.65 million for reelection fight",
+        "link": "https://www.politico.com/live-updates/2026/01/15/congress/cassidy-raises-1-65m-00730420",
+        "pubDate": "Thu, 15 Jan 2026 08:02:00 EST"
+      },
+      {
+        "title": "Capitol agenda: A crypto titan flexes in the Senate",
+        "link": "https://www.politico.com/live-updates/2026/01/15/congress/crypto-vote-canceled-tim-scott-coinbase-brian-armstrong-00730617",
+        "pubDate": "Thu, 15 Jan 2026 08:00:00 EST"
+      }
+    ],
+    "PLDEF": [
+      {
+        "title": "Trump orders active duty troops to prepare for Minnesota deployment",
+        "link": "https://www.politico.com/news/2026/01/18/trump-active-duty-troop-minnesota-deployment-00735734",
+        "pubDate": "Sun, 18 Jan 2026 13:29:58 EST"
+      },
+      {
+        "title": "DHS turns on border chief over $2M office renovation plan",
+        "link": "https://www.politico.com/news/2026/01/16/dhs-border-chief-office-renovation-00735316",
+        "pubDate": "Fri, 16 Jan 2026 19:25:33 EST"
+      },
+      {
+        "title": "Confronted with thorny problems, Trump turns to the military",
+        "link": "https://www.politico.com/news/2026/01/16/trump-military-first-option-00733431",
+        "pubDate": "Fri, 16 Jan 2026 16:00:00 EST"
+      },
+      {
+        "title": "The World Cup’s most dreaded gatecrasher isn’t a fan but a drone",
+        "link": "https://www.politico.com/news/2026/01/16/the-world-cups-most-dreaded-gatecrasher-isnt-a-fan-but-a-drone-00732931",
+        "pubDate": "Fri, 16 Jan 2026 07:00:00 EST"
+      },
+      {
+        "title": "Defense Department to overhaul military newspaper Stars and Stripes",
+        "link": "https://www.politico.com/news/2026/01/15/defense-department-stars-and-stripes-00731492",
+        "pubDate": "Thu, 15 Jan 2026 12:59:44 EST"
+      },
+      {
+        "title": "Senate Republicans derail effort to rebuke Trump on Venezuela",
+        "link": "https://www.politico.com/news/2026/01/14/senate-republicans-derail-effort-to-rebuke-trump-on-venezuela-00730314",
+        "pubDate": "Wed, 14 Jan 2026 18:55:00 EST"
+      },
+      {
+        "title": "Why Trump doesn’t need to own Greenland to build Golden Dome",
+        "link": "https://www.politico.com/news/2026/01/14/trump-doesnt-need-greenland-golden-dome-00729833",
+        "pubDate": "Wed, 14 Jan 2026 18:00:00 EST"
+      },
+      {
+        "title": "US personnel evacuated from Qatar base amid Iran tensions",
+        "link": "https://www.politico.com/news/2026/01/14/us-evacution-qatar-base-00727705",
+        "pubDate": "Wed, 14 Jan 2026 10:42:19 EST"
+      },
+      {
+        "title": "Trump says he has many military options on Iran. He doesn’t.",
+        "link": "https://www.politico.com/news/2026/01/13/trump-iron-military-option-00725872",
+        "pubDate": "Tue, 13 Jan 2026 18:00:00 EST"
+      },
+      {
+        "title": "Trump to be briefed on range of options in Iran",
+        "link": "https://www.politico.com/news/2026/01/11/trump-briefed-options-iran-00721524",
+        "pubDate": "Sun, 11 Jan 2026 15:15:00 EST"
+      }
+    ],
+    "PLPOL": [
+      {
+        "title": "The states fighting to be at the front of Democrats’ 2028 presidential primary",
+        "link": "https://www.politico.com/news/2026/01/16/2028-democratic-presidential-primary-calendar-00731826",
+        "pubDate": "Fri, 16 Jan 2026 05:45:00 EST"
+      },
+      {
+        "title": "The nation’s cartoonists on the week in politics",
+        "link": "https://www.politico.com/gallery/2026/01/16/the-nations-cartoonists-on-the-week-in-politics-00733019",
+        "pubDate": "Fri, 16 Jan 2026 05:00:00 EST"
+      },
+      {
+        "title": "Talarico leads Crockett in Texas Senate primary, according to new poll",
+        "link": "https://www.politico.com/news/2026/01/15/talarico-crockett-texas-senate-primary-poll-00730929",
+        "pubDate": "Thu, 15 Jan 2026 12:00:25 EST"
+      },
+      {
+        "title": "Bill Cassidy raises $1.65 million for reelection fight",
+        "link": "https://www.politico.com/live-updates/2026/01/15/congress/cassidy-raises-1-65m-00730420",
+        "pubDate": "Thu, 15 Jan 2026 08:02:00 EST"
+      },
+      {
+        "title": "Latino voters powered Trump’s comeback. Now they’re turning on his economy.",
+        "link": "https://www.politico.com/news/2026/01/14/latino-voters-powered-trumps-comeback-now-theyre-turning-on-his-economy-00726548",
+        "pubDate": "Wed, 14 Jan 2026 05:55:00 EST"
+      },
+      {
+        "title": "Virginia Democrats look to decimate GOP seats in redistricting effort",
+        "link": "https://www.politico.com/news/2026/01/13/virginia-redistricting-democrats-republicans-seats-00723660",
+        "pubDate": "Tue, 13 Jan 2026 19:23:38 EST"
+      },
+      {
+        "title": "Scott Adams, whose comic strip ‘Dilbert’ ridiculed white-collar office life, dies at 68",
+        "link": "https://www.politico.com/news/2026/01/13/scott-adams-dead-at-68-00724995",
+        "pubDate": "Tue, 13 Jan 2026 12:02:12 EST"
+      },
+      {
+        "title": "Former Rep. Mary Peltola jumps into Alaska Senate race",
+        "link": "https://www.politico.com/news/2026/01/12/peltola-alaska-senate-2026-midterms-00721596",
+        "pubDate": "Mon, 12 Jan 2026 08:01:00 EST"
+      },
+      {
+        "title": "Cornyn rakes in record fundraising ahead of Texas primary",
+        "link": "https://www.politico.com/news/2026/01/12/cornyn-rakes-in-record-fundraising-ahead-of-texas-primary-00721699",
+        "pubDate": "Mon, 12 Jan 2026 04:00:00 EST"
+      },
+      {
+        "title": "GOP talk of Rubio 2028 heats up in wake of Venezuela op",
+        "link": "https://www.politico.com/news/2026/01/10/marco-rubio-venezuela-2028-future-00718902",
+        "pubDate": "Sat, 10 Jan 2026 16:00:00 EST"
+      }
+    ],
+    "BBC": [
+      {
+        "title": "'Europe won't be blackmailed,' Danish PM says in wake of Trump Greenland threats",
+        "link": "https://www.bbc.com/news/articles/ceqz0llpnyqo?at_medium=RSS&at_campaign=rss",
+        "pubDate": "Sun, 18 Jan 2026 20:29:08 GMT"
+      },
+      {
+        "title": "Government pulls Hillsborough Law amendment after backlash",
+        "link": "https://www.bbc.com/news/articles/c5yvldj47v9o?at_medium=RSS&at_campaign=rss",
+        "pubDate": "Sun, 18 Jan 2026 19:02:33 GMT"
+      },
+      {
+        "title": "Israel pushes back on Trump's picks for executives on Gaza 'Board of Peace'",
+        "link": "https://www.bbc.com/news/articles/cd0y453yd90o?at_medium=RSS&at_campaign=rss",
+        "pubDate": "Sun, 18 Jan 2026 17:30:24 GMT"
+      },
+      {
+        "title": "BBC demands tighter vetting after Apprentice candidate's offensive social media posts",
+        "link": "https://www.bbc.com/news/articles/czdqr5ly39zo?at_medium=RSS&at_campaign=rss",
+        "pubDate": "Sun, 18 Jan 2026 16:43:39 GMT"
+      },
+      {
+        "title": "Syria agrees ceasefire with Kurdish-led forces after two weeks of clashes",
+        "link": "https://www.bbc.com/news/articles/c4gwk37ewvwo?at_medium=RSS&at_campaign=rss",
+        "pubDate": "Sun, 18 Jan 2026 17:49:13 GMT"
+      },
+      {
+        "title": "Mum thanks strangers who rescued nine-month-old baby from burning car",
+        "link": "https://www.bbc.com/news/articles/cvgjvrggnvno?at_medium=RSS&at_campaign=rss",
+        "pubDate": "Sun, 18 Jan 2026 07:27:59 GMT"
+      },
+      {
+        "title": "Fears Iran's internet shutdown could lead to 'extreme digital isolation'",
+        "link": "https://www.bbc.com/news/articles/cg5gegrdq3go?at_medium=RSS&at_campaign=rss",
+        "pubDate": "Sun, 18 Jan 2026 11:09:29 GMT"
+      },
+      {
+        "title": "A deadly fire swept through a nightclub in just 90 seconds. I got out",
+        "link": "https://www.bbc.com/news/articles/czejykzg77po?at_medium=RSS&at_campaign=rss",
+        "pubDate": "Sun, 18 Jan 2026 00:08:10 GMT"
+      },
+      {
+        "title": "Around 1,500 US soldiers on standby for deployment to Minneapolis, officials say",
+        "link": "https://www.bbc.com/news/articles/c74v0pxg2nvo?at_medium=RSS&at_campaign=rss",
+        "pubDate": "Sun, 18 Jan 2026 20:30:16 GMT"
+      },
+      {
+        "title": "Chip wreck! Thousands of chips wash ashore on beach",
+        "link": "https://www.bbc.com/news/articles/c0lxkl3gd6jo?at_medium=RSS&at_campaign=rss",
+        "pubDate": "Sun, 18 Jan 2026 13:06:10 GMT"
+      }
+    ],
+    "WSJMK": [
+      {
+        "title": "Fed Turmoil Is Threatening Dollar Supremacy Just as China Pushes the Yuan",
+        "link": "https://www.wsj.com/finance/currencies/fed-turmoil-is-threatening-dollar-supremacy-just-as-china-pushes-the-yuan-3ebb781d?mod=rss_markets_main",
+        "pubDate": "Sun, 18 Jan 2026 04:00:00 GMT"
+      },
+      {
+        "title": "Small Stocks Finish Week at Records",
+        "link": "https://www.wsj.com/finance/stocks/small-stocks-finish-week-at-records-acfc58e1?mod=rss_markets_main",
+        "pubDate": "Fri, 16 Jan 2026 21:57:00 GMT"
+      },
+      {
+        "title": "JPMorgan Forms New Team to Get In on the Boom in Private Markets",
+        "link": "https://www.wsj.com/finance/banking/jpmorgan-forms-new-team-to-get-in-on-the-boom-in-private-markets-f1f2f67c?mod=rss_markets_main",
+        "pubDate": "Fri, 16 Jan 2026 12:03:00 GMT"
+      },
+      {
+        "title": "Why Meme Stocks Still Matter",
+        "link": "https://www.wsj.com/finance/stocks/why-meme-stocks-still-matter-501b2af5?mod=rss_markets_main",
+        "pubDate": "Fri, 16 Jan 2026 11:25:00 GMT"
+      },
+      {
+        "title": "As Tech Giants Get More Hands-On With Energy, Their Risks Rise",
+        "link": "https://www.wsj.com/business/energy-oil/as-tech-giants-get-more-hands-on-with-energy-their-risks-rise-aa5bb8e9?mod=rss_markets_main",
+        "pubDate": "Fri, 16 Jan 2026 10:30:00 GMT"
+      },
+      {
+        "title": "Why This CEO Won’t Let Private Funds Near His Company’s 401(k)",
+        "link": "https://www.wsj.com/finance/investing/why-this-ceo-wont-let-private-funds-near-his-companys-401-k-040dad07?mod=rss_markets_main",
+        "pubDate": "Fri, 16 Jan 2026 10:30:00 GMT"
+      },
+      {
+        "title": "It’s Not Time to Dump Megabank Shares Just Yet",
+        "link": "https://www.wsj.com/finance/banking/its-not-time-to-dump-megabank-shares-just-yet-2254eba7?mod=rss_markets_main",
+        "pubDate": "Thu, 15 Jan 2026 10:30:00 GMT"
+      },
+      {
+        "title": "The Collapse of a Car-Parts Supplier Puts Spotlight on How Cash Flow Can Lie",
+        "link": "https://www.wsj.com/finance/the-collapse-of-a-car-parts-supplier-puts-spotlight-on-how-cash-flow-can-lie-9c26452b?mod=rss_markets_main",
+        "pubDate": "Wed, 14 Jan 2026 10:30:00 GMT"
+      },
+      {
+        "title": "Why Healthcare’s Stock-Market Winners and Losers Could Soon Trade Places",
+        "link": "https://www.wsj.com/health/healthcare/why-healthcares-stock-market-winners-and-losers-could-soon-trade-places-d30638e6?mod=rss_markets_main",
+        "pubDate": "Tue, 13 Jan 2026 10:30:00 GMT"
+      },
+      {
+        "title": "China Has Been Gorging on Black-Market Oil. That’s Now Getting Harder.",
+        "link": "https://www.wsj.com/business/energy-oil/china-has-been-gorging-on-black-market-oil-thats-now-getting-harder-3b5e1f0c?mod=rss_markets_main",
+        "pubDate": "Mon, 12 Jan 2026 10:30:00 GMT"
+      }
+    ],
+    "WSJWR": [
+      {
+        "title": "Syrian President Forces Major Concessions From U.S.-Backed SDF in Cease-Fire Deal",
+        "link": "https://www.wsj.com/world/middle-east/syrian-presidents-forces-make-strategic-gains-against-u-s-backed-sdf-87259aa6",
+        "pubDate": "Sun, 18 Jan 2026 18:19:00 GMT"
+      },
+      {
+        "title": "In Trump’s Drive for Greenland, NATO Is the First Casualty",
+        "link": "https://www.wsj.com/world/in-trumps-drive-for-greenland-nato-is-roadkill-50af37ec",
+        "pubDate": "Sun, 18 Jan 2026 16:24:00 GMT"
+      },
+      {
+        "title": "Israel Clashes With U.S. Over Turkey, Qatar Involvement in Gaza Oversight",
+        "link": "https://www.wsj.com/world/middle-east/israel-clashes-with-u-s-over-turkey-qatar-involvement-in-gaza-oversight-8bfaf05b",
+        "pubDate": "Sun, 18 Jan 2026 13:44:00 GMT"
+      },
+      {
+        "title": "In Iran, Streets Full of Soldiers and Warnings From Loudspeakers",
+        "link": "https://www.wsj.com/world/middle-east/iranian-regime-seeks-to-project-normality-after-quelling-protests-a7ba6781",
+        "pubDate": "Sun, 18 Jan 2026 13:22:00 GMT"
+      },
+      {
+        "title": "Germany’s Military Recruitment Drive Has a Gen Z Problem",
+        "link": "https://www.wsj.com/world/europe/germanys-military-recruitment-drive-has-a-gen-z-problem-577d535b",
+        "pubDate": "Sun, 18 Jan 2026 04:00:00 GMT"
+      },
+      {
+        "title": "U.S. Blockade Shuts Off China, Cuba From Venezuelan Oil",
+        "link": "https://www.wsj.com/world/americas/us-venezuela-oil-blockade-china-cuba-fc0f195f",
+        "pubDate": "Sun, 18 Jan 2026 02:00:00 GMT"
+      },
+      {
+        "title": "Trump Says Iran Needs New Leaders",
+        "link": "https://www.wsj.com/world/middle-east/irans-leader-calls-trump-a-criminal-blames-him-for-deaths-d9eaeb07",
+        "pubDate": "Sat, 17 Jan 2026 18:38:00 GMT"
+      },
+      {
+        "title": "Iranian Supreme Leader Ali Khamenei Is Running Out of Road",
+        "link": "https://www.wsj.com/world/middle-east/iran-supreme-leader-ali-khamenei-positions-cd1582e1",
+        "pubDate": "Sat, 17 Jan 2026 04:00:00 GMT"
+      },
+      {
+        "title": "How Trump Went From ‘Locked and Loaded’ to Hitting Pause on Striking Iran",
+        "link": "https://www.wsj.com/world/middle-east/trump-iran-decision-what-happened-0b645daa",
+        "pubDate": "Sat, 17 Jan 2026 02:00:00 GMT"
+      },
+      {
+        "title": "U.S. Officials Concerned Syria, Backed by Turkey, Will Expand Operation Against Kurds",
+        "link": "https://www.wsj.com/world/middle-east/u-s-officials-concerned-syria-backed-by-turkey-will-expand-operation-against-the-kurds-0c71c53d",
+        "pubDate": "Fri, 16 Jan 2026 22:27:00 GMT"
+      }
+    ],
+    "WSJECO": [
+      {
+        "title": "The European goods set to get hit with Trump’s Latest tariffs",
+        "link": "https://www.wsj.com/economy/trade/the-european-goods-set-to-get-hit-with-trumps-latest-tariffs-e4ca7262",
+        "pubDate": "Sun, 18 Jan 2026 20:01:00 GMT"
+      },
+      {
+        "title": "Economists will tell you that it is a tough time for people entering the job market. They can relate: It is the worst market young economists have faced in memory.",
+        "link": "https://www.wsj.com/economy/jobs/economists-job-market-hiring-2213807b",
+        "pubDate": "Sun, 18 Jan 2026 17:00:00 GMT"
+      },
+      {
+        "title": "Answers to frequently asked questions about The Wall Street Journal's Economic Forecasting survey plus links to stories and archival data.",
+        "link": "https://www.wsj.com/economy/economic-forecasting-survey-archive-11617814998",
+        "pubDate": "Sun, 18 Jan 2026 10:34:00 GMT"
+      },
+      {
+        "title": "Economists have learned to stop worrying about Trumponomics, the latest WSJ survey shows",
+        "link": "https://www.wsj.com/economy/economist-survey-2026-growth-outlook-7e5d8feb",
+        "pubDate": "Sun, 18 Jan 2026 10:30:00 GMT"
+      },
+      {
+        "title": "Inflation slowed over the course of 2025, but Americans remain frustrated that they haven’t seen more relief on prices, particularly at the grocery store",
+        "link": "https://www.wsj.com/economy/consumers/inflation-price-changes-2025-charts-a8deee40",
+        "pubDate": "Sat, 17 Jan 2026 10:30:00 GMT"
+      },
+      {
+        "title": "President Trump signaled that he might keep National Economic Council Director Kevin Hassett, a top contender for Federal Reserve chair, in his current job",
+        "link": "https://www.wsj.com/economy/central-banking/trump-to-fed-chair-contender-hassett-i-want-to-keep-you-where-you-are-f86c8c34",
+        "pubDate": "Fri, 16 Jan 2026 23:08:00 GMT"
+      },
+      {
+        "title": "Global Economy Records Stronger Growth, But Is on Course for a Weak Decade, Says World Bank",
+        "link": "https://www.wsj.com/economy/global/global-economy-records-stronger-growth-but-is-on-course-for-a-weak-decade-says-world-bank-0b57300e",
+        "pubDate": "Tue, 13 Jan 2026 14:39:00 GMT"
+      },
+      {
+        "title": "Eurozone Economy Posts Stronger Growth on Investment Rebound",
+        "link": "https://www.wsj.com/economy/global/eurozone-economy-posts-stronger-growth-on-investment-rebound-24b17276",
+        "pubDate": "Fri, 05 Dec 2025 11:50:00 GMT"
+      },
+      {
+        "title": "Growth to Slow as Tariffs Bite, but AI Investments May Cushion the Blow",
+        "link": "https://www.wsj.com/economy/global/growth-to-slow-as-tariffs-bite-but-ai-investments-may-cushion-the-blow-4e1de84a",
+        "pubDate": "Tue, 02 Dec 2025 10:19:00 GMT"
+      },
+      {
+        "title": "China Private Gauge Signals Weaker Manufacturing Activity",
+        "link": "https://www.wsj.com/economy/global/china-private-gauge-signals-weaker-manufacturing-activity-4d83c8b4",
+        "pubDate": "Mon, 01 Dec 2025 02:49:00 GMT"
+      }
+    ],
+    "GDNWR": [
+      {
+        "title": "Uganda’s president calls opponents 'terrorists' in victory speech",
+        "link": "https://www.theguardian.com/world/2026/jan/18/ugandas-president-calls-opponents-terrorists-in-victory-speech",
+        "pubDate": "Sun, 18 Jan 2026 17:17:19 GMT"
+      },
+      {
+        "title": "Yoweri Museveni wins Ugandan election as opponent condemns ‘fake result’",
+        "link": "https://www.theguardian.com/world/2026/jan/17/yoweri-museveni-wins-ugandan-election-as-opponent-condemns-fake-result",
+        "pubDate": "Sat, 17 Jan 2026 17:20:15 GMT"
+      },
+      {
+        "title": "Confidence runs high in London’s Little Morocco as Afcon glory beckons",
+        "link": "https://www.theguardian.com/uk-news/2026/jan/17/afcon-little-morocco-london-confidence-high",
+        "pubDate": "Sat, 17 Jan 2026 13:00:28 GMT"
+      },
+      {
+        "title": "Rare twins born in DRC raise cautious hope for endangered mountain gorillas",
+        "link": "https://www.theguardian.com/environment/2026/jan/17/twin-baby-mountain-gorilla-virunga-drc-survival-conservation-aoe",
+        "pubDate": "Sat, 17 Jan 2026 06:00:19 GMT"
+      },
+      {
+        "title": "Uganda’s opposition leader ‘taken by army’ as Museveni nears re-election",
+        "link": "https://www.theguardian.com/world/2026/jan/16/uganda-election-early-results-show-museveni-in-lead-as-violence-reported",
+        "pubDate": "Fri, 16 Jan 2026 21:33:41 GMT"
+      },
+      {
+        "title": "Chilean president declares state of catastrophe as wildfires kill at least 15",
+        "link": "https://www.theguardian.com/world/2026/jan/18/chile-president-declares-state-of-catastrophe-as-wildfires-kill",
+        "pubDate": "Sun, 18 Jan 2026 20:16:02 GMT"
+      },
+      {
+        "title": "Trump administration says deporting college student trying to surprise family was a ‘mistake’",
+        "link": "https://www.theguardian.com/us-news/2026/jan/16/trump-administration-mistake-college-student-detained",
+        "pubDate": "Fri, 16 Jan 2026 20:59:29 GMT"
+      },
+      {
+        "title": "CIA chief visits Maduro successor as Machado vows to become Venezuela’s president",
+        "link": "https://www.theguardian.com/world/2026/jan/16/cia-chief-visits-maduro-successor-as-machado-vows-to-become-venezuelas-president",
+        "pubDate": "Fri, 16 Jan 2026 17:23:11 GMT"
+      },
+      {
+        "title": "Brazil’s Bolsonaro finds novel way to reduce 27-year sentence: reading books",
+        "link": "https://www.theguardian.com/world/2026/jan/16/brazil-jair-bolsonaro-reduce-sentence-reading-books",
+        "pubDate": "Fri, 16 Jan 2026 13:19:39 GMT"
+      },
+      {
+        "title": "Canada PM hails strategic partnership with China to adapt to ‘new global realities’",
+        "link": "https://www.theguardian.com/world/2026/jan/16/china-canada-partnership-new-global-realities-carney-xi-jinping",
+        "pubDate": "Fri, 16 Jan 2026 09:37:10 GMT"
+      }
+    ]
+  }
+}
