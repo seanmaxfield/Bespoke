@@ -2,167 +2,208 @@
   "feeds": [
     {
       "abbr": "TS",
-      "title": "Top Stories"
+      "title": "Top Stories",
+      "url": "https://www.rttnews.com/RSS/Todaystop.xml"
     },
     {
       "abbr": "BN",
-      "title": "Breaking News"
+      "title": "Breaking News",
+      "url": "https://www.rttnews.com/RSS/breakingnews.xml"
     },
     {
       "abbr": "ERN",
-      "title": "Earnings News"
+      "title": "Earnings News",
+      "url": "https://www.rttnews.com/RSS/Earnings.xml"
     },
     {
       "abbr": "POL",
-      "title": "Political News"
+      "title": "Political News",
+      "url": "https://www.rttnews.com/RSS/Political.xml"
     },
     {
       "abbr": "ECO",
-      "title": "Economic News"
+      "title": "Economic News",
+      "url": "https://www.rttnews.com/RSS/EconomicNews.xml"
     },
     {
       "abbr": "IPO",
-      "title": "IPO News/Alerts"
+      "title": "IPO News/Alerts",
+      "url": "https://www.rttnews.com/RSS/IPO.xml"
     },
     {
       "abbr": "MA",
-      "title": "Market Analysis"
+      "title": "Market Analysis",
+      "url": "https://www.rttnews.com/RSS/MarketAnalysis.xml"
     },
     {
       "abbr": "CMT",
-      "title": "Commentary"
+      "title": "Commentary",
+      "url": "https://www.rttnews.com/RSS/commentary.xml"
     },
     {
       "abbr": "USMU",
-      "title": "US Market Updates"
+      "title": "US Market Updates",
+      "url": "https://www.rttnews.com/RSS/USMarketUpdate.xml"
     },
     {
       "abbr": "EUMU",
-      "title": "European Market Updates"
+      "title": "European Market Updates",
+      "url": "https://www.rttnews.com/RSS/EuropeMarketUpdate.xml"
     },
     {
       "abbr": "ASMU",
-      "title": "Asian Market Updates"
+      "title": "Asian Market Updates",
+      "url": "https://www.rttnews.com/RSS/AsiaMarketUpdate.xml"
     },
     {
       "abbr": "PMTA",
-      "title": "Pre-Market Trading Alerts"
+      "title": "Pre-Market Trading Alerts",
+      "url": "https://www.rttnews.com/RSS/stockalerts.xml"
     },
     {
       "abbr": "STSA",
-      "title": "Short-Term Stock Alerts"
+      "title": "Short-Term Stock Alerts",
+      "url": "https://www.rttnews.com/RSS/momentum.xml"
     },
     {
       "abbr": "HOT",
-      "title": "Hot Stocks"
+      "title": "Hot Stocks",
+      "url": "https://www.rttnews.com/RSS/HotStocks.xml"
     },
     {
       "abbr": "CAN",
-      "title": "Canadian News"
+      "title": "Canadian News",
+      "url": "https://www.rttnews.com/RSS/canadiannews.xml"
     },
     {
       "abbr": "SECT",
-      "title": "Market/Sector Trends"
+      "title": "Market/Sector Trends",
+      "url": "https://www.rttnews.com/RSS/SectorTrends.xml"
     },
     {
       "abbr": "ENTTOP",
-      "title": "Entertainment Top Story"
+      "title": "Entertainment Top Story",
+      "url": "https://www.rttnews.com/RSS/EntTopStory.xml"
     },
     {
       "abbr": "MUSIC",
-      "title": "Music News"
+      "title": "Music News",
+      "url": "https://www.rttnews.com/RSS/MusicNews.xml"
     },
     {
       "abbr": "MOVREV",
-      "title": "Movie Reviews"
+      "title": "Movie Reviews",
+      "url": "https://www.rttnews.com/RSS/MovieReviews.xml"
     },
     {
       "abbr": "DVD",
-      "title": "DVD Releases"
+      "title": "DVD Releases",
+      "url": "https://www.rttnews.com/RSS/DVDReleases.xml"
     },
     {
       "abbr": "FXTOP",
-      "title": "Forex Top Story"
+      "title": "Forex Top Story",
+      "url": "https://www.rttnews.com/RSS/ForexTopStory.xml"
     },
     {
       "abbr": "CURR",
-      "title": "Currency Market"
+      "title": "Currency Market",
+      "url": "https://www.rttnews.com/RSS/CurrencyAlerts.xml"
     },
     {
       "abbr": "HEALTH",
-      "title": "Health News"
+      "title": "Health News",
+      "url": "https://www.rttnews.com/RSS/HealthNews.xml"
     },
     {
       "abbr": "BIO",
-      "title": "Biotech"
+      "title": "Biotech",
+      "url": "https://www.rttnews.com/RSS/Biotech.xml"
     },
     {
       "abbr": "TECH",
-      "title": "Technology"
+      "title": "Technology",
+      "url": "https://www.rttnews.com/RSS/Technology.xml"
     },
     {
       "abbr": "MOM",
-      "title": "Momentum"
+      "title": "Momentum",
+      "url": "https://www.rttnews.com/RSS/Momentum.xml"
     },
     {
       "abbr": "BELL",
-      "title": "Before The Bell"
+      "title": "Before The Bell",
+      "url": "https://www.rttnews.com/RSS/StockAlerts.xml"
     },
     {
       "abbr": "NYT",
-      "title": "The New York Times - Home Page"
+      "title": "The New York Times - Home Page",
+      "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
     },
     {
       "abbr": "WP",
-      "title": "The Washington Post - Politics"
+      "title": "The Washington Post - Politics",
+      "url": "https://feeds.washingtonpost.com/rss/politics"
     },
     {
       "abbr": "GDNME",
-      "title": "The Guardian - Middle East"
+      "title": "The Guardian - Middle East",
+      "url": "https://www.theguardian.com/world/middleeast/rss"
     },
     {
       "abbr": "PLCO",
-      "title": "Politico - Congress"
+      "title": "Politico - Congress",
+      "url": "https://rss.politico.com/congress.xml"
     },
     {
       "abbr": "PLDEF",
-      "title": "Politico - Defense"
+      "title": "Politico - Defense",
+      "url": "https://rss.politico.com/defense.xml"
     },
     {
       "abbr": "PLPOL",
-      "title": "Politico - Politics"
+      "title": "Politico - Politics",
+      "url": "https://rss.politico.com/politics-news.xml"
     },
     {
       "abbr": "BBC",
-      "title": "BBC News - Top Stories"
+      "title": "BBC News - Top Stories",
+      "url": "https://feeds.bbci.co.uk/news/rss.xml"
     },
     {
       "abbr": "STOCK",
-      "title": "Stock Lookup (price, fundamentals, news) - use: 35 TICKER"
+      "title": "Stock Lookup (price, fundamentals, news) - use: 35 TICKER",
+      "url": ""
     },
     {
       "abbr": "LM",
-      "title": "LiveUAMap"
+      "title": "LiveUAMap",
+      "url": "https://liveuamap.com"
     },
     {
       "abbr": "CMDTY",
-      "title": "Commodities Snapshot (price, 1w, 1m change)"
+      "title": "Commodities Snapshot (price, 1w, 1m change)",
+      "url": ""
     },
     {
       "abbr": "WSJMK",
-      "title": "WSJ - Markets"
+      "title": "WSJ - Markets",
+      "url": "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain"
     },
     {
       "abbr": "WSJWR",
-      "title": "WSJ - World News"
+      "title": "WSJ - World News",
+      "url": "https://feeds.content.dowjones.io/public/rss/RSSWorldNews"
     },
     {
       "abbr": "WSJECO",
-      "title": "WSJ - Economy"
+      "title": "WSJ - Economy",
+      "url": "https://feeds.content.dowjones.io/public/rss/socialeconomyfeed"
     },
     {
       "abbr": "GDNWR",
-      "title": "The Guardian - World"
+      "title": "The Guardian - World",
+      "url": "https://www.theguardian.com/world/rss"
     }
   ],
   "data": {
@@ -666,7 +707,7 @@
     ],
     "WSJECO": [
       {
-        "title": "The European goods set to get hit with Trump’s Latest tariffs",
+        "title": "President Trump’s threatened 10% tariffs on several European allies in an effort to pressure Denmark into selling Greenland to the U.S. would likely hit a range of luxury and specialty goods.",
         "link": "https://www.wsj.com/economy/trade/the-european-goods-set-to-get-hit-with-trumps-latest-tariffs-e4ca7262",
         "pubDate": "Sun, 18 Jan 2026 20:01:00 GMT"
       },

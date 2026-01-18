@@ -269,7 +269,7 @@ def main():
 			return out
 		except Exception:
 			return []
-	feeds_payload = {"feeds":[{"abbr":f["abbr"],"title":f["title"]} for f in feeds],"data":{}}
+	feeds_payload = {"feeds":[{"abbr":f["abbr"],"title":f["title"],"url":f.get("url","")} for f in feeds],"data":{}}
 	for f in feeds:
 		feeds_payload["data"][f["abbr"]] = fetch_feed(f["url"])
 	write_json(os.path.join(OUT_DIR, "feeds.json"), feeds_payload)
