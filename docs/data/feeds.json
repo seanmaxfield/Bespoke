@@ -207,33 +207,1191 @@
     }
   ],
   "data": {
-    "TS": [],
-    "BN": [],
-    "ERN": [],
-    "POL": [],
-    "ECO": [],
-    "IPO": [],
-    "MA": [],
-    "CMT": [],
-    "USMU": [],
-    "EUMU": [],
-    "ASMU": [],
-    "PMTA": [],
-    "STSA": [],
+    "TS": [
+      {
+        "title": "U.S. Stocks Finish Choppy Trading Day Modestly Lower",
+        "link": "https://www.rttnews.com/3611176/u-s-stocks-finish-choppy-trading-day-modestly-lower.aspx?type=ts",
+        "pubDate": "Fri, 16 Jan 2026 21:12:52 GMT"
+      },
+      {
+        "title": "U.S. Stocks Turning In Lackluster Performance After Initial Advance",
+        "link": "https://www.rttnews.com/3611153/u-s-stocks-turning-in-lackluster-performance-after-initial-advance.aspx?type=ts",
+        "pubDate": "Fri, 16 Jan 2026 16:40:48 GMT"
+      },
+      {
+        "title": "U.S. Homebuilder Confidence Unexpectedly Deteriorates In January",
+        "link": "https://www.rttnews.com/3611145/u-s-homebuilder-confidence-unexpectedly-deteriorates-in-january.aspx?type=ts",
+        "pubDate": "Fri, 16 Jan 2026 15:30:00 GMT"
+      },
+      {
+        "title": "U.S. Industrial Production Climbs 0.4% In December, Much More Than Expected",
+        "link": "https://www.rttnews.com/3611141/u-s-industrial-production-climbs-0-4-in-december-much-more-than-expected.aspx?type=ts",
+        "pubDate": "Fri, 16 Jan 2026 15:14:41 GMT"
+      },
+      {
+        "title": "Mixed Trend In Global Markets",
+        "link": "https://www.rttnews.com/3611130/mixed-trend-in-global-markets.aspx?type=ts",
+        "pubDate": "Fri, 16 Jan 2026 14:22:57 GMT"
+      },
+      {
+        "title": "Weekly Buzz: LYRA Slashes Jobs; FDA Okays FBIO's ZYCUBO; BSX To Acquire PEN; BCTX On Watch",
+        "link": "https://www.rttnews.com/3611123/weekly-buzz-lyra-slashes-jobs-fda-okays-fbio-s-zycubo-bsx-to-acquire-pen-bctx-on-watch.aspx?type=ts",
+        "pubDate": "Fri, 16 Jan 2026 13:58:57 GMT"
+      },
+      {
+        "title": "U.S. Stocks May Extend Yesterday's Rebound In Early Trading",
+        "link": "https://www.rttnews.com/3611120/u-s-stocks-may-extend-yesterday-s-rebound-in-early-trading.aspx?type=ts",
+        "pubDate": "Fri, 16 Jan 2026 13:55:24 GMT"
+      },
+      {
+        "title": "Morning Market Movers: VERO, BIYA, GWAV, ACCL See Big Swings",
+        "link": "https://www.rttnews.com/3611107/morning-market-movers-vero-biya-gwav-accl-see-big-swings.aspx?type=ts",
+        "pubDate": "Fri, 16 Jan 2026 13:34:01 GMT"
+      },
+      {
+        "title": "Trump Unveils The Great Healthcare Plan",
+        "link": "https://www.rttnews.com/3611102/trump-unveils-the-great-healthcare-plan.aspx?type=ts",
+        "pubDate": "Fri, 16 Jan 2026 13:23:29 GMT"
+      },
+      {
+        "title": "Futures Suggest Wall Street To Open Broadly Up",
+        "link": "https://www.rttnews.com/3611090/futures-suggest-wall-street-to-open-broadly-up.aspx?type=ts",
+        "pubDate": "Fri, 16 Jan 2026 12:46:24 GMT"
+      }
+    ],
+    "BN": [
+      {
+        "title": "U.S. Stocks Finish Choppy Trading Day Modestly Lower",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611176",
+        "pubDate": "Fri, 16 Jan 2026 21:12:52 GMT"
+      },
+      {
+        "title": "U.S. Stocks Turning In Lackluster Performance After Initial Advance",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611153",
+        "pubDate": "Fri, 16 Jan 2026 16:40:48 GMT"
+      },
+      {
+        "title": "U.S. Homebuilder Confidence Unexpectedly Deteriorates In January",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611145",
+        "pubDate": "Fri, 16 Jan 2026 15:30:00 GMT"
+      },
+      {
+        "title": "U.S. Industrial Production Climbs 0.4% In December, Much More Than Expected",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611141",
+        "pubDate": "Fri, 16 Jan 2026 15:14:41 GMT"
+      },
+      {
+        "title": "Mixed Trend In Global Markets",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611130",
+        "pubDate": "Fri, 16 Jan 2026 14:22:57 GMT"
+      },
+      {
+        "title": "U.S. Industrial Production Climbs Much More Than Expected In December",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611129",
+        "pubDate": "Fri, 16 Jan 2026 14:22:52 GMT"
+      },
+      {
+        "title": "U.S. Stocks May Extend Yesterday's Rebound In Early Trading",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611120",
+        "pubDate": "Fri, 16 Jan 2026 13:55:24 GMT"
+      },
+      {
+        "title": "Morning Market Movers: VERO, BIYA, GWAV, ACCL See Big Swings",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611107",
+        "pubDate": "Fri, 16 Jan 2026 13:34:01 GMT"
+      },
+      {
+        "title": "Trump Unveils The Great Healthcare Plan",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611102",
+        "pubDate": "Fri, 16 Jan 2026 13:23:29 GMT"
+      },
+      {
+        "title": "Brazil Producer Prices Fall 0.37%",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611088",
+        "pubDate": "Fri, 16 Jan 2026 12:39:27 GMT"
+      }
+    ],
+    "ERN": [
+      {
+        "title": "Regions Financial Q4 Net Income Rises",
+        "link": "https://www.rttnews.com/3611063/regions-financial-q4-net-income-rises.aspx?type=ern",
+        "pubDate": "Fri, 16 Jan 2026 11:21:28 GMT"
+      },
+      {
+        "title": "Taylor Wimpey Issues Trading Statement",
+        "link": "https://www.rttnews.com/3610648/taylor-wimpey-issues-trading-statement.aspx?type=ern",
+        "pubDate": "Thu, 15 Jan 2026 07:52:34 GMT"
+      },
+      {
+        "title": "Dunelm Group Projects FY26 Profit Before Tax To Be At Lower End Of Consensus Expectations",
+        "link": "https://www.rttnews.com/3610631/dunelm-group-projects-fy26-profit-before-tax-to-be-at-lower-end-of-consensus-expectations.aspx?type=ern",
+        "pubDate": "Thu, 15 Jan 2026 07:19:38 GMT"
+      },
+      {
+        "title": "VAT Group Posts Preliminary Q4 Sales Ahead Of Prior Guidance Range",
+        "link": "https://www.rttnews.com/3610596/vat-group-posts-preliminary-q4-sales-ahead-of-prior-guidance-range.aspx?type=ern",
+        "pubDate": "Thu, 15 Jan 2026 06:10:22 GMT"
+      },
+      {
+        "title": "Citigroup's Dip In Q4 Profit Reflects Russia Exit Charges - Update",
+        "link": "https://www.rttnews.com/3610441/citigroup-s-dip-in-q4-profit-reflects-russia-exit-charges-update.aspx?type=ern",
+        "pubDate": "Wed, 14 Jan 2026 14:27:32 GMT"
+      },
+      {
+        "title": "United Community Banks Q4 Net Income Rises",
+        "link": "https://www.rttnews.com/3610390/united-community-banks-q4-net-income-rises.aspx?type=ern",
+        "pubDate": "Wed, 14 Jan 2026 12:53:15 GMT"
+      },
+      {
+        "title": "Bank Of America Q4 Results Top Estimates - Update",
+        "link": "https://www.rttnews.com/3610377/bank-of-america-q4-results-top-estimates-update.aspx?type=ern",
+        "pubDate": "Wed, 14 Jan 2026 12:15:05 GMT"
+      },
+      {
+        "title": "Wells Fargo Q4 Net Income Rises; Revenue Up 4%",
+        "link": "https://www.rttnews.com/3610371/wells-fargo-q4-net-income-rises-revenue-up-4.aspx?type=ern",
+        "pubDate": "Wed, 14 Jan 2026 12:08:42 GMT"
+      },
+      {
+        "title": "Bank Of New York Mellon Q4 Profit Rises; Issues FY26 Revenue Outlook",
+        "link": "https://www.rttnews.com/3609982/bank-of-new-york-mellon-q4-profit-rises-issues-fy26-revenue-outlook.aspx?type=ern",
+        "pubDate": "Tue, 13 Jan 2026 12:17:51 GMT"
+      },
+      {
+        "title": "Südzucker 9-month Profit Declines; Confirms FY Outlook",
+        "link": "https://www.rttnews.com/3609849/s-dzucker-9-month-profit-declines-confirms-fy-outlook.aspx?type=ern",
+        "pubDate": "Tue, 13 Jan 2026 07:14:49 GMT"
+      }
+    ],
+    "POL": [
+      {
+        "title": "New Dynamic Mechanism To Lower EU Price Cap For Russian Oil To $4410 Per Barrel",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611086",
+        "pubDate": "Fri, 16 Jan 2026 12:37:29 GMT"
+      },
+      {
+        "title": "US Sanctions Iran Against Crackdown On Protests",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611083",
+        "pubDate": "Fri, 16 Jan 2026 12:16:20 GMT"
+      },
+      {
+        "title": "Venezuela's Machado Presents Her Nobel Peace Prize Medal To Trump",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611050",
+        "pubDate": "Fri, 16 Jan 2026 10:39:10 GMT"
+      },
+      {
+        "title": "Zelensky Declares Energy Emergency In Ukraine",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610823",
+        "pubDate": "Thu, 15 Jan 2026 13:44:02 GMT"
+      },
+      {
+        "title": "Denmark To Send Troops To Greenland Amid US Annexation Threats",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610730",
+        "pubDate": "Thu, 15 Jan 2026 11:42:19 GMT"
+      },
+      {
+        "title": "Trump Warns Of Strong Action As Deadly Crackdown Of Protests Continues In Iran",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610343",
+        "pubDate": "Wed, 14 Jan 2026 11:32:12 GMT"
+      },
+      {
+        "title": "Central Bank Chiefs Back Fed Chair Jerome Powell In Fight With Trump",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610107",
+        "pubDate": "Tue, 13 Jan 2026 17:18:33 GMT"
+      },
+      {
+        "title": "2025 Was Deadliest Year For Civilians In Ukraine: UN",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609928",
+        "pubDate": "Tue, 13 Jan 2026 11:28:43 GMT"
+      },
+      {
+        "title": "Powell's Revelation Of DoJ Subpoenas Sparks Concern On Fed Independence",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609693",
+        "pubDate": "Mon, 12 Jan 2026 15:33:32 GMT"
+      },
+      {
+        "title": "Fed Chair Powell Hits Out At Trump After Justice Dept. Opens Criminal Probe",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609677",
+        "pubDate": "Mon, 12 Jan 2026 15:01:35 GMT"
+      }
+    ],
+    "ECO": [
+      {
+        "title": "U.S. Homebuilder Confidence Unexpectedly Deteriorates In January",
+        "link": "https://www.rttnews.com/3611145/u-s-homebuilder-confidence-unexpectedly-deteriorates-in-january.aspx?type=alleco",
+        "pubDate": "Fri, 16 Jan 2026 15:30:00 GMT"
+      },
+      {
+        "title": "U.S. Industrial Production Climbs 0.4% In December, Much More Than Expected",
+        "link": "https://www.rttnews.com/3611141/u-s-industrial-production-climbs-0-4-in-december-much-more-than-expected.aspx?type=alleco",
+        "pubDate": "Fri, 16 Jan 2026 15:14:41 GMT"
+      },
+      {
+        "title": "U.S. Industrial Production Climbs Much More Than Expected In December",
+        "link": "https://www.rttnews.com/3611129/u-s-industrial-production-climbs-much-more-than-expected-in-december.aspx?type=alleco",
+        "pubDate": "Fri, 16 Jan 2026 14:22:52 GMT"
+      },
+      {
+        "title": "Brazil Producer Prices Fall 0.37%",
+        "link": "https://www.rttnews.com/3611088/brazil-producer-prices-fall-0-37.aspx?type=alleco",
+        "pubDate": "Fri, 16 Jan 2026 12:39:27 GMT"
+      },
+      {
+        "title": "Italy Inflation Confirmed At 1.2%",
+        "link": "https://www.rttnews.com/3611051/italy-inflation-confirmed-at-1-2.aspx?type=alleco",
+        "pubDate": "Fri, 16 Jan 2026 10:41:14 GMT"
+      },
+      {
+        "title": "German Inflation Slows To 2%",
+        "link": "https://www.rttnews.com/3611015/german-inflation-slows-to-2.aspx?type=alleco",
+        "pubDate": "Fri, 16 Jan 2026 07:37:19 GMT"
+      },
+      {
+        "title": "European Economic News Preview: German Final Inflation Data Due",
+        "link": "https://www.rttnews.com/3610987/european-economic-news-preview-german-final-inflation-data-due.aspx?type=alleco",
+        "pubDate": "Fri, 16 Jan 2026 06:04:00 GMT"
+      },
+      {
+        "title": "Malaysia's Economy Logs Fastest Growth In Over A Year",
+        "link": "https://www.rttnews.com/3610983/malaysia-s-economy-logs-fastest-growth-in-over-a-year.aspx?type=alleco",
+        "pubDate": "Fri, 16 Jan 2026 05:46:04 GMT"
+      },
+      {
+        "title": "Malaysia GDP Data Due On Friday",
+        "link": "https://www.rttnews.com/3610528/malaysia-gdp-data-due-on-friday.aspx?type=alleco",
+        "pubDate": "Thu, 15 Jan 2026 22:32:08 GMT"
+      },
+      {
+        "title": "New Zealand Manufacturing PMI Surges In December - BusinessNZ",
+        "link": "https://www.rttnews.com/3610937/new-zealand-manufacturing-pmi-surges-in-december-businessnz.aspx?type=alleco",
+        "pubDate": "Thu, 15 Jan 2026 22:20:28 GMT"
+      }
+    ],
+    "IPO": [
+      {
+        "title": "York Space Systems Launches IPO Roadshow For 16 Mln Shares",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611195",
+        "pubDate": "Sat, 17 Jan 2026 05:44:40 GMT"
+      },
+      {
+        "title": "Honeywell Says Quantinuum Plans Confidential IPO Filing",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610380",
+        "pubDate": "Wed, 14 Jan 2026 12:24:27 GMT"
+      },
+      {
+        "title": "OneIM Acquisition Corp. Prices $250 Mln IPO",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610188",
+        "pubDate": "Wed, 14 Jan 2026 00:51:33 GMT"
+      },
+      {
+        "title": "Green Circle Decarbonize Technology Prices IPO Of 2.50 Mln Shares At $4.00/shr",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609779",
+        "pubDate": "Tue, 13 Jan 2026 02:34:01 GMT"
+      },
+      {
+        "title": "Bleichroeder Acquisition Corp. II Prices $250 Mln IPO",
+        "link": "https://www.rttnews.com/story.aspx?Id=3608586",
+        "pubDate": "Thu, 08 Jan 2026 01:01:44 GMT"
+      },
+      {
+        "title": "Healthpeak Files Confidential IPO Registration For Janus Living REIT",
+        "link": "https://www.rttnews.com/story.aspx?Id=3608424",
+        "pubDate": "Wed, 07 Jan 2026 12:58:04 GMT"
+      },
+      {
+        "title": "Soren Acquisition Corp. Prices IPO Of 22 Mln Units At $10.00/unit",
+        "link": "https://www.rttnews.com/story.aspx?Id=3608211",
+        "pubDate": "Wed, 07 Jan 2026 02:54:52 GMT"
+      },
+      {
+        "title": "Zepto Confidentially Files For $1.22 Bln Indian IPO",
+        "link": "https://www.rttnews.com/story.aspx?Id=3606653",
+        "pubDate": "Mon, 29 Dec 2025 13:20:09 GMT"
+      },
+      {
+        "title": "Motive Technologies Files For IPO, Plans NYSE Listing Under Symbol 'MTVE'",
+        "link": "https://www.rttnews.com/story.aspx?Id=3606216",
+        "pubDate": "Wed, 24 Dec 2025 03:17:00 GMT"
+      }
+    ],
+    "MA": [
+      {
+        "title": "Futures Pointing To Modestly Higher Open On Wall Street",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611121",
+        "pubDate": "Fri, 16 Jan 2026 13:58:03 GMT"
+      },
+      {
+        "title": "Tech Stocks May Lead Early Rebound On Wall Street",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610834",
+        "pubDate": "Thu, 15 Jan 2026 13:58:30 GMT"
+      },
+      {
+        "title": "Futures Pointing To Initial Weakness On Wall Street",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610432",
+        "pubDate": "Wed, 14 Jan 2026 14:00:11 GMT"
+      },
+      {
+        "title": "Tame Inflation Data May Lead To Initial Strength On Wall Street",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610052",
+        "pubDate": "Tue, 13 Jan 2026 13:57:13 GMT"
+      },
+      {
+        "title": "Positive Reaction To Jobs Data May Lead To Early Strength On Wall Street",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609248",
+        "pubDate": "Fri, 09 Jan 2026 13:57:46 GMT"
+      },
+      {
+        "title": "Futures Pointing To Slightly Lower Open On Wall Street",
+        "link": "https://www.rttnews.com/story.aspx?Id=3608863",
+        "pubDate": "Thu, 08 Jan 2026 13:58:27 GMT"
+      },
+      {
+        "title": "U.S. Stocks May Experience Choppy Trading Early On",
+        "link": "https://www.rttnews.com/story.aspx?Id=3608463",
+        "pubDate": "Wed, 07 Jan 2026 13:55:27 GMT"
+      },
+      {
+        "title": "Futures Pointing To Roughly Flat Open On Wall Street",
+        "link": "https://www.rttnews.com/story.aspx?Id=3608070",
+        "pubDate": "Tue, 06 Jan 2026 13:51:27 GMT"
+      },
+      {
+        "title": "Dollar Gains As Minutes Reveal Split FOMC Outlook",
+        "link": "https://www.rttnews.com/story.aspx?Id=3607713",
+        "pubDate": "Mon, 05 Jan 2026 14:46:35 GMT"
+      },
+      {
+        "title": "Futures Pointing To Initial Rebound On Wall Street",
+        "link": "https://www.rttnews.com/story.aspx?Id=3607399",
+        "pubDate": "Fri, 02 Jan 2026 13:58:03 GMT"
+      }
+    ],
+    "CMT": [
+      {
+        "title": "Canadian Stocks Hold Ground As Traders Analyze Carney's China Visit",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611179",
+        "pubDate": "Fri, 16 Jan 2026 21:29:11 GMT"
+      },
+      {
+        "title": "U.S. Stocks Finish Choppy Trading Day Modestly Lower",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611176",
+        "pubDate": "Fri, 16 Jan 2026 21:12:52 GMT"
+      },
+      {
+        "title": "Swiss Market Ends On Weak Note",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611162",
+        "pubDate": "Fri, 16 Jan 2026 19:00:19 GMT"
+      },
+      {
+        "title": "Major European Markets Close Slightly Weak",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611159",
+        "pubDate": "Fri, 16 Jan 2026 18:40:18 GMT"
+      },
+      {
+        "title": "TSX Roughly Flat; Energy Stocks Find Support",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611155",
+        "pubDate": "Fri, 16 Jan 2026 17:25:07 GMT"
+      },
+      {
+        "title": "U.S. Stocks Turning In Lackluster Performance After Initial Advance",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611153",
+        "pubDate": "Fri, 16 Jan 2026 16:40:48 GMT"
+      },
+      {
+        "title": "Mixed Trend In Global Markets",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611130",
+        "pubDate": "Fri, 16 Jan 2026 14:22:57 GMT"
+      },
+      {
+        "title": "U.S. Stocks May Extend Yesterday's Rebound In Early Trading",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611120",
+        "pubDate": "Fri, 16 Jan 2026 13:55:24 GMT"
+      },
+      {
+        "title": "Mixed Open Seen For Canadian Shares",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611105",
+        "pubDate": "Fri, 16 Jan 2026 13:29:57 GMT"
+      },
+      {
+        "title": "Futures Suggest Wall Street To Open Broadly Up",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611090",
+        "pubDate": "Fri, 16 Jan 2026 12:46:24 GMT"
+      }
+    ],
+    "USMU": [
+      {
+        "title": "U.S. Stocks Finish Choppy Trading Day Modestly Lower",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611176",
+        "pubDate": "Fri, 16 Jan 2026 21:12:52 GMT"
+      },
+      {
+        "title": "U.S. Stocks Turning In Lackluster Performance After Initial Advance",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611153",
+        "pubDate": "Fri, 16 Jan 2026 16:40:48 GMT"
+      },
+      {
+        "title": "U.S. Stocks May Extend Yesterday's Rebound In Early Trading",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611120",
+        "pubDate": "Fri, 16 Jan 2026 13:55:24 GMT"
+      },
+      {
+        "title": "Futures Suggest Wall Street To Open Broadly Up",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611090",
+        "pubDate": "Fri, 16 Jan 2026 12:46:24 GMT"
+      },
+      {
+        "title": "Gold Dips Below $4,600 An Ounce On Dollar Strength",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611043",
+        "pubDate": "Fri, 16 Jan 2026 09:58:22 GMT"
+      },
+      {
+        "title": "Oil Prices Rebound After Steep Losses",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611042",
+        "pubDate": "Fri, 16 Jan 2026 09:39:29 GMT"
+      },
+      {
+        "title": "U.S. Stocks Pull Back Off Best Levels But Still Close Higher",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610916",
+        "pubDate": "Thu, 15 Jan 2026 21:18:05 GMT"
+      },
+      {
+        "title": "U.S. Stocks Regaining Ground Following Two-Day Pullback",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610867",
+        "pubDate": "Thu, 15 Jan 2026 16:04:10 GMT"
+      },
+      {
+        "title": "U.S. Stocks May Move Back To The Upside In Early Trading",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610832",
+        "pubDate": "Thu, 15 Jan 2026 13:56:53 GMT"
+      },
+      {
+        "title": "Wall Street Aims To Bounce Back",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610777",
+        "pubDate": "Thu, 15 Jan 2026 12:51:25 GMT"
+      }
+    ],
+    "EUMU": [
+      {
+        "title": "Swiss Market Ends On Weak Note",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611162",
+        "pubDate": "Fri, 16 Jan 2026 19:00:19 GMT"
+      },
+      {
+        "title": "Major European Markets Close Slightly Weak",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611159",
+        "pubDate": "Fri, 16 Jan 2026 18:40:18 GMT"
+      },
+      {
+        "title": "FTSE 100 Edges Higher After Weak Start; Miners Lose Ground",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611066",
+        "pubDate": "Fri, 16 Jan 2026 11:30:41 GMT"
+      },
+      {
+        "title": "CAC Extends Losses To Fifth Straight Session",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611054",
+        "pubDate": "Fri, 16 Jan 2026 10:50:48 GMT"
+      },
+      {
+        "title": "DAX Slips On Profit Taking; Kloeckner Soars",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611048",
+        "pubDate": "Fri, 16 Jan 2026 10:34:25 GMT"
+      },
+      {
+        "title": "European Shares Subdued On Greenland Concerns",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611034",
+        "pubDate": "Fri, 16 Jan 2026 09:08:23 GMT"
+      },
+      {
+        "title": "European Shares Seen Tad Lower At Open",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610982",
+        "pubDate": "Fri, 16 Jan 2026 05:30:09 GMT"
+      },
+      {
+        "title": "Swiss Market Ends Marginally Higher",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610892",
+        "pubDate": "Thu, 15 Jan 2026 18:37:13 GMT"
+      },
+      {
+        "title": "European Stocks Closed Broadly Higher On Easing Geopolitical Tensions, Some Positive Data",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610891",
+        "pubDate": "Thu, 15 Jan 2026 18:10:40 GMT"
+      },
+      {
+        "title": "FTSE 100 Up Nearly 0.5% At Noon",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610752",
+        "pubDate": "Thu, 15 Jan 2026 12:07:14 GMT"
+      }
+    ],
+    "ASMU": [
+      {
+        "title": "Indian Shares End Off Day's Highs; IT Stocks Rally On Infosys Results",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611047",
+        "pubDate": "Fri, 16 Jan 2026 10:29:31 GMT"
+      },
+      {
+        "title": "Asian Shares Mixed; Kospi Crosses 4,800 For First Time",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611029",
+        "pubDate": "Fri, 16 Jan 2026 08:39:47 GMT"
+      },
+      {
+        "title": "Indian Shares Modestly Higher As IT Stocks Surge",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610972",
+        "pubDate": "Fri, 16 Jan 2026 04:05:58 GMT"
+      },
+      {
+        "title": "Australian Market Extends Early Gains In Mid-market",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610968",
+        "pubDate": "Fri, 16 Jan 2026 03:15:34 GMT"
+      },
+      {
+        "title": "Asian Markets Track Wall Street Mostly Higher",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610965",
+        "pubDate": "Fri, 16 Jan 2026 03:02:11 GMT"
+      },
+      {
+        "title": "Indian Shares Seen Opening On Cautious Note",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610964",
+        "pubDate": "Fri, 16 Jan 2026 02:39:37 GMT"
+      },
+      {
+        "title": "Additional Support Expected For Thai Stock Market",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610940",
+        "pubDate": "Fri, 16 Jan 2026 01:32:11 GMT"
+      },
+      {
+        "title": "Japanese Market Notably Lower",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610959",
+        "pubDate": "Fri, 16 Jan 2026 01:27:58 GMT"
+      },
+      {
+        "title": "Hong Kong Shares May Reverse Thursday's Losses",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610936",
+        "pubDate": "Fri, 16 Jan 2026 01:17:11 GMT"
+      },
+      {
+        "title": "Australian Market Slightly Higher",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610957",
+        "pubDate": "Fri, 16 Jan 2026 01:06:55 GMT"
+      }
+    ],
+    "PMTA": [
+      {
+        "title": "Boston Scientific To Buy Penumbra In $14.5 Bln Cash And Stock Deal; Penumbra Stock Climbs",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610765",
+        "pubDate": "Thu, 15 Jan 2026 12:28:39 GMT"
+      },
+      {
+        "title": "SciSparc To Buy IP Rights For Endoscopic Systems And Medical Cameras",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610007",
+        "pubDate": "Tue, 13 Jan 2026 13:00:55 GMT"
+      },
+      {
+        "title": "L3Harris To Spin Off Missile Solutions After $1 Bln DoW Investment; Stock Up In Pre-market",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610000",
+        "pubDate": "Tue, 13 Jan 2026 12:51:59 GMT"
+      },
+      {
+        "title": "Sify Technologies Stock Rises In Pre-Market Despite Widened Loss In Q3",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609658",
+        "pubDate": "Mon, 12 Jan 2026 14:30:49 GMT"
+      },
+      {
+        "title": "Abercrombie & Fitch Updates Q4, FY25 Outlook; Stock Plunges",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609634",
+        "pubDate": "Mon, 12 Jan 2026 13:52:21 GMT"
+      },
+      {
+        "title": "GeneDx Holdings Announces Prelim. Q4, FY25 Revenue, Provides FY26 Revenue Outlook",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609604",
+        "pubDate": "Mon, 12 Jan 2026 13:19:00 GMT"
+      },
+      {
+        "title": "Adaptive Biotechnologies Shares Rise 13% In Pre-market As Q4 Prel. Revenue Surges",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609585",
+        "pubDate": "Mon, 12 Jan 2026 13:05:49 GMT"
+      },
+      {
+        "title": "Shake Shack Announces Prelim. Q4 Revenue Below View, Shares Initial FY26 Outlook",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609571",
+        "pubDate": "Mon, 12 Jan 2026 12:45:12 GMT"
+      },
+      {
+        "title": "NovoCure Revenues Rise In Q4, FY25; Shares Up In Pre-market",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609560",
+        "pubDate": "Mon, 12 Jan 2026 12:39:53 GMT"
+      },
+      {
+        "title": "CorMedix Shares Drop 20% In Pre-Market On DefenCath Pricing Outlook",
+        "link": "https://www.rttnews.com/story.aspx?Id=3608884",
+        "pubDate": "Thu, 08 Jan 2026 14:37:31 GMT"
+      }
+    ],
+    "STSA": [
+      {
+        "title": "Jeffs' Brands Shares Surge 126% On Homeland Security Distribution Deal",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611160",
+        "pubDate": "Fri, 16 Jan 2026 18:49:18 GMT"
+      },
+      {
+        "title": "QXO Shares Slip 4% After Pricing Of Public Stock Offering",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611158",
+        "pubDate": "Fri, 16 Jan 2026 18:26:02 GMT"
+      },
+      {
+        "title": "Callan JMB Shares Soar 240% On Strategic Biotech Oversight Deal",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610898",
+        "pubDate": "Thu, 15 Jan 2026 19:02:35 GMT"
+      },
+      {
+        "title": "Springview Holdings Shares Surge 651% On Solar Partnership Announcement",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610897",
+        "pubDate": "Thu, 15 Jan 2026 19:01:15 GMT"
+      },
+      {
+        "title": "Trip.com Group Shares Slide 17% Over Antitrust Investigation Notice",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610481",
+        "pubDate": "Wed, 14 Jan 2026 18:21:27 GMT"
+      },
+      {
+        "title": "GSI Technology Shares Slide 7% Despite New Government-Funded AI Security Project",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610478",
+        "pubDate": "Wed, 14 Jan 2026 17:52:50 GMT"
+      },
+      {
+        "title": "XTL Biopharmaceuticals Shares Surge 58% After NeuroNOS Acquisition Announcement",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610125",
+        "pubDate": "Tue, 13 Jan 2026 19:29:13 GMT"
+      },
+      {
+        "title": "Beyond Air, Inc. Shares Surge 166% On NeuroNOS Transaction",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610124",
+        "pubDate": "Tue, 13 Jan 2026 19:28:43 GMT"
+      },
+      {
+        "title": "Yue Yuen Industrial Announces Consolidated Revenue Report For December",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609713",
+        "pubDate": "Mon, 12 Jan 2026 17:32:31 GMT"
+      },
+      {
+        "title": "AppYea Appoints Ben Harris As Chief Technology Officer, Stock Rises",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609705",
+        "pubDate": "Mon, 12 Jan 2026 16:25:15 GMT"
+      }
+    ],
     "HOT": [],
-    "CAN": [],
-    "SECT": [],
-    "ENTTOP": [],
-    "MUSIC": [],
+    "CAN": [
+      {
+        "title": "Canadian Stocks Hold Ground As Traders Analyze Carney's China Visit",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611179",
+        "pubDate": "Fri, 16 Jan 2026 21:29:11 GMT"
+      },
+      {
+        "title": "TSX Roughly Flat; Energy Stocks Find Support",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611155",
+        "pubDate": "Fri, 16 Jan 2026 17:25:07 GMT"
+      },
+      {
+        "title": "Mixed Open Seen For Canadian Shares",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611105",
+        "pubDate": "Fri, 16 Jan 2026 13:29:57 GMT"
+      },
+      {
+        "title": "Canadian Stocks Climb As Focus Shifts To PM's China Visit",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610921",
+        "pubDate": "Thu, 15 Jan 2026 21:31:11 GMT"
+      },
+      {
+        "title": "TSX Up Modestly At Noon After Another New High",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610884",
+        "pubDate": "Thu, 15 Jan 2026 17:08:52 GMT"
+      },
+      {
+        "title": "Bay Street Is Seen Opening Higher, But Weak Commodity Prices May Hurt",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610799",
+        "pubDate": "Thu, 15 Jan 2026 13:22:31 GMT"
+      },
+      {
+        "title": "Ivanhoe Mines: Kamoa-Kakula 2025 Production Within Guidance Range",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610760",
+        "pubDate": "Thu, 15 Jan 2026 12:20:11 GMT"
+      },
+      {
+        "title": "Canadian Dollar Falls As Oil Prices Tumble",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610755",
+        "pubDate": "Thu, 15 Jan 2026 12:09:05 GMT"
+      },
+      {
+        "title": "Velan Holding To Sell Entire Holdings In Velan Inc.",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610584",
+        "pubDate": "Thu, 15 Jan 2026 05:43:10 GMT"
+      },
+      {
+        "title": "Canadian Stocks Inch Higher As Investors Assess Geopolitical Developments",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610509",
+        "pubDate": "Wed, 14 Jan 2026 21:34:14 GMT"
+      }
+    ],
+    "SECT": [
+      {
+        "title": "Mixed Trend In Global Markets",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611130",
+        "pubDate": "Fri, 16 Jan 2026 14:22:57 GMT"
+      },
+      {
+        "title": "Global Markets Whipsaw As Geopolitical Tensions Ease",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610850",
+        "pubDate": "Thu, 15 Jan 2026 14:34:37 GMT"
+      },
+      {
+        "title": "Markets React To PPI, Retail Sales Updates From U.S.",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610453",
+        "pubDate": "Wed, 14 Jan 2026 15:07:05 GMT"
+      },
+      {
+        "title": "Jobs Data Sways Market Sentiment",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609240",
+        "pubDate": "Fri, 09 Jan 2026 13:44:44 GMT"
+      },
+      {
+        "title": "Markets Uneasy Ahead Of Jobs Data",
+        "link": "https://www.rttnews.com/story.aspx?Id=3608855",
+        "pubDate": "Thu, 08 Jan 2026 13:53:05 GMT"
+      },
+      {
+        "title": "Market Spotlight On U.S. Data",
+        "link": "https://www.rttnews.com/story.aspx?Id=3608441",
+        "pubDate": "Wed, 07 Jan 2026 13:22:50 GMT"
+      },
+      {
+        "title": "Market Sentiment Remains Nervous",
+        "link": "https://www.rttnews.com/story.aspx?Id=3608077",
+        "pubDate": "Tue, 06 Jan 2026 14:02:27 GMT"
+      },
+      {
+        "title": "Mixed Reaction To Venezuela Events",
+        "link": "https://www.rttnews.com/story.aspx?Id=3607717",
+        "pubDate": "Mon, 05 Jan 2026 14:52:17 GMT"
+      },
+      {
+        "title": "Markets Welcome 2026 On A Positive Note",
+        "link": "https://www.rttnews.com/story.aspx?Id=3607388",
+        "pubDate": "Fri, 02 Jan 2026 13:28:03 GMT"
+      }
+    ],
+    "ENTTOP": [
+      {
+        "title": "Bruno Mars Adds New Dates To 'The Romantic Tour,' Sets Record For Largest Single-Day Ticket Sales",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611212",
+        "pubDate": "Sun, 18 Jan 2026 15:00:53 GMT"
+      },
+      {
+        "title": "Kane Brown, Parker McCollum, Riley Green, Shaboozey & More To Play 2026 IHeartCountry Festival",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611210",
+        "pubDate": "Sun, 18 Jan 2026 13:00:53 GMT"
+      },
+      {
+        "title": "Foo Fighters, Lorde & Teddy Swims Among BottleRock Napa Valley 2026 Headliners",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611209",
+        "pubDate": "Sat, 17 Jan 2026 23:02:06 GMT"
+      },
+      {
+        "title": "Taylor Swift's 'The Fate Of Ophelia' Tops Billboard Hot 100 For Tenth Total Week",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611165",
+        "pubDate": "Sat, 17 Jan 2026 13:02:44 GMT"
+      },
+      {
+        "title": "Trevor Noah To Host 2026 Grammy Awards",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611147",
+        "pubDate": "Fri, 16 Jan 2026 18:02:06 GMT"
+      },
+      {
+        "title": "BTS Announce Massive 70+ Date World Tour",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610483",
+        "pubDate": "Wed, 14 Jan 2026 20:01:30 GMT"
+      },
+      {
+        "title": "Grateful Dead Co-Founder Bob Weir Dead At 78",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609711",
+        "pubDate": "Mon, 12 Jan 2026 18:37:09 GMT"
+      },
+      {
+        "title": "Bruno Mars Announces 2026 'The Romantic Tour'",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609357",
+        "pubDate": "Sun, 11 Jan 2026 21:01:24 GMT"
+      },
+      {
+        "title": "Taylor Swift, Alex Warren, Bad Bunny & Sabrina Carpenter Lead 2026 IHeartRadio Music Awards Nominees",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609352",
+        "pubDate": "Sun, 11 Jan 2026 18:01:22 GMT"
+      },
+      {
+        "title": "Luke Combs Announces New Album 'The Way I Am'",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609301",
+        "pubDate": "Fri, 09 Jan 2026 20:01:13 GMT"
+      }
+    ],
+    "MUSIC": [
+      {
+        "title": "Arlo Parks Announces New Album 'Ambiguous Desire'",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611221",
+        "pubDate": "Sun, 18 Jan 2026 21:00:54 GMT"
+      },
+      {
+        "title": "Ashley McBryde Announces New Single 'What If We Don't'",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611220",
+        "pubDate": "Sun, 18 Jan 2026 20:00:54 GMT"
+      },
+      {
+        "title": "Prime Video Shares Trailer For Paul McCartney Documentary 'Man On The Run'",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611219",
+        "pubDate": "Sun, 18 Jan 2026 19:00:54 GMT"
+      },
+      {
+        "title": "Little Simz, Olivia Dean Among Leading 2026 MOBO Awards Nominees",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611218",
+        "pubDate": "Sun, 18 Jan 2026 18:00:54 GMT"
+      },
+      {
+        "title": "Sonic Youth's Kim Gordon Announces New Solo Album 'Play Me'",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611217",
+        "pubDate": "Sun, 18 Jan 2026 17:00:54 GMT"
+      },
+      {
+        "title": "Tim McGraw To Headline 2026 NHL Stadium Series In Tampa",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611216",
+        "pubDate": "Sun, 18 Jan 2026 16:30:54 GMT"
+      },
+      {
+        "title": "Keith Richards Partners With Gibson For 1960 ES-355 Collector's Edition Guitars",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611215",
+        "pubDate": "Sun, 18 Jan 2026 16:00:53 GMT"
+      },
+      {
+        "title": "Bruno Mars Adds New Dates To 'The Romantic Tour,' Sets Record For Largest Single-Day Ticket Sales",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611212",
+        "pubDate": "Sun, 18 Jan 2026 15:00:53 GMT"
+      },
+      {
+        "title": "Pavement Announce Summer 2026 U.S. Tour Dates",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611211",
+        "pubDate": "Sun, 18 Jan 2026 14:00:53 GMT"
+      },
+      {
+        "title": "Kane Brown, Parker McCollum, Riley Green, Shaboozey & More To Play 2026 IHeartCountry Festival",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611210",
+        "pubDate": "Sun, 18 Jan 2026 13:00:53 GMT"
+      }
+    ],
     "MOVREV": [],
     "DVD": [],
-    "FXTOP": [],
-    "CURR": [],
-    "HEALTH": [],
-    "BIO": [],
+    "FXTOP": [
+      {
+        "title": "U.S. Homebuilder Confidence Unexpectedly Deteriorates In January",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611145",
+        "pubDate": "Fri, 16 Jan 2026 15:30:00 GMT"
+      },
+      {
+        "title": "U.S. Industrial Production Climbs 0.4% In December, Much More Than Expected",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611141",
+        "pubDate": "Fri, 16 Jan 2026 15:14:41 GMT"
+      },
+      {
+        "title": "Malaysia's Economy Logs Fastest Growth In Over A Year",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610983",
+        "pubDate": "Fri, 16 Jan 2026 05:46:04 GMT"
+      },
+      {
+        "title": "New York Manufacturing Index Jumps Back Into Positive Territory In January",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610870",
+        "pubDate": "Thu, 15 Jan 2026 16:09:19 GMT"
+      },
+      {
+        "title": "Philly Fed Index Unexpectedly Bounces Back Into Positive Territory In January",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610866",
+        "pubDate": "Thu, 15 Jan 2026 15:43:04 GMT"
+      },
+      {
+        "title": "U.S. Weekly Jobless Claims Unexpectedly Dip To 198,000",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610858",
+        "pubDate": "Thu, 15 Jan 2026 15:10:22 GMT"
+      },
+      {
+        "title": "UK Economy Returns To Growth",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610795",
+        "pubDate": "Thu, 15 Jan 2026 13:14:56 GMT"
+      },
+      {
+        "title": "German Economy Bounces Back In 2025",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610764",
+        "pubDate": "Thu, 15 Jan 2026 12:24:47 GMT"
+      },
+      {
+        "title": "Canadian Dollar Falls As Oil Prices Tumble",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610755",
+        "pubDate": "Thu, 15 Jan 2026 12:09:05 GMT"
+      },
+      {
+        "title": "Bank Of Korea Stands Pat On Rates As Expected",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610639",
+        "pubDate": "Thu, 15 Jan 2026 07:32:28 GMT"
+      }
+    ],
+    "CURR": [
+      {
+        "title": "Mixed Trend In Global Markets",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611130",
+        "pubDate": "Fri, 16 Jan 2026 14:22:57 GMT"
+      },
+      {
+        "title": "Global Markets Whipsaw As Geopolitical Tensions Ease",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610850",
+        "pubDate": "Thu, 15 Jan 2026 14:34:37 GMT"
+      },
+      {
+        "title": "Canadian Dollar Falls As Oil Prices Tumble",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610755",
+        "pubDate": "Thu, 15 Jan 2026 12:09:05 GMT"
+      },
+      {
+        "title": "Markets React To PPI, Retail Sales Updates From U.S.",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610453",
+        "pubDate": "Wed, 14 Jan 2026 15:07:05 GMT"
+      },
+      {
+        "title": "Yen Falls Amid Japan Political Uncertainty",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610293",
+        "pubDate": "Wed, 14 Jan 2026 08:02:25 GMT"
+      },
+      {
+        "title": "Yen Slides Amid Japan Snap Election Talks",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609979",
+        "pubDate": "Tue, 13 Jan 2026 12:16:55 GMT"
+      },
+      {
+        "title": "Yen Slides Against Majors",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609952",
+        "pubDate": "Tue, 13 Jan 2026 11:53:14 GMT"
+      },
+      {
+        "title": "Yen Slides Amid Japan's Political Concerns",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609484",
+        "pubDate": "Mon, 12 Jan 2026 10:22:57 GMT"
+      },
+      {
+        "title": "Jobs Data Sways Market Sentiment",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609240",
+        "pubDate": "Fri, 09 Jan 2026 13:44:44 GMT"
+      },
+      {
+        "title": "Yen Falls Against Majors",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609061",
+        "pubDate": "Fri, 09 Jan 2026 07:16:28 GMT"
+      }
+    ],
+    "HEALTH": [
+      {
+        "title": "Trump Unveils The Great Healthcare Plan",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611102",
+        "pubDate": "Fri, 16 Jan 2026 13:23:29 GMT"
+      },
+      {
+        "title": "WHO Urges Governments To Raise Health Taxes On Sugary Drinks And Alcohol",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610827",
+        "pubDate": "Thu, 15 Jan 2026 13:47:39 GMT"
+      },
+      {
+        "title": "CDC Links Live It Up Super Greens Supplement Powders To New Salmonella Outbreak",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610771",
+        "pubDate": "Thu, 15 Jan 2026 12:34:22 GMT"
+      },
+      {
+        "title": "FDA Approves First Treatment For Children With Menkes Disease",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609944",
+        "pubDate": "Tue, 13 Jan 2026 11:43:31 GMT"
+      },
+      {
+        "title": "Study Links Food Preservatives To Cancer And Diabetes",
+        "link": "https://www.rttnews.com/story.aspx?Id=3608787",
+        "pubDate": "Thu, 08 Jan 2026 12:26:52 GMT"
+      },
+      {
+        "title": "Space Station Research Yields Insights Into FDA-Approved Cancer Therapy",
+        "link": "https://www.rttnews.com/story.aspx?Id=3608768",
+        "pubDate": "Thu, 08 Jan 2026 12:10:00 GMT"
+      },
+      {
+        "title": "UK Bans TV, Online Junk Food Ad To Protect Kids' Health",
+        "link": "https://www.rttnews.com/story.aspx?Id=3607594",
+        "pubDate": "Mon, 05 Jan 2026 10:17:34 GMT"
+      },
+      {
+        "title": "FDA Finds Insufficient Data To Determine Safety Of PFAS In Cosmetics",
+        "link": "https://www.rttnews.com/story.aspx?Id=3606862",
+        "pubDate": "Tue, 30 Dec 2025 11:00:59 GMT"
+      },
+      {
+        "title": "2025 Delivered Significant Victories For Disease Control: WHO",
+        "link": "https://www.rttnews.com/story.aspx?Id=3606633",
+        "pubDate": "Mon, 29 Dec 2025 12:30:53 GMT"
+      }
+    ],
+    "BIO": [
+      {
+        "title": "Arbutus Biopharma Shares Fall 19% On European Patent Revocation",
+        "link": "https://www.rttnews.com/3611152/arbutus-biopharma-shares-fall-19-on-european-patent-revocation.aspx",
+        "pubDate": "Fri, 16 Jan 2026 16:29:48 GMT"
+      },
+      {
+        "title": "Profusa Launches Lumee, Paving Way For First Commercial Revenue; Stock Jumps",
+        "link": "https://www.rttnews.com/3611146/profusa-launches-lumee-paving-way-for-first-commercial-revenue-stock-jumps.aspx",
+        "pubDate": "Fri, 16 Jan 2026 15:37:11 GMT"
+      },
+      {
+        "title": "Venus Concept Spikes 405%; Madryn Asset Management Reveals 91% Stake",
+        "link": "https://www.rttnews.com/3611133/venus-concept-spikes-405-madryn-asset-management-reveals-91-stake.aspx",
+        "pubDate": "Fri, 16 Jan 2026 14:40:40 GMT"
+      },
+      {
+        "title": "Weekly Buzz: LYRA Slashes Jobs; FDA Okays FBIO's ZYCUBO; BSX To Acquire PEN; BCTX On Watch",
+        "link": "https://www.rttnews.com/3611123/weekly-buzz-lyra-slashes-jobs-fda-okays-fbio-s-zycubo-bsx-to-acquire-pen-bctx-on-watch.aspx",
+        "pubDate": "Fri, 16 Jan 2026 13:58:57 GMT"
+      },
+      {
+        "title": "What's Driving Atossa's Premarket Momentum?",
+        "link": "https://www.rttnews.com/3611065/what-s-driving-atossa-s-premarket-momentum.aspx",
+        "pubDate": "Fri, 16 Jan 2026 11:29:55 GMT"
+      },
+      {
+        "title": "60 Degree Pharma To Implement 1-for-4 Reverse Stock Split To Regain Nasdaq Compliance",
+        "link": "https://www.rttnews.com/3611041/60-degree-pharma-to-implement-1-for-4-reverse-stock-split-to-regain-nasdaq-compliance.aspx",
+        "pubDate": "Fri, 16 Jan 2026 09:36:31 GMT"
+      },
+      {
+        "title": "CNS Pharma Stock Up Over 30%",
+        "link": "https://www.rttnews.com/3610880/cns-pharma-stock-up-over-30.aspx",
+        "pubDate": "Thu, 15 Jan 2026 16:43:34 GMT"
+      },
+      {
+        "title": "GT Biopharma Submits IND For GTB-5550 TriKE, Targeting B7-H3 Solid Tumors",
+        "link": "https://www.rttnews.com/3610865/gt-biopharma-submits-ind-for-gtb-5550-trike-targeting-b7-h3-solid-tumors.aspx",
+        "pubDate": "Thu, 15 Jan 2026 15:41:10 GMT"
+      },
+      {
+        "title": "Boston Scientific To Acquire Penumbra; Stock Soars",
+        "link": "https://www.rttnews.com/3610852/boston-scientific-to-acquire-penumbra-stock-soars.aspx",
+        "pubDate": "Thu, 15 Jan 2026 14:46:50 GMT"
+      },
+      {
+        "title": "BD Secures FDA Clearance For EnCor EnCompass Breast Biopsy And Tissue Removal System",
+        "link": "https://www.rttnews.com/3610797/bd-secures-fda-clearance-for-encor-encompass-breast-biopsy-and-tissue-removal-system.aspx",
+        "pubDate": "Thu, 15 Jan 2026 13:20:25 GMT"
+      }
+    ],
     "TECH": [],
-    "MOM": [],
-    "BELL": [],
+    "MOM": [
+      {
+        "title": "Jeffs' Brands Shares Surge 126% On Homeland Security Distribution Deal",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611160",
+        "pubDate": "Fri, 16 Jan 2026 18:49:18 GMT"
+      },
+      {
+        "title": "QXO Shares Slip 4% After Pricing Of Public Stock Offering",
+        "link": "https://www.rttnews.com/story.aspx?Id=3611158",
+        "pubDate": "Fri, 16 Jan 2026 18:26:02 GMT"
+      },
+      {
+        "title": "Callan JMB Shares Soar 240% On Strategic Biotech Oversight Deal",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610898",
+        "pubDate": "Thu, 15 Jan 2026 19:02:35 GMT"
+      },
+      {
+        "title": "Springview Holdings Shares Surge 651% On Solar Partnership Announcement",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610897",
+        "pubDate": "Thu, 15 Jan 2026 19:01:15 GMT"
+      },
+      {
+        "title": "Trip.com Group Shares Slide 17% Over Antitrust Investigation Notice",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610481",
+        "pubDate": "Wed, 14 Jan 2026 18:21:27 GMT"
+      },
+      {
+        "title": "GSI Technology Shares Slide 7% Despite New Government-Funded AI Security Project",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610478",
+        "pubDate": "Wed, 14 Jan 2026 17:52:50 GMT"
+      },
+      {
+        "title": "XTL Biopharmaceuticals Shares Surge 58% After NeuroNOS Acquisition Announcement",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610125",
+        "pubDate": "Tue, 13 Jan 2026 19:29:13 GMT"
+      },
+      {
+        "title": "Beyond Air, Inc. Shares Surge 166% On NeuroNOS Transaction",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610124",
+        "pubDate": "Tue, 13 Jan 2026 19:28:43 GMT"
+      },
+      {
+        "title": "Yue Yuen Industrial Announces Consolidated Revenue Report For December",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609713",
+        "pubDate": "Mon, 12 Jan 2026 17:32:31 GMT"
+      },
+      {
+        "title": "AppYea Appoints Ben Harris As Chief Technology Officer, Stock Rises",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609705",
+        "pubDate": "Mon, 12 Jan 2026 16:25:15 GMT"
+      }
+    ],
+    "BELL": [
+      {
+        "title": "Boston Scientific To Buy Penumbra In $14.5 Bln Cash And Stock Deal; Penumbra Stock Climbs",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610765",
+        "pubDate": "Thu, 15 Jan 2026 12:28:39 GMT"
+      },
+      {
+        "title": "SciSparc To Buy IP Rights For Endoscopic Systems And Medical Cameras",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610007",
+        "pubDate": "Tue, 13 Jan 2026 13:00:55 GMT"
+      },
+      {
+        "title": "L3Harris To Spin Off Missile Solutions After $1 Bln DoW Investment; Stock Up In Pre-market",
+        "link": "https://www.rttnews.com/story.aspx?Id=3610000",
+        "pubDate": "Tue, 13 Jan 2026 12:51:59 GMT"
+      },
+      {
+        "title": "Sify Technologies Stock Rises In Pre-Market Despite Widened Loss In Q3",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609658",
+        "pubDate": "Mon, 12 Jan 2026 14:30:49 GMT"
+      },
+      {
+        "title": "Abercrombie & Fitch Updates Q4, FY25 Outlook; Stock Plunges",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609634",
+        "pubDate": "Mon, 12 Jan 2026 13:52:21 GMT"
+      },
+      {
+        "title": "GeneDx Holdings Announces Prelim. Q4, FY25 Revenue, Provides FY26 Revenue Outlook",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609604",
+        "pubDate": "Mon, 12 Jan 2026 13:19:00 GMT"
+      },
+      {
+        "title": "Adaptive Biotechnologies Shares Rise 13% In Pre-market As Q4 Prel. Revenue Surges",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609585",
+        "pubDate": "Mon, 12 Jan 2026 13:05:49 GMT"
+      },
+      {
+        "title": "Shake Shack Announces Prelim. Q4 Revenue Below View, Shares Initial FY26 Outlook",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609571",
+        "pubDate": "Mon, 12 Jan 2026 12:45:12 GMT"
+      },
+      {
+        "title": "NovoCure Revenues Rise In Q4, FY25; Shares Up In Pre-market",
+        "link": "https://www.rttnews.com/story.aspx?Id=3609560",
+        "pubDate": "Mon, 12 Jan 2026 12:39:53 GMT"
+      },
+      {
+        "title": "CorMedix Shares Drop 20% In Pre-Market On DefenCath Pricing Outlook",
+        "link": "https://www.rttnews.com/story.aspx?Id=3608884",
+        "pubDate": "Thu, 08 Jan 2026 14:37:31 GMT"
+      }
+    ],
     "NYT": [
       {
         "title": "After Trump Reignites a Trade War Over Greenland, Europe Weighs Going All-Out",
@@ -560,7 +1718,7 @@
       {
         "title": "Andrew Rosindell quits Tories and defects to Reform UK",
         "link": "https://www.bbc.com/news/articles/c98jn1wywdyo?at_medium=RSS&at_campaign=rss",
-        "pubDate": "Sun, 18 Jan 2026 20:54:16 GMT"
+        "pubDate": "Sun, 18 Jan 2026 21:21:08 GMT"
       },
       {
         "title": "Government pulls Hillsborough Law amendment after backlash",

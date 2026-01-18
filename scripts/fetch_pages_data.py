@@ -255,20 +255,42 @@ def main():
 		{"abbr":"GDNWR","title":"The Guardian - World","url":"https://www.theguardian.com/world/rss"},
 	]
 	def fetch_feed(url: str, limit: int = 10):
-		try:
-			u = url + (("&" if "?" in url else "?") + f"_ts={int(time.time())}")
-			raw = fetch(u, headers={"User-Agent":"Mozilla/5.0","Accept":"application/rss+xml"})
-			root = ET.fromstring(raw)
-			items = root.findall(".//item")[:limit]
-			out = []
-			for it in items:
-				title = (it.findtext("title") or "").strip()
-				link = (it.findtext("link") or "").strip()
-				pub = (it.findtext("pubDate") or "").strip()
-				out.append({"title":title,"link":link,"pubDate":pub})
-			return out
-		except Exception:
-			return []
+		# Robust fetch with retries; support RSS and Atom
+		headers = {
+			"User-Agent":"Mozilla/5.0 (CLI RSS Reader)",
+			"Accept":"application/rss+xml, application/xml;q=0.9, */*;q=0.8",
+			"Cache-Control":"no-cache","Pragma":"no-cache",
+		}
+		for _ in range(3):
+			try:
+				u = url + (("&" if "?" in url else "?") + f"_ts={int(time.time())}")
+				raw = fetch(u, headers=headers)
+				root = ET.fromstring(raw)
+				items = root.findall(".//item")
+				if not items:
+					entries = root.findall(".//{http://www.w3.org/2005/Atom}entry")
+					out = []
+					for it in entries[:limit]:
+						title = (it.findtext("{http://www.w3.org/2005/Atom}title") or "").strip()
+						link_el = it.find("{http://www.w3.org/2005/Atom}link")
+						link = (link_el.get("href") if link_el is not None else "") or ""
+						pub = (it.findtext("{http://www.w3.org/2005/Atom}updated") or "").strip()
+						out.append({"title":title,"link":link,"pubDate":pub})
+					if out:
+						return out
+				else:
+					out = []
+					for it in items[:limit]:
+						title = (it.findtext("title") or "").strip()
+						link = (it.findtext("link") or "").strip()
+						pub = (it.findtext("pubDate") or "").strip()
+						out.append({"title":title,"link":link,"pubDate":pub})
+					if out:
+						return out
+			except Exception:
+				time.sleep(0.6)
+				continue
+		return []
 	feeds_payload = {"feeds":[{"abbr":f["abbr"],"title":f["title"],"url":f.get("url","")} for f in feeds],"data":{}}
 	for f in feeds:
 		feeds_payload["data"][f["abbr"]] = fetch_feed(f["url"])
