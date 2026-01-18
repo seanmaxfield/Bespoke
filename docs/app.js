@@ -827,7 +827,6 @@ async function main() {
 				iframe.src = `https://s.tradingview.com/embed-widget/${meta.path}/?locale=en#${hash}`;
 			}
 			setSrc("AAPL");
-			iframe.src = `https://s.tradingview.com/embed-widget/${meta.path}/?locale=en#${hash}`;
 			iframe.addEventListener("error", () => {
 				if (meta.fallback) {
 					const sym = input ? (input.value || "AAPL") : "AAPL";
