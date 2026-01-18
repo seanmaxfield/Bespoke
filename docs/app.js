@@ -765,21 +765,27 @@ async function main() {
 				path: "fundamental-data",
 				genCfg: (symbol="AAPL") => ({ symbol, colorTheme: "light", isTransparent: false, largeChartUrl: "", displayMode: "compact", width: "100%", height: "100%" }),
 				fallback: (symbol="AAPL") => `https://www.tradingview.com/symbols/${encodeURIComponent(symbol)}/financials-overview/`,
-				acceptsSymbol: true
+				acceptsSymbol: true,
+				useScript: true,
+				scriptSrc: "https://s3.tradingview.com/external-embedding/embed-widget-fundamental-data.js"
 			},
 			"company-profile": {
 				title: "Company Profile",
 				path: "company-profile",
 				genCfg: (symbol="AAPL") => ({ symbol, colorTheme: "light", isTransparent: false, width: "100%", height: "100%" }),
 				fallback: (symbol="AAPL") => `https://www.tradingview.com/symbols/${encodeURIComponent(symbol)}/company-profile/`,
-				acceptsSymbol: true
+				acceptsSymbol: true,
+				useScript: true,
+				scriptSrc: "https://s3.tradingview.com/external-embedding/embed-widget-company-profile.js"
 			},
 			"economic-map": {
 				title: "Economic Map",
 				path: "economic-map",
 				genCfg: () => ({ colorTheme: "light", isTransparent: false, width: "100%", height: "100%", locale: "en" }),
 				fallback: () => "https://www.tradingview.com/economic-map/",
-				acceptsSymbol: false
+				acceptsSymbol: false,
+				useScript: true,
+				scriptSrc: "https://s3.tradingview.com/external-embedding/embed-widget-economic-map.js"
 			}
 		};
 		const meta = MAP[kind];
@@ -817,33 +823,61 @@ async function main() {
 			header.appendChild(actions);
 			const body = document.createElement("div");
 			body.className = "floating-body";
-			const iframe = document.createElement("iframe");
-			iframe.setAttribute("allowtransparency", "true");
-			iframe.setAttribute("frameborder", "0");
-			iframe.style.width = "100%";
-			iframe.style.height = "100%";
-			function setSrc(symbol) {
+			let currentSymbol = "AAPL";
+			let iframe = null;
+			let scriptContainer = null;
+			function mountIframe(symbol) {
+				if (scriptContainer) { scriptContainer.remove(); scriptContainer = null; }
+				if (!iframe) {
+					iframe = document.createElement("iframe");
+					iframe.setAttribute("allowtransparency", "true");
+					iframe.setAttribute("frameborder", "0");
+					iframe.style.width = "100%";
+					iframe.style.height = "100%";
+					iframe.addEventListener("error", () => {
+						if (meta.fallback) {
+							const sym = input ? (input.value || "AAPL") : "AAPL";
+							const url = typeof meta.fallback === "function" ? meta.fallback(sym) : meta.fallback;
+							window.open(url, "_blank", "noopener,noreferrer");
+						}
+						overlay.classList.add("hidden");
+					});
+					body.appendChild(iframe);
+				}
 				const cfg = meta.genCfg ? meta.genCfg(symbol) : {};
 				const hash = encodeURIComponent(JSON.stringify(cfg || {}));
 				iframe.src = `https://s.tradingview.com/embed-widget/${meta.path}/?locale=en#${hash}`;
 			}
-			setSrc("AAPL");
-			iframe.addEventListener("error", () => {
-				if (meta.fallback) {
-					const sym = input ? (input.value || "AAPL") : "AAPL";
-					const url = typeof meta.fallback === "function" ? meta.fallback(sym) : meta.fallback;
-					window.open(url, "_blank", "noopener,noreferrer");
-				}
-				overlay.classList.add("hidden");
-			});
-			body.appendChild(iframe);
+			function mountScript(symbol) {
+				if (iframe) { iframe.remove(); iframe = null; }
+				if (scriptContainer) scriptContainer.remove();
+				scriptContainer = document.createElement("div");
+				scriptContainer.className = "tradingview-widget-container";
+				const widget = document.createElement("div");
+				widget.className = "tradingview-widget-container__widget";
+				scriptContainer.appendChild(widget);
+				const script = document.createElement("script");
+				script.type = "text/javascript";
+				script.async = true;
+				script.src = meta.scriptSrc;
+				const cfg = meta.genCfg ? meta.genCfg(symbol) : {};
+				script.innerHTML = JSON.stringify(cfg);
+				scriptContainer.appendChild(script);
+				body.appendChild(scriptContainer);
+			}
+			function setWidget(symbol) {
+				currentSymbol = symbol || "AAPL";
+				if (meta.useScript) mountScript(currentSymbol);
+				else mountIframe(currentSymbol);
+			}
+			setWidget("AAPL");
 			overlay.appendChild(header);
 			overlay.appendChild(body);
 			document.body.appendChild(overlay);
 			if (meta.acceptsSymbol && applyBtn && input) {
 				function applySymbol() {
 					const sym = (input.value || "AAPL").toUpperCase();
-					setSrc(sym);
+					setWidget(sym);
 				}
 				applyBtn.addEventListener("click", applySymbol);
 				input.addEventListener("keydown", (e) => {
