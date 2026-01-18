@@ -77,6 +77,10 @@
       "title": "Movie Reviews"
     },
     {
+      "abbr": "DVD",
+      "title": "DVD Releases"
+    },
+    {
       "abbr": "FXTOP",
       "title": "Forex Top Story"
     },
@@ -95,6 +99,14 @@
     {
       "abbr": "TECH",
       "title": "Technology"
+    },
+    {
+      "abbr": "MOM",
+      "title": "Momentum"
+    },
+    {
+      "abbr": "BELL",
+      "title": "Before The Bell"
     },
     {
       "abbr": "NYT",
@@ -123,6 +135,18 @@
     {
       "abbr": "BBC",
       "title": "BBC News - Top Stories"
+    },
+    {
+      "abbr": "STOCK",
+      "title": "Stock Lookup (price, fundamentals, news) - use: 35 TICKER"
+    },
+    {
+      "abbr": "LM",
+      "title": "LiveUAMap"
+    },
+    {
+      "abbr": "CMDTY",
+      "title": "Commodities Snapshot (price, 1w, 1m change)"
     },
     {
       "abbr": "WSJMK",
@@ -161,11 +185,14 @@
     "ENTTOP": [],
     "MUSIC": [],
     "MOVREV": [],
+    "DVD": [],
     "FXTOP": [],
     "CURR": [],
     "HEALTH": [],
     "BIO": [],
     "TECH": [],
+    "MOM": [],
+    "BELL": [],
     "NYT": [
       {
         "title": "After Trump Reignites a Trade War Over Greenland, Europe Weighs Going All-Out",
@@ -195,7 +222,7 @@
       {
         "title": "Springsteen Denounces ICE Deployments and Renee Good’s Killing",
         "link": "https://www.nytimes.com/2026/01/18/arts/music/springsteen-ice-minneapolis.html",
-        "pubDate": "Sun, 18 Jan 2026 19:49:16 +0000"
+        "pubDate": "Sun, 18 Jan 2026 20:59:44 +0000"
       },
       {
         "title": "Under Patel, F.B.I. Scours Its Records to Discredit Trump Opponents",
@@ -485,6 +512,16 @@
         "pubDate": "Sun, 18 Jan 2026 20:29:08 GMT"
       },
       {
+        "title": "Starmer holds phone call with Trump over Greenland tariff threat",
+        "link": "https://www.bbc.com/news/articles/cwyn90l1dneo?at_medium=RSS&at_campaign=rss",
+        "pubDate": "Sun, 18 Jan 2026 20:42:50 GMT"
+      },
+      {
+        "title": "Andrew Rosindell quits Tories and defects to Reform UK",
+        "link": "https://www.bbc.com/news/articles/c98jn1wywdyo?at_medium=RSS&at_campaign=rss",
+        "pubDate": "Sun, 18 Jan 2026 20:54:16 GMT"
+      },
+      {
         "title": "Government pulls Hillsborough Law amendment after backlash",
         "link": "https://www.bbc.com/news/articles/c5yvldj47v9o?at_medium=RSS&at_campaign=rss",
         "pubDate": "Sun, 18 Jan 2026 19:02:33 GMT"
@@ -518,18 +555,11 @@
         "title": "A deadly fire swept through a nightclub in just 90 seconds. I got out",
         "link": "https://www.bbc.com/news/articles/czejykzg77po?at_medium=RSS&at_campaign=rss",
         "pubDate": "Sun, 18 Jan 2026 00:08:10 GMT"
-      },
-      {
-        "title": "Around 1,500 US soldiers on standby for deployment to Minneapolis, officials say",
-        "link": "https://www.bbc.com/news/articles/c74v0pxg2nvo?at_medium=RSS&at_campaign=rss",
-        "pubDate": "Sun, 18 Jan 2026 20:30:16 GMT"
-      },
-      {
-        "title": "Chip wreck! Thousands of chips wash ashore on beach",
-        "link": "https://www.bbc.com/news/articles/c0lxkl3gd6jo?at_medium=RSS&at_campaign=rss",
-        "pubDate": "Sun, 18 Jan 2026 13:06:10 GMT"
       }
     ],
+    "STOCK": [],
+    "LM": [],
+    "CMDTY": [],
     "WSJMK": [
       {
         "title": "Fed Turmoil Is Threatening Dollar Supremacy Just as China Pushes the Yuan",

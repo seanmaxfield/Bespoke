@@ -152,6 +152,7 @@ def main():
 	copy_csv("dc_researchers_with_emails_CONSOLIDATED.csv")
 	copy_csv("journalists_china_asia_FULL.csv")
 	# Build feeds list (30+ sources) and latest items per feed
+	# Exact order to mirror the CLI "guide" list
 	feeds: List[Dict[str,str]] = [
 		{"abbr":"TS","title":"Top Stories","url":"https://www.rttnews.com/RSS/Todaystop.xml"},
 		{"abbr":"BN","title":"Breaking News","url":"https://www.rttnews.com/RSS/breakingnews.xml"},
@@ -172,11 +173,14 @@ def main():
 		{"abbr":"ENTTOP","title":"Entertainment Top Story","url":"https://www.rttnews.com/RSS/EntTopStory.xml"},
 		{"abbr":"MUSIC","title":"Music News","url":"https://www.rttnews.com/RSS/MusicNews.xml"},
 		{"abbr":"MOVREV","title":"Movie Reviews","url":"https://www.rttnews.com/RSS/MovieReviews.xml"},
+		{"abbr":"DVD","title":"DVD Releases","url":"https://www.rttnews.com/RSS/DVDReleases.xml"},
 		{"abbr":"FXTOP","title":"Forex Top Story","url":"https://www.rttnews.com/RSS/ForexTopStory.xml"},
 		{"abbr":"CURR","title":"Currency Market","url":"https://www.rttnews.com/RSS/CurrencyAlerts.xml"},
 		{"abbr":"HEALTH","title":"Health News","url":"https://www.rttnews.com/RSS/HealthNews.xml"},
 		{"abbr":"BIO","title":"Biotech","url":"https://www.rttnews.com/RSS/Biotech.xml"},
 		{"abbr":"TECH","title":"Technology","url":"https://www.rttnews.com/RSS/Technology.xml"},
+		{"abbr":"MOM","title":"Momentum","url":"https://www.rttnews.com/RSS/Momentum.xml"},
+		{"abbr":"BELL","title":"Before The Bell","url":"https://www.rttnews.com/RSS/StockAlerts.xml"},
 		{"abbr":"NYT","title":"The New York Times - Home Page","url":"https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"},
 		{"abbr":"WP","title":"The Washington Post - Politics","url":"https://feeds.washingtonpost.com/rss/politics"},
 		{"abbr":"GDNME","title":"The Guardian - Middle East","url":"https://www.theguardian.com/world/middleeast/rss"},
@@ -184,9 +188,8 @@ def main():
 		{"abbr":"PLDEF","title":"Politico - Defense","url":"https://rss.politico.com/defense.xml"},
 		{"abbr":"PLPOL","title":"Politico - Politics","url":"https://rss.politico.com/politics-news.xml"},
 		{"abbr":"BBC","title":"BBC News - Top Stories","url":"https://feeds.bbci.co.uk/news/rss.xml"},
-		# Special utility for parity with CLI
-		{"abbr":"STOCK","title":"Stock Lookup (price, news) — use: STOCK TICKER","url":""},
-		{"abbr":"LM","title":"LiveUAMap (opens site)","url":"https://liveuamap.com"},
+		{"abbr":"STOCK","title":"Stock Lookup (price, fundamentals, news) - use: 35 TICKER","url":""},
+		{"abbr":"LM","title":"LiveUAMap","url":"https://liveuamap.com"},
 		{"abbr":"CMDTY","title":"Commodities Snapshot (price, 1w, 1m change)","url":""},
 		{"abbr":"WSJMK","title":"WSJ - Markets","url":"https://feeds.content.dowjones.io/public/rss/RSSMarketsMain"},
 		{"abbr":"WSJWR","title":"WSJ - World News","url":"https://feeds.content.dowjones.io/public/rss/RSSWorldNews"},

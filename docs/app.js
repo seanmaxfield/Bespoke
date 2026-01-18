@@ -246,6 +246,7 @@ async function main() {
 		try {
 			const payload = await fetchJSON("data/feeds.json");
 			const feeds = payload.feeds || [];
+			window.__feedsOrder = feeds;
 			feedSelect.innerHTML = "";
 			feeds.forEach(f => {
 				const opt = document.createElement("option");
@@ -364,7 +365,11 @@ async function main() {
 		const first = parts[0];
 		// numeric index
 		if (/^\d+$/.test(first)) {
-			return {mode:"feed_index", index: parseInt(first,10)};
+			const idx = parseInt(first,10);
+			if (parts.length >= 2 && window.__feedsOrder && window.__feedsOrder[idx-1] && (window.__feedsOrder[idx-1].abbr || "").toUpperCase() === "STOCK") {
+				return {mode:"stock", ticker: parts[1].toUpperCase()};
+			}
+			return {mode:"feed_index", index: idx};
 		}
 		// specials and abbr/title
 		const up = first.toUpperCase();
