@@ -411,9 +411,6 @@ async function main() {
 	const feedSelect = document.getElementById("feed-select");
 	const btnFeedLoad = document.getElementById("btn-feed-load");
 	const btnCalendar = document.getElementById("btn-calendar");
-	const btnWidgets = document.getElementById("btn-widgets");
-	const widgetsDropdown = document.getElementById("widgets-dropdown");
-	const widgetsMenu = document.getElementById("widgets-menu");
 	const cmdInput = document.getElementById("cmd-input");
 	const cmdRun = document.getElementById("cmd-run");
 
@@ -722,21 +719,16 @@ async function main() {
 	}
 	btnCalendar.addEventListener("click", createCalendarOverlay);
 
-	// Widgets dropdown open/close
-	btnWidgets.addEventListener("click", (e) => {
-		e.stopPropagation();
-		widgetsDropdown.classList.toggle("open");
-	});
-	document.addEventListener("click", (e) => {
-		if (!widgetsDropdown.contains(e.target)) widgetsDropdown.classList.remove("open");
-	});
-	widgetsMenu.addEventListener("click", (e) => {
-		if (e.target && e.target.tagName === "BUTTON") {
-			const kind = e.target.dataset.widget;
-			if (kind) openTradingViewWidget(kind);
-			widgetsDropdown.classList.remove("open");
-		}
-	});
+	// TradingView widgets (for numbered commands 42+)
+	const TV_WIDGETS = [
+		{ key:"advanced-chart", title:"Advanced Chart" },
+		{ key:"symbol-overview", title:"Symbol Overview" },
+		{ key:"stock-heatmap", title:"Stock Heatmap" },
+		{ key:"screener", title:"Screener" },
+		{ key:"fundamental-data", title:"Fundamental Data" },
+		{ key:"company-profile", title:"Company Profile" },
+		{ key:"economic-map", title:"Economic Map" },
+	];
 
 	function openTradingViewWidget(kind) {
 		const MAP = {
@@ -855,9 +847,16 @@ async function main() {
 		(feedsIndex.feeds || []).forEach((f, i) => {
 			lines.push(`${String(i+1).padStart(2," ")}. ${f.abbr.padEnd(6," ")} ${f.title}`);
 		});
+		const base = 41; // next numbers start at 42
+		lines.push("");
+		lines.push("Trading Widgets");
+		lines.push("------------------");
+		TV_WIDGETS.forEach((w, idx) => {
+			lines.push(`${String(base + idx + 1).padStart(2," ")}. ${w.title}`);
+		});
 		lines.push("");
 		lines.push('Select a feed by number, abbreviation, or title.');
-		lines.push('Usage: 35 TICKER (e.g., 35 AAPL) or "STOCK AAPL". Specials: CMDTY, LM.');
+		lines.push('Usage: 35 TICKER (e.g., 35 AAPL) or "STOCK AAPL". Specials: CMDTY, LM. Widgets: 42+');
 		lines.push("");
 		renderOutputBlock(lines.join("\n"));
 	}
@@ -939,7 +938,17 @@ async function main() {
 		let abbr = null;
 		if (sel.mode === "feed_index") {
 			const idx = sel.index - 1;
-			if (feedsIndex?.feeds && feedsIndex.feeds[idx]) abbr = feedsIndex.feeds[idx].abbr;
+			// 1..41 => feeds; 42+ => widgets
+			if (feedsIndex?.feeds && idx < feedsIndex.feeds.length) {
+				abbr = feedsIndex.feeds[idx].abbr;
+			} else {
+				const base = 41;
+				const wIdx = sel.index - base - 1;
+				if (wIdx >= 0 && wIdx < TV_WIDGETS.length) {
+					openTradingViewWidget(TV_WIDGETS[wIdx].key);
+					return;
+				}
+			}
 		} else if (sel.mode === "search") {
 			const txt = sel.text.toLowerCase();
 			// abbr exact
