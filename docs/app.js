@@ -410,6 +410,7 @@ async function main() {
 	const btnRecent = document.getElementById("btn-recent");
 	const feedSelect = document.getElementById("feed-select");
 	const btnFeedLoad = document.getElementById("btn-feed-load");
+	const btnCalendar = document.getElementById("btn-calendar");
 	const cmdInput = document.getElementById("cmd-input");
 	const cmdRun = document.getElementById("cmd-run");
 
@@ -645,6 +646,75 @@ async function main() {
 			await showRecentForSelected();
 		}
 	});
+
+	// TradingView Economic Calendar - draggable overlay
+	function createCalendarOverlay() {
+		let overlay = document.getElementById("tv-calendar-overlay");
+		if (overlay) {
+			overlay.classList.toggle("hidden");
+			return;
+		}
+		overlay = document.createElement("div");
+		overlay.id = "tv-calendar-overlay";
+		overlay.className = "floating-overlay";
+		const header = document.createElement("div");
+		header.className = "floating-header";
+		const title = document.createElement("div");
+		title.className = "floating-title";
+		title.textContent = "Economic Calendar";
+		const close = document.createElement("button");
+		close.className = "floating-close";
+		close.innerHTML = "&times;";
+		close.addEventListener("click", () => overlay.classList.add("hidden"));
+		header.appendChild(title);
+		header.appendChild(close);
+		const body = document.createElement("div");
+		body.className = "floating-body";
+		// TradingView widget container
+		const container = document.createElement("div");
+		container.className = "tradingview-widget-container";
+		const widget = document.createElement("div");
+		widget.className = "tradingview-widget-container__widget";
+		container.appendChild(widget);
+		const script = document.createElement("script");
+		script.type = "text/javascript";
+		script.async = true;
+		script.src = "https://s3.tradingview.com/external-embedding/embed-widget-events.js";
+		script.innerHTML = JSON.stringify({
+			colorTheme: "light",
+			isTransparent: false,
+			width: "100%",
+			height: "100%",
+			locale: "en",
+			importanceFilter: "-1,0,1",
+			currencyFilter: ""
+		});
+		container.appendChild(script);
+		body.appendChild(container);
+		overlay.appendChild(header);
+		overlay.appendChild(body);
+		document.body.appendChild(overlay);
+		// Dragging
+		let drag = {x:0, y:0, left:0, top:0, active:false};
+		header.addEventListener("mousedown", (e) => {
+			drag.active = true;
+			drag.x = e.clientX;
+			drag.y = e.clientY;
+			const rect = overlay.getBoundingClientRect();
+			drag.left = rect.left;
+			drag.top = rect.top;
+			e.preventDefault();
+		});
+		document.addEventListener("mousemove", (e) => {
+			if (!drag.active) return;
+			const dx = e.clientX - drag.x;
+			const dy = e.clientY - drag.y;
+			overlay.style.left = Math.max(0, drag.left + dx) + "px";
+			overlay.style.top = Math.max(0, drag.top + dy) + "px";
+		});
+		document.addEventListener("mouseup", () => drag.active = false);
+	}
+	btnCalendar.addEventListener("click", createCalendarOverlay);
 
 	// Command parsing and execution
 	let feedsIndex = null;
