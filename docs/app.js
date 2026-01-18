@@ -92,7 +92,8 @@ async function fetchRecentBlock(name, org, email) {
 	const base = "https://news.google.com/rss/search";
 	const url = `${base}?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
 	try {
-		const xml = await fetchText(url);
+		// Use CORS-friendly proxy to fetch the RSS
+		const xml = await fetchText(makeProxyUrl(url));
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(xml, "text/xml");
 		const items = Array.from(doc.querySelectorAll("item")).slice(0, 10);
