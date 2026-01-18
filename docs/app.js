@@ -688,6 +688,11 @@ async function main() {
 		// TradingView supports config in hash after JSON-encoded string
 		const hash = encodeURIComponent(JSON.stringify(cfg));
 		iframe.src = `https://s.tradingview.com/embed-widget/events/?locale=en#${hash}`;
+		iframe.addEventListener("error", () => {
+			// Fallback: open calendar in a new tab if the embed fails (adblock/network issue)
+			window.open("https://www.tradingview.com/markets/fx/economic-calendar/", "_blank", "noopener,noreferrer");
+			overlay.classList.add("hidden");
+		});
 		body.appendChild(iframe);
 		overlay.appendChild(header);
 		overlay.appendChild(body);
