@@ -411,6 +411,9 @@ async function main() {
 	const feedSelect = document.getElementById("feed-select");
 	const btnFeedLoad = document.getElementById("btn-feed-load");
 	const btnCalendar = document.getElementById("btn-calendar");
+	const btnWidgets = document.getElementById("btn-widgets");
+	const widgetsDropdown = document.getElementById("widgets-dropdown");
+	const widgetsMenu = document.getElementById("widgets-menu");
 	const cmdInput = document.getElementById("cmd-input");
 	const cmdRun = document.getElementById("cmd-run");
 
@@ -718,6 +721,127 @@ async function main() {
 		document.addEventListener("mouseup", () => drag.active = false);
 	}
 	btnCalendar.addEventListener("click", createCalendarOverlay);
+
+	// Widgets dropdown open/close
+	btnWidgets.addEventListener("click", (e) => {
+		e.stopPropagation();
+		widgetsDropdown.classList.toggle("open");
+	});
+	document.addEventListener("click", (e) => {
+		if (!widgetsDropdown.contains(e.target)) widgetsDropdown.classList.remove("open");
+	});
+	widgetsMenu.addEventListener("click", (e) => {
+		if (e.target && e.target.tagName === "BUTTON") {
+			const kind = e.target.dataset.widget;
+			if (kind) openTradingViewWidget(kind);
+			widgetsDropdown.classList.remove("open");
+		}
+	});
+
+	function openTradingViewWidget(kind) {
+		const MAP = {
+			"advanced-chart": {
+				title: "Advanced Chart",
+				path: "advanced-chart",
+				cfg: { autosize: true, symbol: "AAPL", interval: "D", timezone: "Etc/UTC", theme: "light" },
+				fallback: "https://www.tradingview.com/chart/?symbol=AAPL"
+			},
+			"symbol-overview": {
+				title: "Symbol Overview",
+				path: "symbol-overview",
+				// Minimal valid config: single symbol with timeframe
+				cfg: { colorTheme: "light", symbols: [["Apple","AAPL|1D"]], isTransparent: false, showChart: true, locale: "en" },
+				fallback: "https://www.tradingview.com/symbols/NASDAQ-AAPL/"
+			},
+			"stock-heatmap": {
+				title: "Stock Heatmap",
+				path: "stock-heatmap",
+				cfg: { colorTheme: "light", dataSource: "SPX500", grouping: "sector", blockSize: "market_cap_basic", locale: "en" },
+				fallback: "https://www.tradingview.com/heatmap/stock/"
+			},
+			"screener": {
+				title: "Screener",
+				path: "screener",
+				cfg: { locale: "en", colorTheme: "light", defaultColumn: "overview", screener_type: "stock", displayCurrency: "USD" },
+				fallback: "https://www.tradingview.com/screener/"
+			},
+			"fundamental-data": {
+				title: "Fundamental Data",
+				path: "fundamental-data",
+				cfg: { symbol: "AAPL", colorTheme: "light", isTransparent: false, largeChartUrl: "", displayMode: "compact", width: "100%", height: "100%" },
+				fallback: "https://www.tradingview.com/symbols/NASDAQ-AAPL/financials-overview/"
+			},
+			"company-profile": {
+				title: "Company Profile",
+				path: "company-profile",
+				cfg: { symbol: "AAPL", colorTheme: "light", isTransparent: false, width: "100%", height: "100%" },
+				fallback: "https://www.tradingview.com/symbols/NASDAQ-AAPL/company-profile/"
+			},
+			"economic-map": {
+				title: "Economic Map",
+				path: "economic-map",
+				cfg: { colorTheme: "light", isTransparent: false, width: "100%", height: "100%", locale: "en" },
+				fallback: "https://www.tradingview.com/economic-map/"
+			}
+		};
+		const meta = MAP[kind];
+		if (!meta) return;
+		const overlayId = `tv-${kind}-overlay`;
+		let overlay = document.getElementById(overlayId);
+		if (!overlay) {
+			overlay = document.createElement("div");
+			overlay.id = overlayId;
+			overlay.className = "floating-overlay";
+			const header = document.createElement("div");
+			header.className = "floating-header";
+			const title = document.createElement("div");
+			title.className = "floating-title";
+			title.textContent = meta.title;
+			const close = document.createElement("button");
+			close.className = "floating-close";
+			close.innerHTML = "&times;";
+			close.addEventListener("click", () => overlay.classList.add("hidden"));
+			header.appendChild(title);
+			header.appendChild(close);
+			const body = document.createElement("div");
+			body.className = "floating-body";
+			const iframe = document.createElement("iframe");
+			iframe.setAttribute("allowtransparency", "true");
+			iframe.setAttribute("frameborder", "0");
+			iframe.style.width = "100%";
+			iframe.style.height = "100%";
+			const hash = encodeURIComponent(JSON.stringify(meta.cfg || {}));
+			iframe.src = `https://s.tradingview.com/embed-widget/${meta.path}/?locale=en#${hash}`;
+			iframe.addEventListener("error", () => {
+				if (meta.fallback) window.open(meta.fallback, "_blank", "noopener,noreferrer");
+				overlay.classList.add("hidden");
+			});
+			body.appendChild(iframe);
+			overlay.appendChild(header);
+			overlay.appendChild(body);
+			document.body.appendChild(overlay);
+			// Dragging
+			let drag = {x:0, y:0, left:0, top:0, active:false};
+			header.addEventListener("mousedown", (e) => {
+				drag.active = true;
+				drag.x = e.clientX;
+				drag.y = e.clientY;
+				const rect = overlay.getBoundingClientRect();
+				drag.left = rect.left;
+				drag.top = rect.top;
+				e.preventDefault();
+			});
+			document.addEventListener("mousemove", (e) => {
+				if (!drag.active) return;
+				const dx = e.clientX - drag.x;
+				const dy = e.clientY - drag.y;
+				overlay.style.left = Math.max(0, drag.left + dx) + "px";
+				overlay.style.top = Math.max(0, drag.top + dy) + "px";
+			});
+			document.addEventListener("mouseup", () => drag.active = false);
+		}
+		overlay.classList.remove("hidden");
+	}
 
 	// Command parsing and execution
 	let feedsIndex = null;

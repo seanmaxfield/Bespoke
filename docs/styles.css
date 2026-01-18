@@ -49,6 +49,18 @@ body{
 .feed-controls button#btn-calendar{
 	background:#0b57d0;color:#fff;border:none;border-radius:6px;padding:8px 12px;font-weight:600;cursor:pointer
 }
+/* Widgets dropdown */
+.dropdown{position:relative}
+.dropdown > button#btn-widgets{background:#0b57d0;color:#fff;border:none;border-radius:6px;padding:8px 12px;font-weight:600;cursor:pointer}
+.dropdown-menu{
+	position:absolute;top:100%;left:0;background:#fff;border:1px solid #d0d7de;border-radius:8px;
+	box-shadow:0 8px 24px rgba(0,0,0,.12);padding:6px;margin-top:6px;display:none;z-index:10000;min-width:220px
+}
+.dropdown.open .dropdown-menu{display:block}
+.dropdown-menu button{
+	display:block;width:100%;text-align:left;background:#fff;border:none;border-radius:6px;padding:8px 10px;cursor:pointer;color:var(--text)
+}
+.dropdown-menu button:hover{background:#f4f6f8}
 .output{
 	white-space:pre-wrap;
 	line-height:1.35;

@@ -20,6 +20,18 @@
 				</label>
 				<button id="btn-feed-load">Load Feed</button>
 				<button id="btn-calendar">Calendar</button>
+				<div class="dropdown" id="widgets-dropdown">
+					<button id="btn-widgets">Widgets ▾</button>
+					<div class="dropdown-menu" id="widgets-menu">
+						<button data-widget="advanced-chart">Advanced Chart</button>
+						<button data-widget="symbol-overview">Symbol Overview</button>
+						<button data-widget="stock-heatmap">Stock Heatmap</button>
+						<button data-widget="screener">Screener</button>
+						<button data-widget="fundamental-data">Fundamental Data</button>
+						<button data-widget="company-profile">Company Profile</button>
+						<button data-widget="economic-map">Economic Map</button>
+					</div>
+				</div>
 			</div>
 			<div id="cmd-bar" class="cmd-bar">
 				<input id="cmd-input" type="text" placeholder='Enter command (e.g., "guide", "34", "STOCK AAPL", "CMDTY")' />
@@ -65,7 +77,7 @@
 		</div>
 	</div>
 
-	<script src="app.js?v=5"></script>
+	<script src="app.js?v=6"></script>
 </body>
 </html>
 
