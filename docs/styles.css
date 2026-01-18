@@ -119,6 +119,11 @@ thead th{
 }
 tbody td{padding:8px;border-bottom:1px solid #eaeef2}
 tbody tr:hover{background:#f4f6f8}
+tbody tr.selected{
+	background:#eaf2ff; /* subtle blue */
+	outline:2px solid #d5e7ff;
+	outline-offset:-2px;
+}
 .actions{
 	padding:10px;border-top:1px solid #e0e3e7;background:var(--panel)
 }
