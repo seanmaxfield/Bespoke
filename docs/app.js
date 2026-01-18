@@ -410,7 +410,6 @@ async function main() {
 	const btnRecent = document.getElementById("btn-recent");
 	const feedSelect = document.getElementById("feed-select");
 	const btnFeedLoad = document.getElementById("btn-feed-load");
-	const btnCalendar = document.getElementById("btn-calendar");
 	const cmdInput = document.getElementById("cmd-input");
 	const cmdRun = document.getElementById("cmd-run");
 
@@ -717,7 +716,7 @@ async function main() {
 		});
 		document.addEventListener("mouseup", () => drag.active = false);
 	}
-	btnCalendar.addEventListener("click", createCalendarOverlay);
+	// Calendar invoked via command list (item 49)
 
 	// TradingView widgets (for numbered commands 42+)
 	const TV_WIDGETS = [
@@ -894,6 +893,7 @@ async function main() {
 		TV_WIDGETS.forEach((w, idx) => {
 			lines.push(`${String(base + idx + 1).padStart(2," ")}. ${w.title}`);
 		});
+		lines.push(`${String(base + TV_WIDGETS.length + 1).padStart(2," ")}. Economic Calendar`);
 		lines.push("");
 		lines.push('Select a feed by number, abbreviation, or title.');
 		lines.push('Usage: 35 TICKER (e.g., 35 AAPL) or "STOCK AAPL". Specials: CMDTY, LM. Widgets: 42+');
@@ -986,6 +986,9 @@ async function main() {
 				const wIdx = sel.index - base - 1;
 				if (wIdx >= 0 && wIdx < TV_WIDGETS.length) {
 					openTradingViewWidget(TV_WIDGETS[wIdx].key);
+					return;
+				} else if (wIdx === TV_WIDGETS.length) {
+					createCalendarOverlay();
 					return;
 				}
 			}
