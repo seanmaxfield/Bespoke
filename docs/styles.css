@@ -66,6 +66,8 @@ body{
 	flex:0 0 auto;
 	display:flex;
 	flex-direction:column;
+	min-width:0;
+	overflow:hidden;
 }
 .side-header{
 	display:flex;
@@ -100,6 +102,11 @@ body{
 	background:#fff;color:var(--text);
 	border:1px solid #d0d7de;border-radius:6px;
 	padding:6px 8px;
+}
+/* Collapse grid to a single column on tighter layouts */
+@media (max-width: 900px){
+	#right{ width:320px; }
+	.filters{ grid-template-columns: 1fr; }
 }
 .list{
 	flex:1 1 auto;overflow:auto;
