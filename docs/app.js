@@ -115,6 +115,142 @@ async function fetchRecentBlock(name, org, email) {
 	}
 }
 
+// ---- Finnhub (parity with Python CLI) ----
+const FINNHUB_DEFAULT_KEY = "cr59shhr01qrns9mpm20cr59shhr01qrns9mpm2g";
+function getFinnhubKey() {
+	// Allow override via localStorage or ?finnhub=KEY
+	const url = new URL(window.location.href);
+	const qp = url.searchParams.get("finnhub");
+	if (qp) return qp;
+	const ls = localStorage.getItem("FINNHUB_API_KEY");
+	return ls || FINNHUB_DEFAULT_KEY;
+}
+async function finnhubJSON(path, params) {
+	const token = getFinnhubKey();
+	const u = new URL("https://finnhub.io" + path);
+	Object.entries(params || {}).forEach(([k, v]) => u.searchParams.set(k, v));
+	u.searchParams.set("token", token);
+	const r = await fetch(u.toString(), { cache: "no-store" });
+	if (!r.ok) throw new Error(`Finnhub ${path} ${r.status}`);
+	return await r.json();
+}
+async function finnhubQuote(symbol) {
+	return await finnhubJSON("/api/v1/quote", { symbol });
+}
+async function finnhubProfile(symbol) {
+	return await finnhubJSON("/api/v1/stock/profile2", { symbol });
+}
+async function finnhubMetric(symbol) {
+	const m = await finnhubJSON("/api/v1/stock/metric", { symbol, metric: "all" });
+	return (m && m.metric) ? m.metric : {};
+}
+async function finnhubCompanyNews(symbol) {
+	const to = new Date();
+	const from = new Date(to.getTime() - 10 * 24 * 60 * 60 * 1000);
+	function iso(d){ return d.toISOString().slice(0,10); }
+	return await finnhubJSON("/api/v1/company-news", { symbol, from: iso(from), to: iso(to) });
+}
+function humanNumber(value) {
+	let num = Number(value);
+	if (!isFinite(num)) return "";
+	const abs = Math.abs(num);
+	if (abs >= 1e12) return (num/1e12).toFixed(2) + "T";
+	if (abs >= 1e9) return (num/1e9).toFixed(2) + "B";
+	if (abs >= 1e6) return (num/1e6).toFixed(2) + "M";
+	if (abs >= 1e3) return (num/1e3).toFixed(2) + "K";
+	return num.toFixed(2);
+}
+function asPercent(v) {
+	if (v == null || isNaN(v)) return null;
+	let num = Number(v);
+	if (Math.abs(num) <= 1) num *= 100;
+	return num.toFixed(2) + "%";
+}
+async function renderStockViaFinnhub(ticker) {
+	try {
+		const [quote, profile, metrics] = await Promise.all([
+			finnhubQuote(ticker),
+			finnhubProfile(ticker),
+			finnhubMetric(ticker),
+		]);
+		const name = profile.name || profile.ticker || ticker;
+		const currency = profile.currency || "";
+		const price = quote.c;
+		const change = quote.d;
+		const changePct = quote.dp;
+		const dayLow = quote.l, dayHigh = quote.h;
+		const marketCap = profile.marketCapitalization;
+		const lines = [];
+		lines.push(`${name} (${ticker})`);
+		if (price != null) lines.push(`Price: ${price} ${currency}`);
+		if (change != null && changePct != null) {
+			lines.push(`Change: ${change} (${Number(changePct).toFixed(2)}%)`);
+		}
+		if (marketCap != null) lines.push(`Market Cap: ${humanNumber(marketCap * 1e6)}`);
+		lines.push("");
+		lines.push("Fundamentals");
+		lines.push("------------");
+		if (dayLow != null && dayHigh != null) lines.push(`Day Range: ${dayLow} - ${dayHigh}`);
+		const yrLow = metrics["52WeekLow"] || metrics["fiftyTwoWeekLow"];
+		const yrHigh = metrics["52WeekHigh"] || metrics["fiftyTwoWeekHigh"];
+		if (yrLow != null && yrHigh != null) lines.push(`52W Range: ${yrLow} - ${yrHigh}`);
+		const pe = metrics["peBasicExclExtraTTM"] || metrics["peNormalizedAnnual"];
+		if (pe != null) lines.push(`PE (TTM): ${Number(pe).toFixed(2)}`);
+		const eps = metrics["epsExclExtraItemsTTM"] || metrics["epsBasicExclExtraItemsTTM"];
+		if (eps != null) lines.push(`EPS (TTM): ${Number(eps).toFixed(2)}`);
+		// Dividend yield (derive)
+		const divPS = metrics["dividendPerShareTTM"] || metrics["dividendPerShareAnnual"] || metrics["dividendTTM"] || metrics["dividendPerShareTrailing12Months"];
+		let divYieldPct = null;
+		if (divPS != null && price) {
+			try { divYieldPct = (Number(divPS) / Number(price)) * 100; } catch {}
+		}
+		if (divYieldPct == null) {
+			const raw = metrics["dividendYieldTTM"] || metrics["dividendYieldIndicatedAnnual"] || metrics["dividendYieldAnnual"];
+			if (raw != null) {
+				const val = Number(raw);
+				if (val > 0 && val <= 1) divYieldPct = val * 100;
+				else if (val > 1 && val < 20) divYieldPct = val;
+			}
+		}
+		if (divYieldPct != null) lines.push(`Dividend Yield: ${divYieldPct.toFixed(2)}%`);
+		const gm = asPercent(metrics["grossMarginTTM"]);
+		if (gm) lines.push(`Gross Margins: ${gm}`);
+		const om = asPercent(metrics["operatingMarginTTM"]);
+		if (om) lines.push(`Operating Margin: ${om}`);
+		const pm = asPercent(metrics["netProfitMarginTTM"]);
+		if (pm) lines.push(`Profit Margin: ${pm}`);
+		if (profile.finnhubIndustry) lines.push(`Sector/Industry: ${profile.finnhubIndustry}`);
+		lines.push("");
+		lines.push("Latest News");
+		lines.push("-----------");
+		const news = await finnhubCompanyNews(ticker);
+		if (!Array.isArray(news) || news.length === 0) {
+			lines.push("No news found.");
+		} else {
+			news.slice(0, 10).forEach((n, i) => {
+				const title = n.headline || "";
+				const link = n.url || "";
+				const source = n.source || "";
+				let dateStr = "";
+				if (n.datetime) {
+					try {
+						dateStr = new Date(Number(n.datetime) * 1000).toUTCString().replace(" GMT","");
+					} catch {}
+				}
+				lines.push(`${String(i+1).padStart(2," ")}. ${title}`);
+				const meta = [source, dateStr].filter(Boolean).join(" ");
+				if (meta) lines.push(`    ${meta}`);
+				if (link) lines.push(`    ${link}`);
+			});
+		}
+		lines.push("");
+		renderOutputBlock(lines.join("\n"));
+		return true;
+	} catch (e) {
+		return false;
+	}
+}
+
 async function fetchYahooQuote(symbol) {
 	const urls = [
 		`https://query1.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(symbol)}`,
@@ -353,7 +489,8 @@ async function main() {
 			lines.push(`${String(i+1).padStart(2," ")}. ${f.abbr.padEnd(6," ")} ${f.title}`);
 		});
 		lines.push("");
-		lines.push('Select a feed by number, abbreviation, or title. Special: "STOCK TICKER", "CMDTY", "LM"');
+		lines.push('Select a feed by number, abbreviation, or title.');
+		lines.push('Usage: 35 TICKER (e.g., 35 AAPL) or "STOCK AAPL". Specials: CMDTY, LM.');
 		lines.push("");
 		renderOutputBlock(lines.join("\n"));
 	}
@@ -414,22 +551,26 @@ async function main() {
 			return;
 		}
 		if (sel.mode === "stock") {
-			const q = await fetchYahooQuote(sel.ticker);
-			if (!q) { renderOutputBlock("Failed to fetch stock data.\n"); return; }
-			const lines = [];
-			const name = q.shortName || q.longName || sel.ticker;
-			const price = q.regularMarketPrice;
-			const chg = q.regularMarketChange;
-			const pct = q.regularMarketChangePercent;
-			lines.push(`${name} (${sel.ticker})`);
-			if (price != null) lines.push(`Price: ${price}`);
-			if (chg != null && pct != null) lines.push(`Change: ${chg} (${pct.toFixed(2)}%)`);
-			lines.push("");
-			lines.push("Latest News");
-			lines.push("-----------");
-			const block = await fetchRecentBlock(sel.ticker, "", "");
-			lines.push(block);
-			renderOutputBlock(lines.join("\n"));
+			// Try Finnhub parity first; fallback to Yahoo + Google News
+			const ok = await renderStockViaFinnhub(sel.ticker);
+			if (!ok) {
+				const q = await fetchYahooQuote(sel.ticker);
+				if (!q) { renderOutputBlock("Failed to fetch stock data.\n"); return; }
+				const lines = [];
+				const name = q.shortName || q.longName || sel.ticker;
+				const price = q.regularMarketPrice;
+				const chg = q.regularMarketChange;
+				const pct = q.regularMarketChangePercent;
+				lines.push(`${name} (${sel.ticker})`);
+				if (price != null) lines.push(`Price: ${price}`);
+				if (chg != null && pct != null) lines.push(`Change: ${chg} (${pct.toFixed(2)}%)`);
+				lines.push("");
+				lines.push("Latest News");
+				lines.push("-----------");
+				const block = await fetchRecentBlock(sel.ticker, "", "");
+				lines.push(block);
+				renderOutputBlock(lines.join("\n"));
+			}
 			return;
 		}
 		// feed by index or by abbr/title search
