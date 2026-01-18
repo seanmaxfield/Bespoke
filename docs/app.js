@@ -21,6 +21,11 @@ async function fetchText(url) {
 	if (!r.ok) throw new Error(`fetch ${url} ${r.status}`);
 	return await r.text();
 }
+function fetchTextCORS(url) {
+	// Prefer a CORS pass-through that preserves XML (needed for RSS)
+	const proxied = "https://cors.isomorphic-git.org/" + url;
+	return fetchText(proxied);
+}
 
 function setTape(element, pieces) {
 	// pieces: [{text, cls}]
@@ -93,7 +98,7 @@ async function fetchRecentBlock(name, org, email) {
 	const url = `${base}?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
 	try {
 		// Use CORS-friendly proxy to fetch the RSS
-		const xml = await fetchText(makeProxyUrl(url));
+		const xml = await fetchTextCORS(url);
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(xml, "text/xml");
 		const items = Array.from(doc.querySelectorAll("item")).slice(0, 10);
@@ -461,8 +466,7 @@ async function main() {
 
 	async function fetchFeedLive(feedUrl) {
 		try {
-			const proxied = makeProxyUrl(feedUrl);
-			const xml = await fetchText(proxied);
+			const xml = await fetchTextCORS(feedUrl);
 			const parser = new DOMParser();
 			const doc = parser.parseFromString(xml, "text/xml");
 			const items = Array.from(doc.querySelectorAll("item")).slice(0, 25);
