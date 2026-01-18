@@ -721,7 +721,6 @@ async function main() {
 	// TradingView widgets (for numbered commands 42+)
 	const TV_WIDGETS = [
 		{ key:"advanced-chart", title:"Advanced Chart" },
-		{ key:"symbol-overview", title:"Symbol Overview" },
 		{ key:"stock-heatmap", title:"Stock Heatmap" },
 		{ key:"screener", title:"Screener" },
 		{ key:"fundamental-data", title:"Fundamental Data" },
@@ -745,13 +744,6 @@ async function main() {
 					hide_top_toolbar: false
 				}),
 				fallback: (symbol="AAPL") => `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(symbol)}`,
-				acceptsSymbol: true
-			},
-			"symbol-overview": {
-				title: "Symbol Overview",
-				path: "symbol-overview",
-				genCfg: (symbol="AAPL") => ({ colorTheme: "light", symbols: [["", `${symbol}|1D`]], isTransparent: false, showChart: true, locale: "en" }),
-				fallback: (symbol="AAPL") => `https://www.tradingview.com/symbols/${encodeURIComponent(symbol)}/`,
 				acceptsSymbol: true
 			},
 			"stock-heatmap": {
