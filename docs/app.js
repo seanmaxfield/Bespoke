@@ -133,6 +133,8 @@ async function main() {
 	const searchBox = document.getElementById("search-box");
 	const tableBody = document.querySelector("#people-table tbody");
 	const btnRecent = document.getElementById("btn-recent");
+	const feedSelect = document.getElementById("feed-select");
+	const btnFeedLoad = document.getElementById("btn-feed-load");
 
 	function setSelectOptions(select, values) {
 		select.innerHTML = "";
@@ -176,6 +178,58 @@ async function main() {
 		orgSel.value = ""; topicSel.value = ""; searchBox.value = "";
 		renderTable();
 	}
+
+	// Load feed list for left controls
+	async function loadFeedsIndex() {
+		try {
+			const payload = await fetchJSON("data/feeds.json");
+			const feeds = payload.feeds || [];
+			feedSelect.innerHTML = "";
+			feeds.forEach(f => {
+				const opt = document.createElement("option");
+				opt.value = f.abbr;
+				opt.textContent = `${f.abbr} — ${f.title}`;
+				feedSelect.appendChild(opt);
+			});
+			if (feeds.length === 0) {
+				const opt = document.createElement("option");
+				opt.textContent = "No feeds available";
+				feedSelect.appendChild(opt);
+			}
+			return payload;
+		} catch (e) {
+			const opt = document.createElement("option");
+			opt.textContent = "Feeds unavailable";
+			feedSelect.appendChild(opt);
+			return null;
+		}
+	}
+
+	btnFeedLoad.addEventListener("click", async () => {
+		const abbr = feedSelect.value;
+		if (!abbr) return;
+		try {
+			// feeds.json already contains items; reload to get latest
+			const payload = await fetchJSON("data/feeds.json");
+			const items = (payload.data && payload.data[abbr]) ? payload.data[abbr] : [];
+			if (!items || items.length === 0) {
+				renderOutputBlock(`No items for ${abbr}.`);
+				return;
+			}
+			const lines = [];
+			lines.push(`Feed: ${abbr}`);
+			lines.push("------------------------------");
+			items.forEach((it, i) => {
+				lines.push(`${(i+1).toString().padStart(2," ")}. ${it.title}`);
+				if (it.pubDate) lines.push(`    ${it.pubDate}`);
+				if (it.link) lines.push(`    ${it.link}`);
+			});
+			lines.push("");
+			renderOutputBlock(lines.join("\n"));
+		} catch (e) {
+			renderOutputBlock(`Failed to load feed ${abbr}: ${e}`);
+		}
+	});
 
 	function filteredRows() {
 		const org = orgSel.value.trim();
@@ -224,6 +278,7 @@ async function main() {
 	});
 
 	await loadMode();
+	await loadFeedsIndex();
 }
 
 main().catch(err => {

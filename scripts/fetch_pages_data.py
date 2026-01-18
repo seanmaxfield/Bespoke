@@ -5,6 +5,7 @@ import time
 import urllib.request
 import urllib.parse
 import xml.etree.ElementTree as ET
+from typing import List, Dict
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
 OUT_DIR = os.path.join(ROOT, "docs", "data")
@@ -150,6 +151,63 @@ def main():
 	# keep CSVs in docs/data so the SPA can load them directly
 	copy_csv("dc_researchers_with_emails_CONSOLIDATED.csv")
 	copy_csv("journalists_china_asia_FULL.csv")
+	# Build feeds list (30+ sources) and latest items per feed
+	feeds: List[Dict[str,str]] = [
+		{"abbr":"TS","title":"Top Stories","url":"https://www.rttnews.com/RSS/Todaystop.xml"},
+		{"abbr":"BN","title":"Breaking News","url":"https://www.rttnews.com/RSS/breakingnews.xml"},
+		{"abbr":"ERN","title":"Earnings News","url":"https://www.rttnews.com/RSS/Earnings.xml"},
+		{"abbr":"POL","title":"Political News","url":"https://www.rttnews.com/RSS/Political.xml"},
+		{"abbr":"ECO","title":"Economic News","url":"https://www.rttnews.com/RSS/EconomicNews.xml"},
+		{"abbr":"IPO","title":"IPO News/Alerts","url":"https://www.rttnews.com/RSS/IPO.xml"},
+		{"abbr":"MA","title":"Market Analysis","url":"https://www.rttnews.com/RSS/MarketAnalysis.xml"},
+		{"abbr":"CMT","title":"Commentary","url":"https://www.rttnews.com/RSS/commentary.xml"},
+		{"abbr":"USMU","title":"US Market Updates","url":"https://www.rttnews.com/RSS/USMarketUpdate.xml"},
+		{"abbr":"EUMU","title":"European Market Updates","url":"https://www.rttnews.com/RSS/EuropeMarketUpdate.xml"},
+		{"abbr":"ASMU","title":"Asian Market Updates","url":"https://www.rttnews.com/RSS/AsiaMarketUpdate.xml"},
+		{"abbr":"PMTA","title":"Pre-Market Trading Alerts","url":"https://www.rttnews.com/RSS/stockalerts.xml"},
+		{"abbr":"STSA","title":"Short-Term Stock Alerts","url":"https://www.rttnews.com/RSS/momentum.xml"},
+		{"abbr":"HOT","title":"Hot Stocks","url":"https://www.rttnews.com/RSS/HotStocks.xml"},
+		{"abbr":"CAN","title":"Canadian News","url":"https://www.rttnews.com/RSS/canadiannews.xml"},
+		{"abbr":"SECT","title":"Market/Sector Trends","url":"https://www.rttnews.com/RSS/SectorTrends.xml"},
+		{"abbr":"ENTTOP","title":"Entertainment Top Story","url":"https://www.rttnews.com/RSS/EntTopStory.xml"},
+		{"abbr":"MUSIC","title":"Music News","url":"https://www.rttnews.com/RSS/MusicNews.xml"},
+		{"abbr":"MOVREV","title":"Movie Reviews","url":"https://www.rttnews.com/RSS/MovieReviews.xml"},
+		{"abbr":"FXTOP","title":"Forex Top Story","url":"https://www.rttnews.com/RSS/ForexTopStory.xml"},
+		{"abbr":"CURR","title":"Currency Market","url":"https://www.rttnews.com/RSS/CurrencyAlerts.xml"},
+		{"abbr":"HEALTH","title":"Health News","url":"https://www.rttnews.com/RSS/HealthNews.xml"},
+		{"abbr":"BIO","title":"Biotech","url":"https://www.rttnews.com/RSS/Biotech.xml"},
+		{"abbr":"TECH","title":"Technology","url":"https://www.rttnews.com/RSS/Technology.xml"},
+		{"abbr":"NYT","title":"The New York Times - Home Page","url":"https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"},
+		{"abbr":"WP","title":"The Washington Post - Politics","url":"https://feeds.washingtonpost.com/rss/politics"},
+		{"abbr":"GDNME","title":"The Guardian - Middle East","url":"https://www.theguardian.com/world/middleeast/rss"},
+		{"abbr":"PLCO","title":"Politico - Congress","url":"https://rss.politico.com/congress.xml"},
+		{"abbr":"PLDEF","title":"Politico - Defense","url":"https://rss.politico.com/defense.xml"},
+		{"abbr":"PLPOL","title":"Politico - Politics","url":"https://rss.politico.com/politics-news.xml"},
+		{"abbr":"BBC","title":"BBC News - Top Stories","url":"https://feeds.bbci.co.uk/news/rss.xml"},
+		{"abbr":"WSJMK","title":"WSJ - Markets","url":"https://feeds.content.dowjones.io/public/rss/RSSMarketsMain"},
+		{"abbr":"WSJWR","title":"WSJ - World News","url":"https://feeds.content.dowjones.io/public/rss/RSSWorldNews"},
+		{"abbr":"WSJECO","title":"WSJ - Economy","url":"https://feeds.content.dowjones.io/public/rss/socialeconomyfeed"},
+		{"abbr":"GDNWR","title":"The Guardian - World","url":"https://www.theguardian.com/world/rss"},
+	]
+	def fetch_feed(url: str, limit: int = 10):
+		try:
+			u = url + (("&" if "?" in url else "?") + f"_ts={int(time.time())}")
+			raw = fetch(u, headers={"User-Agent":"Mozilla/5.0","Accept":"application/rss+xml"})
+			root = ET.fromstring(raw)
+			items = root.findall(".//item")[:limit]
+			out = []
+			for it in items:
+				title = (it.findtext("title") or "").strip()
+				link = (it.findtext("link") or "").strip()
+				pub = (it.findtext("pubDate") or "").strip()
+				out.append({"title":title,"link":link,"pubDate":pub})
+			return out
+		except Exception:
+			return []
+	feeds_payload = {"feeds":[{"abbr":f["abbr"],"title":f["title"]} for f in feeds],"data":{}}
+	for f in feeds:
+		feeds_payload["data"][f["abbr"]] = fetch_feed(f["url"])
+	write_json(os.path.join(OUT_DIR, "feeds.json"), feeds_payload)
 	print("Wrote data files to docs/data/")
 
 if __name__ == "__main__":
