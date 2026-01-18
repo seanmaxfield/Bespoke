@@ -723,9 +723,6 @@ async function main() {
 		{ key:"advanced-chart", title:"Advanced Chart" },
 		{ key:"stock-heatmap", title:"Stock Heatmap" },
 		{ key:"screener", title:"Screener" },
-		{ key:"fundamental-data", title:"Fundamental Data" },
-		{ key:"company-profile", title:"Company Profile" },
-		{ key:"economic-map", title:"Economic Map" },
 	];
 
 	function openTradingViewWidget(kind) {
@@ -760,32 +757,6 @@ async function main() {
 				fallback: () => "https://www.tradingview.com/screener/",
 				acceptsSymbol: false
 			},
-			"fundamental-data": {
-				title: "Fundamental Data",
-				path: "fundamental-data",
-				genCfg: (symbol="AAPL") => ({ symbol, colorTheme: "light", isTransparent: false, largeChartUrl: "", displayMode: "compact", width: "100%", height: "100%" }),
-				fallback: (symbol="AAPL") => `https://www.tradingview.com/symbols/${encodeURIComponent(symbol)}/financials-overview/`,
-				acceptsSymbol: true,
-				useScript: true,
-				scriptSrc: "https://s3.tradingview.com/external-embedding/embed-widget-fundamental-data.js"
-			},
-			"company-profile": {
-				title: "Company Profile",
-				path: "company-profile",
-				genCfg: (symbol="AAPL") => ({ symbol, colorTheme: "light", isTransparent: false, width: "100%", height: "100%" }),
-				fallback: (symbol="AAPL") => `https://www.tradingview.com/symbols/${encodeURIComponent(symbol)}/company-profile/`,
-				acceptsSymbol: true,
-				useScript: true,
-				scriptSrc: "https://s3.tradingview.com/external-embedding/embed-widget-company-profile.js"
-			},
-			"economic-map": {
-				title: "Economic Map",
-				path: "economic-map",
-				genCfg: () => ({ colorTheme: "light", isTransparent: false, width: "100%", height: "100%", locale: "en" }),
-				fallback: () => "https://www.tradingview.com/economic-map/",
-				acceptsSymbol: false,
-				useScript: true,
-				scriptSrc: "https://s3.tradingview.com/external-embedding/embed-widget-economic-map.js"
 			}
 		};
 		const meta = MAP[kind];
