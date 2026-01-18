@@ -37,6 +37,8 @@ body{
 	flex:1 1 auto;
 	padding:10px;
 	border-right:1px solid #222;
+	display:flex;
+	flex-direction:column;
 }
 .feed-controls{
 	display:flex;gap:10px;align-items:flex-end;margin-bottom:10px
@@ -46,11 +48,19 @@ body{
 .output{
 	white-space:pre-wrap;
 	line-height:1.35;
+	flex:1 1 auto;
+	overflow:auto;
+	border:1px solid #222;
+	border-radius:8px;
+	padding:10px;
+	background:#0f0f0f;
 }
 #cmd-bar{display:flex;gap:10px;margin:10px 0}
 #cmd-input{
 	flex:1 1 auto;background:#0f0f0f;color:var(--text);border:1px solid #333;border-radius:6px;padding:8px 10px
 }
+.out-block{margin-bottom:12px}
+.out-block a{color:#8ab4f8;text-decoration:underline}
 #right{
 	width:420px;
 	flex:0 0 auto;

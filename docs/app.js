@@ -47,9 +47,26 @@ function setTape(element, pieces) {
 	requestAnimationFrame(step);
 }
 
+function escapeHTML(s) {
+	return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function linkify(text) {
+	const escaped = escapeHTML(text);
+	// Replace URLs with anchor tags
+	return escaped.replace(/https?:\/\/[^\s]+/g, (url) => {
+		return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+	}).replace(/\n/g, "<br>");
+}
 function renderOutputBlock(block) {
 	const out = document.getElementById("output");
-	out.textContent = block + "\n" + out.textContent;
+	const div = document.createElement("div");
+	div.className = "out-block";
+	div.innerHTML = linkify(block);
+	// Prepend newest block at top
+	if (out.firstChild) out.insertBefore(div, out.firstChild);
+	else out.appendChild(div);
+	// Scroll to top to show newest
+	out.scrollTop = 0;
 }
 
 function buildRecentQuery(name, org, email) {
