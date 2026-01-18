@@ -1,14 +1,87 @@
-// Simple CSV parser (no quotes nesting)
+// Robust CSV parser with quotes support (RFC4180-ish)
 function parseCSV(text) {
-	const lines = text.trim().split(/\r?\n/);
-	const headers = lines.shift().split(",").map(h => h.trim());
-	return lines.map(line => {
-		// naive split; handles simple CSVs
-		const parts = line.split(",").map(s => s.trim());
-		const row = {};
-		headers.forEach((h, i) => row[h] = parts[i] || "");
-		return row;
-	});
+	// Remove BOM if present
+	if (text.charCodeAt(0) === 0xFEFF) {
+		text = text.slice(1);
+	}
+	const rows = [];
+	let field = "";
+	let row = [];
+	let i = 0, inQuotes = false;
+	while (i < text.length) {
+		const ch = text[i];
+		if (inQuotes) {
+			if (ch === '"') {
+				// Escaped double quote
+				if (i + 1 < text.length && text[i + 1] === '"') {
+					field += '"';
+					i += 2;
+					continue;
+				} else {
+					inQuotes = false;
+					i++;
+					continue;
+				}
+			} else {
+				field += ch;
+				i++;
+				continue;
+			}
+		} else {
+			if (ch === '"') {
+				inQuotes = true;
+				i++;
+				continue;
+			}
+			if (ch === ",") {
+				row.push(field);
+				field = "";
+				i++;
+				continue;
+			}
+			if (ch === "\r") {
+				// normalize CRLF or CR
+				if (i + 1 < text.length && text[i + 1] === "\n") i++;
+				row.push(field);
+				field = "";
+				if (row.length > 0) rows.push(row);
+				row = [];
+				i++;
+				continue;
+			}
+			if (ch === "\n") {
+				row.push(field);
+				field = "";
+				if (row.length > 0) rows.push(row);
+				row = [];
+				i++;
+				continue;
+			}
+			field += ch;
+			i++;
+			continue;
+		}
+	}
+	// push last field/row
+	row.push(field);
+	if (row.length > 1 || (row.length === 1 && row[0] !== "")) {
+		rows.push(row);
+	}
+	if (rows.length === 0) return [];
+	const headers = rows[0].map(h => (h || "").trim());
+	const out = [];
+	for (let r = 1; r < rows.length; r++) {
+		const cols = rows[r];
+		if (cols.every(c => (c || "").trim() === "")) continue;
+		const obj = {};
+		for (let c = 0; c < headers.length; c++) {
+			const key = headers[c];
+			if (!key) continue;
+			obj[key] = (cols[c] || "").trim();
+		}
+		out.push(obj);
+	}
+	return out;
 }
 
 async function fetchJSON(url) {
