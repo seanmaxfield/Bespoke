@@ -167,6 +167,13 @@ button:disabled{opacity:.6;cursor:not-allowed}
 	user-select:none;
 }
 .floating-title{font-weight:600}
+.floating-search{display:flex;gap:6px;align-items:center}
+.floating-search input{
+	border:1px solid #d0d7de;border-radius:6px;padding:6px 8px;min-width:150px;background:#fff;color:var(--text)
+}
+.floating-search button{
+	background:#0b57d0;color:#fff;border:none;border-radius:6px;padding:6px 10px;font-weight:600;cursor:pointer
+}
 .floating-close{
 	background:transparent;border:none;color:#5f6368;font-size:18px;cursor:pointer;padding:0 6px
 }

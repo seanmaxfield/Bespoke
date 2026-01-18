@@ -735,45 +735,51 @@ async function main() {
 			"advanced-chart": {
 				title: "Advanced Chart",
 				path: "advanced-chart",
-				cfg: { autosize: true, symbol: "AAPL", interval: "D", timezone: "Etc/UTC", theme: "light" },
-				fallback: "https://www.tradingview.com/chart/?symbol=AAPL"
+				genCfg: (symbol="AAPL") => ({ autosize: true, symbol, interval: "D", timezone: "Etc/UTC", theme: "light" }),
+				fallback: (symbol="AAPL") => `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(symbol)}`,
+				acceptsSymbol: true
 			},
 			"symbol-overview": {
 				title: "Symbol Overview",
 				path: "symbol-overview",
-				// Minimal valid config: single symbol with timeframe
-				cfg: { colorTheme: "light", symbols: [["Apple","AAPL|1D"]], isTransparent: false, showChart: true, locale: "en" },
-				fallback: "https://www.tradingview.com/symbols/NASDAQ-AAPL/"
+				genCfg: (symbol="AAPL") => ({ colorTheme: "light", symbols: [["", `${symbol}|1D`]], isTransparent: false, showChart: true, locale: "en" }),
+				fallback: (symbol="AAPL") => `https://www.tradingview.com/symbols/${encodeURIComponent(symbol)}/`,
+				acceptsSymbol: true
 			},
 			"stock-heatmap": {
 				title: "Stock Heatmap",
 				path: "stock-heatmap",
-				cfg: { colorTheme: "light", dataSource: "SPX500", grouping: "sector", blockSize: "market_cap_basic", locale: "en" },
-				fallback: "https://www.tradingview.com/heatmap/stock/"
+				genCfg: () => ({ colorTheme: "light", dataSource: "SPX500", grouping: "sector", blockSize: "market_cap_basic", locale: "en" }),
+				fallback: () => "https://www.tradingview.com/heatmap/stock/",
+				acceptsSymbol: false
 			},
 			"screener": {
 				title: "Screener",
 				path: "screener",
-				cfg: { locale: "en", colorTheme: "light", defaultColumn: "overview", screener_type: "stock", displayCurrency: "USD" },
-				fallback: "https://www.tradingview.com/screener/"
+				genCfg: () => ({ locale: "en", colorTheme: "light", defaultColumn: "overview", screener_type: "stock", displayCurrency: "USD" }),
+				fallback: () => "https://www.tradingview.com/screener/",
+				acceptsSymbol: false
 			},
 			"fundamental-data": {
 				title: "Fundamental Data",
 				path: "fundamental-data",
-				cfg: { symbol: "AAPL", colorTheme: "light", isTransparent: false, largeChartUrl: "", displayMode: "compact", width: "100%", height: "100%" },
-				fallback: "https://www.tradingview.com/symbols/NASDAQ-AAPL/financials-overview/"
+				genCfg: (symbol="AAPL") => ({ symbol, colorTheme: "light", isTransparent: false, largeChartUrl: "", displayMode: "compact", width: "100%", height: "100%" }),
+				fallback: (symbol="AAPL") => `https://www.tradingview.com/symbols/${encodeURIComponent(symbol)}/financials-overview/`,
+				acceptsSymbol: true
 			},
 			"company-profile": {
 				title: "Company Profile",
 				path: "company-profile",
-				cfg: { symbol: "AAPL", colorTheme: "light", isTransparent: false, width: "100%", height: "100%" },
-				fallback: "https://www.tradingview.com/symbols/NASDAQ-AAPL/company-profile/"
+				genCfg: (symbol="AAPL") => ({ symbol, colorTheme: "light", isTransparent: false, width: "100%", height: "100%" }),
+				fallback: (symbol="AAPL") => `https://www.tradingview.com/symbols/${encodeURIComponent(symbol)}/company-profile/`,
+				acceptsSymbol: true
 			},
 			"economic-map": {
 				title: "Economic Map",
 				path: "economic-map",
-				cfg: { colorTheme: "light", isTransparent: false, width: "100%", height: "100%", locale: "en" },
-				fallback: "https://www.tradingview.com/economic-map/"
+				genCfg: () => ({ colorTheme: "light", isTransparent: false, width: "100%", height: "100%", locale: "en" }),
+				fallback: () => "https://www.tradingview.com/economic-map/",
+				acceptsSymbol: false
 			}
 		};
 		const meta = MAP[kind];
@@ -789,12 +795,26 @@ async function main() {
 			const title = document.createElement("div");
 			title.className = "floating-title";
 			title.textContent = meta.title;
+			const actions = document.createElement("div");
+			actions.className = "floating-search";
+			let input = null, applyBtn = null;
+			if (meta.acceptsSymbol) {
+				input = document.createElement("input");
+				input.type = "text";
+				input.placeholder = "Symbol (e.g., AAPL)";
+				input.value = "AAPL";
+				applyBtn = document.createElement("button");
+				applyBtn.textContent = "Load";
+				actions.appendChild(input);
+				actions.appendChild(applyBtn);
+			}
 			const close = document.createElement("button");
 			close.className = "floating-close";
 			close.innerHTML = "&times;";
 			close.addEventListener("click", () => overlay.classList.add("hidden"));
+			actions.appendChild(close);
 			header.appendChild(title);
-			header.appendChild(close);
+			header.appendChild(actions);
 			const body = document.createElement("div");
 			body.className = "floating-body";
 			const iframe = document.createElement("iframe");
@@ -802,19 +822,39 @@ async function main() {
 			iframe.setAttribute("frameborder", "0");
 			iframe.style.width = "100%";
 			iframe.style.height = "100%";
-			const hash = encodeURIComponent(JSON.stringify(meta.cfg || {}));
+			function setSrc(symbol) {
+				const cfg = meta.genCfg ? meta.genCfg(symbol) : {};
+				const hash = encodeURIComponent(JSON.stringify(cfg || {}));
+				iframe.src = `https://s.tradingview.com/embed-widget/${meta.path}/?locale=en#${hash}`;
+			}
+			setSrc("AAPL");
 			iframe.src = `https://s.tradingview.com/embed-widget/${meta.path}/?locale=en#${hash}`;
 			iframe.addEventListener("error", () => {
-				if (meta.fallback) window.open(meta.fallback, "_blank", "noopener,noreferrer");
+				if (meta.fallback) {
+					const sym = input ? (input.value || "AAPL") : "AAPL";
+					const url = typeof meta.fallback === "function" ? meta.fallback(sym) : meta.fallback;
+					window.open(url, "_blank", "noopener,noreferrer");
+				}
 				overlay.classList.add("hidden");
 			});
 			body.appendChild(iframe);
 			overlay.appendChild(header);
 			overlay.appendChild(body);
 			document.body.appendChild(overlay);
+			if (meta.acceptsSymbol && applyBtn && input) {
+				function applySymbol() {
+					const sym = (input.value || "AAPL").toUpperCase();
+					setSrc(sym);
+				}
+				applyBtn.addEventListener("click", applySymbol);
+				input.addEventListener("keydown", (e) => {
+					if (e.key === "Enter") applySymbol();
+				});
+			}
 			// Dragging
 			let drag = {x:0, y:0, left:0, top:0, active:false};
 			header.addEventListener("mousedown", (e) => {
+				if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "BUTTON")) return;
 				drag.active = true;
 				drag.x = e.clientX;
 				drag.y = e.clientY;
