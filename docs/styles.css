@@ -46,6 +46,9 @@ body{
 }
 .feed-controls label{display:flex;flex-direction:column;font-size:12px;color:var(--muted)}
 .feed-controls select{margin-top:4px;background:#fff;color:var(--text);border:1px solid #d0d7de;border-radius:6px;padding:6px 8px;min-width:280px}
+.feed-controls button#btn-calendar{
+	background:#0b57d0;color:#fff;border:none;border-radius:6px;padding:8px 12px;font-weight:600;cursor:pointer
+}
 .output{
 	white-space:pre-wrap;
 	line-height:1.35;
@@ -138,3 +141,22 @@ button{
 button:disabled{opacity:.6;cursor:not-allowed}
 .up{color:var(--green)} .down{color:var(--red)}
 
+/* Draggable overlay for TradingView Economic Calendar */
+.floating-overlay{
+	position:fixed;top:12px;left:12px;width:740px;height:520px;
+	background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.2);
+	border:1px solid #d0d7de;border-radius:8px;z-index:9999;
+	display:flex;flex-direction:column;
+}
+.floating-overlay.hidden{display:none}
+.floating-header{
+	background:#f6f7f9;border-bottom:1px solid #e0e3e7;border-radius:8px 8px 0 0;
+	padding:8px 12px;cursor:move;display:flex;align-items:center;justify-content:space-between;
+	user-select:none;
+}
+.floating-title{font-weight:600}
+.floating-close{
+	background:transparent;border:none;color:#5f6368;font-size:18px;cursor:pointer;padding:0 6px
+}
+.floating-body{flex:1 1 auto}
+.floating-body iframe, .floating-body .tradingview-widget-container{width:100%;height:100%}
