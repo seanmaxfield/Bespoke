@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Bespoke - Web</title>
+	<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+	<div id="top">
+		<div id="markets-tape" class="tape"></div>
+		<div id="news-tape" class="tape tape--news"></div>
+	</div>
+	<div id="main">
+		<div id="left">
+			<div id="output" class="output"></div>
+		</div>
+		<div id="right">
+			<div class="side-header">
+				<div class="title">Directory</div>
+				<div class="mode-toggle">
+					<label><input type="radio" name="mode" value="researchers" checked /> Researchers</label>
+					<label><input type="radio" name="mode" value="journalists" /> Journalists</label>
+				</div>
+			</div>
+			<div class="filters">
+				<label>Organization
+					<select id="org-filter"></select>
+				</label>
+				<label>Topic
+					<select id="topic-filter"></select>
+				</label>
+				<label>Search
+					<input id="search-box" type="text" placeholder="name, org, topic, email" />
+				</label>
+			</div>
+			<div class="list">
+				<table id="people-table">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Organization</th>
+							<th>Topic</th>
+							<th>Email</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+			<div class="actions">
+				<button id="btn-recent">Show Recent Work</button>
+			</div>
+		</div>
+	</div>
+
+	<script src="app.js"></script>
+</body>
+</html>
+
