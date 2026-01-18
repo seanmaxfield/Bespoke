@@ -529,25 +529,20 @@ async function main() {
 			return;
 		}
 		if (sel.mode === "commodities") {
-			const list = [
-				["Gold (COMEX)","GC=F"],["Silver (COMEX)","SI=F"],["WTI Crude Oil","CL=F"],
-				["Brent Crude Oil","BZ=F"],["Natural Gas (NYMEX)","NG=F"],["Copper (COMEX)","HG=F"],
-				["Corn (CBOT)","ZC=F"],["Wheat (CBOT)","ZW=F"],["Soybeans (CBOT)","ZS=F"]
-			];
-			const lines = [];
-			lines.push("Commodities Snapshot");
-			lines.push("--------------------");
-			for (const [name, sym] of list) {
-				const closes = await fetchYahooChartCloses(sym);
-				if (!closes.length) { lines.push(`${name}: unavailable`); continue; }
-				const cur = closes[closes.length-1];
-				const weekVal = closes[Math.max(0, closes.length-6)];
-				const monthVal = closes[Math.max(0, closes.length-22)];
-				lines.push(`${name}: ${cur.toFixed(2)}  |  1w ${formatChange(cur, weekVal)}  |  1m ${formatChange(cur, monthVal)}`);
+			try {
+				const data = await fetchJSON("data/commodities.json");
+				const lines = [];
+				lines.push("Commodities Snapshot");
+				lines.push("--------------------");
+				data.forEach(row => {
+					lines.push(`${row.name}: ${row.current}  |  1w ${row.w}  |  1m ${row.m}`);
+				});
+				lines.push("");
+				lines.push("Note: Yahoo continuous futures; 1w≈5 trading days, 1m≈21 trading days.");
+				renderOutputBlock(lines.join("\n"));
+			} catch (e) {
+				renderOutputBlock(`Failed to load commodities: ${e}\n`);
 			}
-			lines.push("");
-			lines.push("Note: Yahoo continuous futures; 1w≈5 trading days, 1m≈21 trading days.");
-			renderOutputBlock(lines.join("\n"));
 			return;
 		}
 		if (sel.mode === "stock") {

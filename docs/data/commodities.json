@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Gold (COMEX)",
+    "symbol": "GC=F",
+    "current": "4595.40",
+    "w": "+105.10 (+2.34%)",
+    "m": "+290.90 (+6.76%)"
+  },
+  {
+    "name": "Silver (COMEX)",
+    "symbol": "SI=F",
+    "current": "88.54",
+    "w": "+9.65 (+12.24%)",
+    "m": "+25.84 (+41.21%)"
+  },
+  {
+    "name": "WTI Crude Oil",
+    "symbol": "CL=F",
+    "current": "59.34",
+    "w": "+0.22 (+0.37%)",
+    "m": "+4.07 (+7.36%)"
+  },
+  {
+    "name": "Brent Crude Oil",
+    "symbol": "BZ=F",
+    "current": "64.13",
+    "w": "+0.79 (+1.25%)",
+    "m": "+5.21 (+8.84%)"
+  },
+  {
+    "name": "Natural Gas (NYMEX)",
+    "symbol": "NG=F",
+    "current": "3.10",
+    "w": "-0.07 (-2.08%)",
+    "m": "-0.78 (-20.15%)"
+  },
+  {
+    "name": "Copper (COMEX)",
+    "symbol": "HG=F",
+    "current": "5.83",
+    "w": "-0.02 (-0.42%)",
+    "m": "+0.54 (+10.29%)"
+  },
+  {
+    "name": "Corn (CBOT)",
+    "symbol": "ZC=F",
+    "current": "424.75",
+    "w": "-21.00 (-4.71%)",
+    "m": "-11.75 (-2.69%)"
+  },
+  {
+    "name": "Wheat (CBOT)",
+    "symbol": "ZW=F",
+    "current": "518.00",
+    "w": "+0.75 (+0.14%)",
+    "m": "+8.50 (+1.67%)"
+  },
+  {
+    "name": "Soybeans (CBOT)",
+    "symbol": "ZS=F",
+    "current": "1057.75",
+    "w": "+9.25 (+0.88%)",
+    "m": "-5.00 (-0.47%)"
+  }
+]

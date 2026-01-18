@@ -138,6 +138,63 @@ def build_politico(limit=5):
 	except Exception:
 		return []
 
+def build_commodities_snapshot():
+	# Same symbols as the CLI for parity
+	commodities = [
+		("Gold (COMEX)", "GC=F"),
+		("Silver (COMEX)", "SI=F"),
+		("WTI Crude Oil", "CL=F"),
+		("Brent Crude Oil", "BZ=F"),
+		("Natural Gas (NYMEX)", "NG=F"),
+		("Copper (COMEX)", "HG=F"),
+		("Corn (CBOT)", "ZC=F"),
+		("Wheat (CBOT)", "ZW=F"),
+		("Soybeans (CBOT)", "ZS=F"),
+	]
+	def chart_closes(symbol: str):
+		for host in ("query1","query2"):
+			url = f"https://{host}.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?range=3mo&interval=1d"
+			try:
+				raw = fetch(url, headers={"User-Agent":"Mozilla/5.0","Accept":"application/json"})
+				data = json.loads(raw.decode("utf-8","ignore"))
+				result = data.get("chart",{}).get("result",[]) or []
+				if not result: 
+					continue
+				quote = result[0].get("indicators",{}).get("quote",[]) or []
+				if not quote: 
+					continue
+				return [float(v) for v in (quote[0].get("close",[]) or []) if v is not None]
+			except Exception:
+				continue
+		return []
+	def fmt_change(cur, past):
+		try:
+			if past is None or past == 0: 
+				return ""
+			diff = cur - past
+			pct = (diff / past) * 100.0
+			sign = "+" if diff >= 0 else ""
+			return f"{sign}{diff:.2f} ({sign}{pct:.2f}%)"
+		except Exception:
+			return ""
+	out = []
+	for name, sym in commodities:
+		closes = chart_closes(sym)
+		if not closes:
+			out.append({"name":name,"symbol":sym,"current":"unavailable","w":"","m":""})
+			continue
+		cur = closes[-1]
+		week_val = closes[-6] if len(closes) >= 6 else closes[0]
+		month_val = closes[-22] if len(closes) >= 22 else closes[0]
+		out.append({
+			"name": name,
+			"symbol": sym,
+			"current": f"{cur:.2f}",
+			"w": fmt_change(cur, week_val),
+			"m": fmt_change(cur, month_val),
+		})
+	return out
+
 def copy_csv(src_name):
 	src = os.path.join(ROOT, src_name)
 	dst = os.path.join(OUT_DIR, src_name)
@@ -148,6 +205,7 @@ def copy_csv(src_name):
 def main():
 	write_json(os.path.join(OUT_DIR, "markets.json"), build_markets())
 	write_json(os.path.join(OUT_DIR, "news.json"), build_politico())
+	write_json(os.path.join(OUT_DIR, "commodities.json"), build_commodities_snapshot())
 	# keep CSVs in docs/data so the SPA can load them directly
 	copy_csv("dc_researchers_with_emails_CONSOLIDATED.csv")
 	copy_csv("journalists_china_asia_FULL.csv")

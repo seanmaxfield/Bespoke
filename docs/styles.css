@@ -1,11 +1,11 @@
 :root{
-	--bg:#0e0e0e;
-	--panel:#141414;
-	--text:#eaeaea;
-	--muted:#9aa0a6;
-	--accent:#1f6feb;
-	--green:#45bf55;
-	--red:#e53935;
+	--bg:#ffffff;
+	--panel:#f4f6f8;
+	--text:#0f1419;
+	--muted:#5f6368;
+	--accent:#0b57d0;
+	--green:#167d2e;
+	--red:#b3261e;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
@@ -15,19 +15,17 @@ body{
 	color:var(--text);
 	font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Apple Color Emoji,Segoe UI Emoji;
 }
-#top{
-	position:sticky;top:0;z-index:10;
-}
+#top{ position:sticky;top:0;z-index:10; }
 .tape{
 	white-space:nowrap;
 	overflow:hidden;
 	padding:6px 10px;
-	background:#0f0f0f;
-	border-bottom:1px solid #222;
+	background:#f6f7f9;
+	border-bottom:1px solid #e0e3e7;
 	font-size:14px;
 }
 .tape--news{
-	background:#151515;
+	background:#eef1f6;
 }
 #main{
 	display:flex;
@@ -36,7 +34,7 @@ body{
 #left{
 	flex:1 1 auto;
 	padding:10px;
-	border-right:1px solid #222;
+	border-right:1px solid #e0e3e7;
 	display:flex;
 	flex-direction:column;
 }
@@ -44,23 +42,23 @@ body{
 	display:flex;gap:10px;align-items:flex-end;margin-bottom:10px
 }
 .feed-controls label{display:flex;flex-direction:column;font-size:12px;color:var(--muted)}
-.feed-controls select{margin-top:4px;background:#0f0f0f;color:var(--text);border:1px solid #333;border-radius:6px;padding:6px 8px;min-width:280px}
+.feed-controls select{margin-top:4px;background:#fff;color:var(--text);border:1px solid #d0d7de;border-radius:6px;padding:6px 8px;min-width:280px}
 .output{
 	white-space:pre-wrap;
 	line-height:1.35;
 	flex:1 1 auto;
 	overflow:auto;
-	border:1px solid #222;
+	border:1px solid #e0e3e7;
 	border-radius:8px;
 	padding:10px;
-	background:#0f0f0f;
+	background:#ffffff;
 }
 #cmd-bar{display:flex;gap:10px;margin:10px 0}
 #cmd-input{
-	flex:1 1 auto;background:#0f0f0f;color:var(--text);border:1px solid #333;border-radius:6px;padding:8px 10px
+	flex:1 1 auto;background:#fff;color:var(--text);border:1px solid #d0d7de;border-radius:6px;padding:8px 10px
 }
 .out-block{margin-bottom:12px}
-.out-block a{color:#8ab4f8;text-decoration:underline}
+.out-block a{color:#0b57d0;text-decoration:underline}
 #right{
 	width:420px;
 	flex:0 0 auto;
@@ -73,7 +71,7 @@ body{
 	justify-content:space-between;
 	padding:10px;
 	background:var(--panel);
-	border-bottom:1px solid #222;
+	border-bottom:1px solid #e0e3e7;
 }
 .title{font-weight:600}
 .mode-toggle label{margin-right:12px;font-size:14px}
@@ -86,23 +84,23 @@ body{
 .filters label{display:flex;flex-direction:column;font-size:12px;color:var(--muted)}
 .filters select,.filters input{
 	margin-top:4px;
-	background:#0f0f0f;color:var(--text);
-	border:1px solid #333;border-radius:6px;
+	background:#fff;color:var(--text);
+	border:1px solid #d0d7de;border-radius:6px;
 	padding:6px 8px;
 }
 .list{
 	flex:1 1 auto;overflow:auto;
 	padding:0 10px 10px 10px;
 }
-table{width:100%;border-collapse:collapse;font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:14px;background:#fff}
 thead th{
-	position:sticky;top:0;background:#121212;border-bottom:1px solid #222;
+	position:sticky;top:0;background:#f6f7f9;border-bottom:1px solid #e0e3e7;
 	text-align:left;font-weight:600;padding:8px
 }
-tbody td{padding:8px;border-bottom:1px solid #1d1d1d}
-tbody tr:hover{background:#141414}
+tbody td{padding:8px;border-bottom:1px solid #eaeef2}
+tbody tr:hover{background:#f4f6f8}
 .actions{
-	padding:10px;border-top:1px solid #222;background:var(--panel)
+	padding:10px;border-top:1px solid #e0e3e7;background:var(--panel)
 }
 button{
 	background:var(--accent);border:none;color:white;border-radius:6px;
