@@ -734,7 +734,16 @@ async function main() {
 			"advanced-chart": {
 				title: "Advanced Chart",
 				path: "advanced-chart",
-				genCfg: (symbol="AAPL") => ({ autosize: true, symbol, interval: "D", timezone: "Etc/UTC", theme: "light" }),
+				genCfg: (symbol="AAPL") => ({
+					autosize: true,
+					symbol,
+					interval: "D",
+					timezone: "Etc/UTC",
+					theme: "light",
+					locale: "en",
+					allow_symbol_change: true,
+					hide_top_toolbar: false
+				}),
 				fallback: (symbol="AAPL") => `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(symbol)}`,
 				acceptsSymbol: true
 			},
