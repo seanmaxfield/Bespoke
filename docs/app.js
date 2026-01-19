@@ -718,6 +718,183 @@ async function main() {
 	}
 	// Calendar invoked via command list (item 49)
 
+	// Geo Browser overlay with map, reverse geocode, and actions
+	function openGeoOverlay() {
+		const overlayId = "geo-overlay";
+		let overlay = document.getElementById(overlayId);
+		if (overlay) { overlay.classList.toggle("hidden"); return; }
+		overlay = document.createElement("div");
+		overlay.id = overlayId;
+		overlay.className = "floating-overlay";
+		const header = document.createElement("div");
+		header.className = "floating-header";
+		const title = document.createElement("div");
+		title.className = "floating-title";
+		title.textContent = "Geo Browser";
+		const actions = document.createElement("div");
+		actions.className = "floating-search";
+		const status = document.createElement("span");
+		status.textContent = "Click map to pick a location";
+		const btnNews = document.createElement("button");
+		btnNews.textContent = "News";
+		const btnInfo = document.createElement("button");
+		btnInfo.textContent = "Country Info";
+		const close = document.createElement("button");
+		close.className = "floating-close";
+		close.innerHTML = "&times;";
+		close.addEventListener("click", () => overlay.classList.add("hidden"));
+		actions.appendChild(status);
+		actions.appendChild(btnNews);
+		actions.appendChild(btnInfo);
+		actions.appendChild(close);
+		header.appendChild(title);
+		header.appendChild(actions);
+		const body = document.createElement("div");
+		body.className = "floating-body";
+		const mapDiv = document.createElement("div");
+		mapDiv.id = "geo-map";
+		mapDiv.style.width = "100%";
+		mapDiv.style.height = "100%";
+		body.appendChild(mapDiv);
+		overlay.appendChild(header);
+		overlay.appendChild(body);
+		document.body.appendChild(overlay);
+		// Dragging
+		let drag = {x:0, y:0, left:0, top:0, active:false};
+		header.addEventListener("mousedown", (e) => {
+			if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "BUTTON")) return;
+			drag.active = true;
+			drag.x = e.clientX;
+			drag.y = e.clientY;
+			const rect = overlay.getBoundingClientRect();
+			drag.left = rect.left;
+			drag.top = rect.top;
+			e.preventDefault();
+		});
+		document.addEventListener("mousemove", (e) => {
+			if (!drag.active) return;
+			const dx = e.clientX - drag.x;
+			const dy = e.clientY - drag.y;
+			overlay.style.left = Math.max(0, drag.left + dx) + "px";
+			overlay.style.top = Math.max(0, drag.top + dy) + "px";
+		});
+		document.addEventListener("mouseup", () => drag.active = false);
+		// Map
+		let selected = null;
+		let marker = null;
+		function placeLabel(p) {
+			const parts = [];
+			if (p.city) parts.push(p.city);
+			else if (p.locality) parts.push(p.locality);
+			if (p.principalSubdivision) parts.push(p.principalSubdivision);
+			if (p.countryName) parts.push(p.countryName);
+			return parts.join(", ");
+		}
+		async function reverseGeocode(lat, lon) {
+			try {
+				const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${encodeURIComponent(lat)}&longitude=${encodeURIComponent(lon)}&localityLanguage=en`;
+				const data = await fetchJSON(url);
+				return {
+					lat, lon,
+					city: data.city || data.locality || data.localityInfo?.administrative?.find(a => a.order === 5)?.name || "",
+					locality: data.locality || "",
+					principalSubdivision: data.principalSubdivision || "",
+					countryName: data.countryName || data.country || "",
+				};
+			} catch {
+				return { lat, lon, city:"", locality:"", principalSubdivision:"", countryName:"" };
+			}
+		}
+		function buildNewsQueryForPlace(p) {
+			const parts = [];
+			const city = p.city || p.locality;
+			if (city) parts.push(`"${city}"`);
+			if (p.countryName) parts.push(`"${p.countryName}"`);
+			const q = parts.join(" ");
+			return q || `"${p.lat.toFixed(2)},${p.lon.toFixed(2)}"`;
+		}
+		async function fetchNewsForPlace(p) {
+			const base = "https://news.google.com/rss/search";
+			const query = buildNewsQueryForPlace(p);
+			const url = `${base}?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
+			try {
+				const xml = await fetchTextCORS(url);
+				const parser = new DOMParser();
+				const doc = parser.parseFromString(xml, "text/xml");
+				const items = Array.from(doc.querySelectorAll("item")).slice(0, 10);
+				const lines = [];
+				lines.push(`News for ${placeLabel(p) || `${p.lat.toFixed(2)}, ${p.lon.toFixed(2)}`}`);
+				lines.push("----------------------------------------");
+				if (items.length === 0) {
+					lines.push("No items found.");
+				} else {
+					items.forEach((it, i) => {
+						const title = (it.querySelector("title")?.textContent || "").trim();
+						const link = (it.querySelector("link")?.textContent || "").trim();
+						const pubDate = (it.querySelector("pubDate")?.textContent || "").trim();
+						lines.push(`${String(i+1).padStart(2," ")}. ${title}`);
+						if (pubDate) lines.push(`    ${pubDate}`);
+						if (link) lines.push(`    ${link}`);
+					});
+				}
+				lines.push("");
+				renderOutputBlock(lines.join("\n"));
+			} catch (e) {
+				renderOutputBlock(`Failed to fetch news for ${placeLabel(p)}: ${e}\n`);
+			}
+		}
+		async function fetchWikiForCountry(name) {
+			if (!name) { renderOutputBlock("No country identified for this location.\n"); return; }
+			try {
+				const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name)}`;
+				const data = await fetchJSON(url);
+				const lines = [];
+				lines.push(`${data.title || name}`);
+				lines.push("------------------------------");
+				if (data.description) lines.push(data.description);
+				if (data.extract) {
+					lines.push("");
+					lines.push(data.extract);
+				}
+				if (data.content_urls?.desktop?.page) {
+					lines.push("");
+					lines.push(data.content_urls.desktop.page);
+				}
+				lines.push("");
+				renderOutputBlock(lines.join("\n"));
+			} catch (e) {
+				renderOutputBlock(`Failed to load Wikipedia summary for ${name}: ${e}\n`);
+			}
+		}
+		function requireLeaflet() {
+			if (typeof L === "undefined") {
+				renderOutputBlock("Map library not loaded. Please refresh the page.\n");
+				return false;
+			}
+			return true;
+		}
+		if (!requireLeaflet()) return;
+		const map = L.map(mapDiv).setView([20, 0], 2);
+		L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+			attribution: "© OpenStreetMap contributors"
+		}).addTo(map);
+		map.on("click", async (e) => {
+			const { lat, lng } = e.latlng;
+			selected = await reverseGeocode(lat, lng);
+			status.textContent = placeLabel(selected) || `${lat.toFixed(2)}, ${lng.toFixed(2)}`;
+			if (marker) marker.remove();
+			marker = L.marker([lat, lng]).addTo(map);
+		});
+		btnNews.addEventListener("click", async () => {
+			if (!selected) { renderOutputBlock("Pick a location on the map first.\n"); return; }
+			await fetchNewsForPlace(selected);
+		});
+		btnInfo.addEventListener("click", async () => {
+			if (!selected) { renderOutputBlock("Pick a location on the map first.\n"); return; }
+			await fetchWikiForCountry(selected.countryName || "");
+		});
+	}
+
 	// TradingView widgets (for numbered commands 42+)
 	const TV_WIDGETS = [
 		{ key:"advanced-chart", title:"Advanced Chart" },
@@ -928,6 +1105,7 @@ async function main() {
 			lines.push(`${String(base + idx + 1).padStart(2," ")}. ${w.title}`);
 		});
 		lines.push(`${String(base + TV_WIDGETS.length + 1).padStart(2," ")}. Economic Calendar`);
+		lines.push(`${String(base + TV_WIDGETS.length + 2).padStart(2," ")}. Geo Browser`);
 		lines.push("");
 		lines.push('Select a feed by number, abbreviation, or title.');
 		lines.push('Usage: 35 TICKER (e.g., 35 AAPL) or "STOCK AAPL". Specials: CMDTY, LM. Widgets: 42+');
@@ -1023,6 +1201,9 @@ async function main() {
 					return;
 				} else if (wIdx === TV_WIDGETS.length) {
 					createCalendarOverlay();
+					return;
+				} else if (wIdx === TV_WIDGETS.length + 1) {
+					openGeoOverlay();
 					return;
 				}
 			}
