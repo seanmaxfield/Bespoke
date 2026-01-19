@@ -95,14 +95,14 @@ async function fetchText(url) {
 	return await r.text();
 }
 async function fetchTextCORS(url) {
-	// Try isomorphic-git CORS proxy first, then fall back to r.jina.ai
-	const viaIso = "https://cors.isomorphic-git.org/" + url;
+	// Prefer r.jina.ai for RSS (adds permissive CORS), then fall back to isomorphic-git
+	const viaJina = makeProxyUrl(url);
 	try {
-		return await fetchText(viaIso);
+		return await fetchText(viaJina);
 	} catch (e1) {
 		try {
-			const viaJina = makeProxyUrl(url);
-			return await fetchText(viaJina);
+			const viaIso = "https://cors.isomorphic-git.org/" + url;
+			return await fetchText(viaIso);
 		} catch (e2) {
 			throw e2 || e1;
 		}
