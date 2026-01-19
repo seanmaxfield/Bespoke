@@ -94,10 +94,19 @@ async function fetchText(url) {
 	if (!r.ok) throw new Error(`fetch ${url} ${r.status}`);
 	return await r.text();
 }
-function fetchTextCORS(url) {
-	// Prefer a CORS pass-through that preserves XML (needed for RSS)
-	const proxied = "https://cors.isomorphic-git.org/" + url;
-	return fetchText(proxied);
+async function fetchTextCORS(url) {
+	// Try isomorphic-git CORS proxy first, then fall back to r.jina.ai
+	const viaIso = "https://cors.isomorphic-git.org/" + url;
+	try {
+		return await fetchText(viaIso);
+	} catch (e1) {
+		try {
+			const viaJina = makeProxyUrl(url);
+			return await fetchText(viaJina);
+		} catch (e2) {
+			throw e2 || e1;
+		}
+	}
 }
 
 function setTape(element, pieces) {
