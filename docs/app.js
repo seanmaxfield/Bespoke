@@ -1174,10 +1174,8 @@ async function main() {
 		       dateObj.getDate() === now.getDate();
 	}
 	async function fetchFTTodayBlock() {
-		// Google News RSS for ft.com; filter to today's pubDate
-		const base = "https://news.google.com/rss/search";
-		const url = `${base}?q=${encodeURIComponent("site:ft.com")}&hl=en-US&gl=US&ceid=US:en`;
-		try {
+		// Try Google News RSS first, then fall back to Bing News RSS
+		async function fetchAndFilter(url) {
 			const xml = await fetchTextCORS(url);
 			const parser = new DOMParser();
 			const doc = parser.parseFromString(xml, "text/xml");
@@ -1194,25 +1192,39 @@ async function main() {
 					todays.push({ title, link, pubDate: pubDateStr, dateObj: d });
 				}
 			}
-			// Sort newest first
 			todays.sort((a,b) => b.dateObj - a.dateObj);
-			const lines = [];
-			lines.push("FT today — Financial Times articles published today");
-			lines.push("--------------------------------------------------");
-			if (todays.length === 0) {
-				lines.push("No FT items found for today.");
-			} else {
-				todays.forEach((it, i) => {
-					lines.push(`${String(i+1).padStart(2," ")}. ${it.title}`);
-					if (it.pubDate) lines.push(`    ${it.pubDate}`);
-					if (it.link) lines.push(`    ${it.link}`);
-				});
-			}
-			lines.push("");
-			return lines.join("\n");
-		} catch (e) {
-			return `Failed to fetch FT today: ${e}\n`;
+			return todays;
 		}
+		const sources = [
+			`https://news.google.com/rss/search?q=${encodeURIComponent("site:ft.com")}&hl=en-US&gl=US&ceid=US:en`,
+			`https://www.bing.com/news/search?q=${encodeURIComponent("site:ft.com")}&format=rss`,
+		];
+		let todays = [];
+		let lastError = null;
+		for (const src of sources) {
+			try {
+				todays = await fetchAndFilter(src);
+				if (todays.length) break;
+			} catch (e) {
+				lastError = e;
+				continue;
+			}
+		}
+		const lines = [];
+		lines.push("FT today — Financial Times articles published today");
+		lines.push("--------------------------------------------------");
+		if (todays.length === 0) {
+			if (lastError) lines.push(`No FT items found. Last error: ${lastError}`);
+			else lines.push("No FT items found for today.");
+		} else {
+			todays.forEach((it, i) => {
+				lines.push(`${String(i+1).padStart(2," ")}. ${it.title}`);
+				if (it.pubDate) lines.push(`    ${it.pubDate}`);
+				if (it.link) lines.push(`    ${it.link}`);
+			});
+		}
+		lines.push("");
+		return lines.join("\n");
 	}
 	async function executeSelection(input){
 		try {
