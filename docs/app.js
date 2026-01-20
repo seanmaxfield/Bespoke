@@ -119,6 +119,28 @@ async function fetchTextCORS(url) {
 	}
 }
 
+// JSONP helper to bypass CORS when APIs support ?callback=
+function fetchJSONP(url, callbackParam = "callback", timeoutMs = 10000) {
+	return new Promise((resolve, reject) => {
+		const cbName = "__jsonp_cb_" + Math.random().toString(36).slice(2);
+		const sep = url.includes("?") ? "&" : "?";
+		const src = `${url}${sep}${encodeURIComponent(callbackParam)}=${cbName}`;
+		let timeoutId = null;
+		const script = document.createElement("script");
+		function cleanup() {
+			try { delete window[cbName]; } catch {}
+			if (script.parentNode) script.parentNode.removeChild(script);
+			if (timeoutId) clearTimeout(timeoutId);
+		}
+		window[cbName] = (data) => { cleanup(); resolve(data); };
+		script.src = src;
+		script.async = true;
+		script.onerror = () => { cleanup(); reject(new Error(`JSONP failed for ${url}`)); };
+		timeoutId = setTimeout(() => { cleanup(); reject(new Error(`JSONP timeout for ${url}`)); }, timeoutMs);
+		document.head.appendChild(script);
+	});
+}
+
 function setTape(element, pieces) {
 	// pieces: [{text, cls}]
 	element.innerHTML = "";
@@ -833,24 +855,19 @@ async function main() {
 			return q || `"${p.lat.toFixed(2)},${p.lon.toFixed(2)}"`;
 		}
 		async function fetchNewsForPlace(p) {
-			const base = "https://news.google.com/rss/search";
 			const query = buildNewsQueryForPlace(p);
-			const url = `${base}?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
-			try {
-				const xml = await fetchTextCORS(url);
-				const parser = new DOMParser();
-				const doc = parser.parseFromString(xml, "text/xml");
-				const items = Array.from(doc.querySelectorAll("item")).slice(0, 10);
+			const header = `News for ${placeLabel(p) || `${p.lat.toFixed(2)}, ${p.lon.toFixed(2)}`}`;
+			function renderItems(items) {
 				const lines = [];
-				lines.push(`News for ${placeLabel(p) || `${p.lat.toFixed(2)}, ${p.lon.toFixed(2)}`}`);
+				lines.push(header);
 				lines.push("----------------------------------------");
-				if (items.length === 0) {
+				if (!items || items.length === 0) {
 					lines.push("No items found.");
 				} else {
 					items.forEach((it, i) => {
-						const title = (it.querySelector("title")?.textContent || "").trim();
-						const link = (it.querySelector("link")?.textContent || "").trim();
-						const pubDate = (it.querySelector("pubDate")?.textContent || "").trim();
+						const title = (it.title || "").trim();
+						const link = (it.link || it.url || "").trim();
+						const pubDate = (it.pubDate || it.pubdate || it.updated || it.date || "").trim();
 						lines.push(`${String(i+1).padStart(2," ")}. ${title}`);
 						if (pubDate) lines.push(`    ${pubDate}`);
 						if (link) lines.push(`    ${link}`);
@@ -858,9 +875,56 @@ async function main() {
 				}
 				lines.push("");
 				renderOutputBlock(lines.join("\n"));
-			} catch (e) {
-				renderOutputBlock(`Failed to fetch news for ${placeLabel(p)}: ${e}\n`);
 			}
+			// 1) Try Google News RSS via proxy
+			try {
+				const gUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
+				const xml = await fetchTextCORS(gUrl);
+				const parser = new DOMParser();
+				const doc = parser.parseFromString(xml, "text/xml");
+				const items = Array.from(doc.querySelectorAll("item")).slice(0, 10).map(it => ({
+					title: (it.querySelector("title")?.textContent || "").trim(),
+					link: (it.querySelector("link")?.textContent || "").trim(),
+					pubDate: (it.querySelector("pubDate")?.textContent || "").trim(),
+				}));
+				if (items.length) { renderItems(items); return; }
+			} catch {}
+			// 2) Fallback: Bing News RSS via proxy
+			try {
+				const bUrl = `https://www.bing.com/news/search?q=${encodeURIComponent(query)}&format=rss`;
+				const xml = await fetchTextCORS(bUrl);
+				const parser = new DOMParser();
+				const doc = parser.parseFromString(xml, "text/xml");
+				const items = Array.from(doc.querySelectorAll("item")).slice(0, 10).map(it => ({
+					title: (it.querySelector("title")?.textContent || "").trim(),
+					link: (it.querySelector("link")?.textContent || "").trim(),
+					pubDate: (it.querySelector("pubDate")?.textContent || "").trim(),
+				}));
+				if (items.length) { renderItems(items); return; }
+			} catch {}
+			// 3) Fallback: GDELT Doc API (JSON, then JSONP)
+			try {
+				const gdl = `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(query)}&mode=artlist&format=json&maxrecords=10&sort=DateDesc`;
+				let data = null;
+				try {
+					data = await fetchJSON(gdl);
+				} catch {
+					// Try JSONP if CORS blocks JSON
+					try { data = await fetchJSONP(gdl, "callback"); } catch {}
+				}
+				const articles = (data && (data.articles || data.results || data.docs || data.documents)) || [];
+				const items = Array.isArray(articles) ? articles.slice(0, 10).map(a => ({
+					title: (a.title || a.documentTitle || "").trim(),
+					link: (a.url || a.documentURL || a.share || "").trim(),
+					pubDate: (a.seendate || a.date || a.publishDate || "").toString().trim()
+				})) : [];
+				renderItems(items);
+				return;
+			} catch (e) {
+				// ignore and fall through
+			}
+			// 4) Final message
+			renderOutputBlock(`${header}\n----------------------------------------\nNo items found. Sources blocked or unavailable.\n`);
 		}
 		async function fetchWikiForCountry(name) {
 			if (!name) { renderOutputBlock("No country identified for this location.\n"); return; }
@@ -1175,57 +1239,40 @@ async function main() {
 		       dateObj.getDate() === now.getDate();
 	}
 	async function fetchFTTodayBlock() {
-		// Try Google News RSS first, then fall back to Bing News RSS
-		async function fetchAndFilter(url) {
+		// Use provided FT RSS feed
+		const url = "https://www.ft.com/myft/following/88ea35e6-e0af-4500-b77a-158e079c8fe2.rss";
+		try {
 			const xml = await fetchTextCORS(url);
 			const parser = new DOMParser();
 			const doc = parser.parseFromString(xml, "text/xml");
-			const items = Array.from(doc.querySelectorAll("item"));
-			const todays = [];
-			for (const it of items) {
+			const items = Array.from(doc.querySelectorAll("item")).map(it => {
 				const title = (it.querySelector("title")?.textContent || "").trim();
 				const link = (it.querySelector("link")?.textContent || "").trim();
-				const pubDateStr = (it.querySelector("pubDate")?.textContent || "").trim();
-				if (!pubDateStr) continue;
-				let d;
-				try { d = new Date(pubDateStr); } catch { continue; }
-				if (!isNaN(d) && isToday(d)) {
-					todays.push({ title, link, pubDate: pubDateStr, dateObj: d });
-				}
-			}
-			todays.sort((a,b) => b.dateObj - a.dateObj);
-			return todays;
-		}
-		const sources = [
-			`https://news.google.com/rss/search?q=${encodeURIComponent("site:ft.com")}&hl=en-US&gl=US&ceid=US:en`,
-			`https://www.bing.com/news/search?q=${encodeURIComponent("site:ft.com")}&format=rss`,
-		];
-		let todays = [];
-		let lastError = null;
-		for (const src of sources) {
-			try {
-				todays = await fetchAndFilter(src);
-				if (todays.length) break;
-			} catch (e) {
-				lastError = e;
-				continue;
-			}
-		}
-		const lines = [];
-		lines.push("FT today — Financial Times articles published today");
-		lines.push("--------------------------------------------------");
-		if (todays.length === 0) {
-			if (lastError) lines.push(`No FT items found. Last error: ${lastError}`);
-			else lines.push("No FT items found for today.");
-		} else {
-			todays.forEach((it, i) => {
-				lines.push(`${String(i+1).padStart(2," ")}. ${it.title}`);
-				if (it.pubDate) lines.push(`    ${it.pubDate}`);
-				if (it.link) lines.push(`    ${it.link}`);
+				const pubDate = (it.querySelector("pubDate")?.textContent || "").trim();
+				let dateObj = null;
+				try { dateObj = new Date(pubDate); } catch {}
+				return { title, link, pubDate, dateObj };
 			});
+			let todays = items.filter(it => it.dateObj && isToday(it.dateObj));
+			if (!todays.length) todays = items.slice(0, 25);
+			todays.sort((a,b) => (b.dateObj?.getTime() || 0) - (a.dateObj?.getTime() || 0));
+			const lines = [];
+			lines.push("FT today — Financial Times (myFT feed)");
+			lines.push("--------------------------------------------------");
+			if (todays.length === 0) {
+				lines.push("No FT items available.");
+			} else {
+				todays.forEach((it, i) => {
+					lines.push(`${String(i+1).padStart(2," ")}. ${it.title}`);
+					if (it.pubDate) lines.push(`    ${it.pubDate}`);
+					if (it.link) lines.push(`    ${it.link}`);
+				});
+			}
+			lines.push("");
+			return lines.join("\n");
+		} catch (e) {
+			return `Failed to fetch FT today: ${e}\n`;
 		}
-		lines.push("");
-		return lines.join("\n");
 	}
 	async function executeSelection(input){
 		try {
