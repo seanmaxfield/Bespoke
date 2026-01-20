@@ -1116,6 +1116,13 @@ async function main() {
 		lines.push(`${String(base + TV_WIDGETS.length + 1).padStart(2," ")}. Economic Calendar`);
 		lines.push(`${String(base + TV_WIDGETS.length + 2).padStart(2," ")}. Geo Browser`);
 		lines.push("");
+		lines.push("Specials");
+		lines.push("------------------");
+		lines.push("STOCK TICKER   — Stock Lookup (price, fundamentals, news)");
+		lines.push("CMDTY          — Commodities Snapshot (price, 1w, 1m change)");
+		lines.push("LM             — LiveUAMap");
+		lines.push("FT today       — All Financial Times articles published today");
+		lines.push("");
 		lines.push('Select a feed by number, abbreviation, or title.');
 		lines.push('Usage: 35 TICKER (e.g., 35 AAPL) or "STOCK AAPL". Specials: CMDTY, LM. Widgets: 42+');
 		lines.push("");
@@ -1143,7 +1150,59 @@ async function main() {
 			if (parts.length < 2) return {mode:"invalid"};
 			return {mode:"stock", ticker: parts[1].toUpperCase()};
 		}
+		// FT today variants: "ft", "fttoday", "ft today"
+		if (text.toLowerCase() === "ft today" || up === "FTTODAY" || up === "FTTD") {
+			return {mode:"fttoday"};
+		}
 		return {mode:"search", text};
+	}
+	// Build and render FT today block
+	function isToday(dateObj) {
+		const now = new Date();
+		return dateObj.getFullYear() === now.getFullYear() &&
+		       dateObj.getMonth() === now.getMonth() &&
+		       dateObj.getDate() === now.getDate();
+	}
+	async function fetchFTTodayBlock() {
+		// Google News RSS for ft.com; filter to today's pubDate
+		const base = "https://news.google.com/rss/search";
+		const url = `${base}?q=${encodeURIComponent("site:ft.com")}&hl=en-US&gl=US&ceid=US:en`;
+		try {
+			const xml = await fetchTextCORS(url);
+			const parser = new DOMParser();
+			const doc = parser.parseFromString(xml, "text/xml");
+			const items = Array.from(doc.querySelectorAll("item"));
+			const todays = [];
+			for (const it of items) {
+				const title = (it.querySelector("title")?.textContent || "").trim();
+				const link = (it.querySelector("link")?.textContent || "").trim();
+				const pubDateStr = (it.querySelector("pubDate")?.textContent || "").trim();
+				if (!pubDateStr) continue;
+				let d;
+				try { d = new Date(pubDateStr); } catch { continue; }
+				if (!isNaN(d) && isToday(d)) {
+					todays.push({ title, link, pubDate: pubDateStr, dateObj: d });
+				}
+			}
+			// Sort newest first
+			todays.sort((a,b) => b.dateObj - a.dateObj);
+			const lines = [];
+			lines.push("FT today — Financial Times articles published today");
+			lines.push("--------------------------------------------------");
+			if (todays.length === 0) {
+				lines.push("No FT items found for today.");
+			} else {
+				todays.forEach((it, i) => {
+					lines.push(`${String(i+1).padStart(2," ")}. ${it.title}`);
+					if (it.pubDate) lines.push(`    ${it.pubDate}`);
+					if (it.link) lines.push(`    ${it.link}`);
+				});
+			}
+			lines.push("");
+			return lines.join("\n");
+		} catch (e) {
+			return `Failed to fetch FT today: ${e}\n`;
+		}
 	}
 	async function executeSelection(input){
 		try {
@@ -1170,6 +1229,11 @@ async function main() {
 			} catch (e) {
 				renderOutputBlock(`Failed to load commodities: ${e}\n`);
 			}
+			return;
+		}
+		if (sel.mode === "fttoday") {
+			const block = await fetchFTTodayBlock();
+			renderOutputBlock(block);
 			return;
 		}
 		if (sel.mode === "stock") {
