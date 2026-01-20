@@ -101,7 +101,10 @@ async function fetchTextCORS(url) {
 			const u = new URL(url);
 			return `https://r.jina.ai/http://${u.host}${u.pathname}${u.search}`;
 		} catch {
-			return `https://r.jina.ai/http://${url.replace(/^https?:\\/\\//,"")}`;
+			let s = url;
+			if (s.startsWith("https://")) s = s.slice(8);
+			else if (s.startsWith("http://")) s = s.slice(7);
+			return `https://r.jina.ai/http://${s}`;
 		}
 	})();
 	try {
