@@ -1125,6 +1125,7 @@ async function main() {
 		});
 		lines.push(`${String(base + TV_WIDGETS.length + 1).padStart(2," ")}. Economic Calendar`);
 		lines.push(`${String(base + TV_WIDGETS.length + 2).padStart(2," ")}. Geo Browser`);
+		lines.push(`${String(base + TV_WIDGETS.length + 3).padStart(2," ")}. FT today`);
 		lines.push("");
 		lines.push("Specials");
 		lines.push("------------------");
@@ -1299,6 +1300,10 @@ async function main() {
 					return;
 				} else if (wIdx === TV_WIDGETS.length + 1) {
 					openGeoOverlay();
+					return;
+				} else if (wIdx === TV_WIDGETS.length + 2) {
+					const block = await fetchFTTodayBlock();
+					renderOutputBlock(block);
 					return;
 				}
 			}
