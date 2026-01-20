@@ -96,7 +96,14 @@ async function fetchText(url) {
 }
 async function fetchTextCORS(url) {
 	// Prefer r.jina.ai for RSS (adds permissive CORS), then fall back to isomorphic-git
-	const viaJina = makeProxyUrl(url);
+	const viaJina = (() => {
+		try {
+			const u = new URL(url);
+			return `https://r.jina.ai/http://${u.host}${u.pathname}${u.search}`;
+		} catch {
+			return `https://r.jina.ai/http://${url.replace(/^https?:\\/\\//,"")}`;
+		}
+	})();
 	try {
 		return await fetchText(viaJina);
 	} catch (e1) {
