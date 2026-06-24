@@ -215,18 +215,25 @@ async function fetchRecentBlock(name, org, email) {
 		const xml = await fetchTextCORS(url);
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(xml, "text/xml");
-		const items = Array.from(doc.querySelectorAll("item")).slice(0, 10);
+		const rawItems = Array.from(doc.querySelectorAll("item")).map(it => ({
+			title: (it.querySelector("title")?.textContent || "").trim(),
+			link: (it.querySelector("link")?.textContent || "").trim(),
+			pubDate: (it.querySelector("pubDate")?.textContent || "").trim(),
+		}));
+		rawItems.sort((a, b) => {
+			const ta = Date.parse(a.pubDate), tb = Date.parse(b.pubDate);
+			const va = isNaN(ta) ? -Infinity : ta, vb = isNaN(tb) ? -Infinity : tb;
+			return vb - va;
+		});
+		const items = rawItems.slice(0, 10);
 		if (items.length === 0) return `No recent work found for ${name}.\n`;
 		const lines = [];
 		lines.push(`Recent work for ${name} — ${org}`.trim());
 		lines.push("----------------------------------------");
 		items.forEach((it, i) => {
-			const title = (it.querySelector("title")?.textContent || "").trim();
-			const link = (it.querySelector("link")?.textContent || "").trim();
-			const pubDate = (it.querySelector("pubDate")?.textContent || "").trim();
-			lines.push(`${(i+1).toString().padStart(2," ")}. ${title}`);
-			if (pubDate) lines.push(`    ${pubDate}`);
-			if (link) lines.push(`    ${link}`);
+			lines.push(`${(i+1).toString().padStart(2," ")}. ${it.title}`);
+			if (it.pubDate) lines.push(`    ${it.pubDate}`);
+			if (it.link) lines.push(`    ${it.link}`);
 		});
 		lines.push("");
 		return lines.join("\n");
@@ -657,7 +664,11 @@ async function main() {
 		let usedPrebuilt = false;
 		if (window.__recentMap) {
 			const key = `${name}|${org}|${email}`;
-			const items = window.__recentMap[key] || [];
+			const items = (window.__recentMap[key] || []).slice().sort((a, b) => {
+				const ta = Date.parse(a.pubDate), tb = Date.parse(b.pubDate);
+				const va = isNaN(ta) ? -Infinity : ta, vb = isNaN(tb) ? -Infinity : tb;
+				return vb - va;
+			});
 			if (items && items.length) {
 				const lines = [];
 				lines.push(`Recent work for ${name} — ${org}`.trim());

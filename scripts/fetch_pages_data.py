@@ -5,7 +5,26 @@ import time
 import urllib.request
 import urllib.parse
 import xml.etree.ElementTree as ET
+from email.utils import parsedate_to_datetime
 from typing import List, Dict
+
+def parse_pubdate(pub: str):
+	try:
+		dt = parsedate_to_datetime(pub)
+		if dt.tzinfo is None:
+			return dt
+		return dt.astimezone().replace(tzinfo=None)
+	except Exception:
+		return None
+
+def sort_items_by_date(items: List[Dict[str,str]]) -> List[Dict[str,str]]:
+	def key(it):
+		dt = parse_pubdate(it.get("pubDate",""))
+		return dt is not None, dt
+	dated = [it for it in items if parse_pubdate(it.get("pubDate","")) is not None]
+	undated = [it for it in items if parse_pubdate(it.get("pubDate","")) is None]
+	dated.sort(key=lambda it: parse_pubdate(it["pubDate"]), reverse=True)
+	return dated + undated
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
 OUT_DIR = os.path.join(ROOT, "docs", "data")
@@ -172,14 +191,14 @@ def google_news_recent(name: str, org: str, email: str, max_items: int = 10) -> 
 			"Cache-Control":"no-cache","Pragma":"no-cache",
 		})
 		root = ET.fromstring(raw)
-		items = root.findall(".//item")[:max_items]
+		items = root.findall(".//item")
 		out = []
 		for it in items:
 			title = (it.findtext("title") or "").strip()
 			link = (it.findtext("link") or "").strip()
 			pub = (it.findtext("pubDate") or "").strip()
 			out.append({"title":title,"link":link,"pubDate":pub})
-		return out
+		return sort_items_by_date(out)[:max_items]
 	except Exception:
 		return []
 
