@@ -568,8 +568,10 @@ async function main() {
 			const title = it.title || "";
 			const link = it.link || "";
 			const pub = it.pubDate || it.pubdate || it.updated || "";
+			const excerpt = it.excerpt || "";
 			lines.push(`${(i+1).toString().padStart(2," ")}. ${title}`);
 			if (pub) lines.push(`    ${pub}`);
+			if (excerpt) lines.push(`    ${excerpt}`);
 			if (link) lines.push(`    ${link}`);
 		});
 		lines.push("");
@@ -785,29 +787,41 @@ async function main() {
 		title.textContent = "Geo Browser";
 		const actions = document.createElement("div");
 		actions.className = "floating-search";
-		const status = document.createElement("span");
-		status.textContent = "Click map to pick a location";
+		actions.style.position = "relative";
+		const searchInput = document.createElement("input");
+		searchInput.type = "text";
+		searchInput.placeholder = "Search a place…";
+		const searchResults = document.createElement("div");
+		searchResults.className = "geo-search-results hidden";
 		const btnNews = document.createElement("button");
 		btnNews.textContent = "News";
 		const btnInfo = document.createElement("button");
-		btnInfo.textContent = "Country Info";
+		btnInfo.textContent = "Refresh Info";
 		const close = document.createElement("button");
 		close.className = "floating-close";
 		close.innerHTML = "&times;";
 		close.addEventListener("click", () => overlay.classList.add("hidden"));
-		actions.appendChild(status);
+		actions.appendChild(searchInput);
+		actions.appendChild(searchResults);
 		actions.appendChild(btnNews);
 		actions.appendChild(btnInfo);
 		actions.appendChild(close);
 		header.appendChild(title);
 		header.appendChild(actions);
 		const body = document.createElement("div");
-		body.className = "floating-body";
+		body.className = "floating-body geo-flex";
+		const mapCol = document.createElement("div");
+		mapCol.className = "geo-map-col";
 		const mapDiv = document.createElement("div");
 		mapDiv.id = "geo-map";
 		mapDiv.style.width = "100%";
 		mapDiv.style.height = "100%";
-		body.appendChild(mapDiv);
+		mapCol.appendChild(mapDiv);
+		const infoCol = document.createElement("div");
+		infoCol.className = "geo-info-col";
+		infoCol.innerHTML = `<div class="geo-loading">Click the map or search a place to see details: country facts, current weather, local time, and nearby Wikipedia entries.</div>`;
+		body.appendChild(mapCol);
+		body.appendChild(infoCol);
 		overlay.appendChild(header);
 		overlay.appendChild(body);
 		document.body.appendChild(overlay);
@@ -967,25 +981,214 @@ async function main() {
 			}
 			return true;
 		}
+
+		// restcountries.com's v3.1 API was sunset, so country facts come from two small,
+		// CORS-enabled static datasets (no API key, cached after first load).
+		let countryDatasetPromise = null;
+		async function loadCountryDataset() {
+			if (countryDatasetPromise) return countryDatasetPromise;
+			countryDatasetPromise = (async () => {
+				const [countries, popList] = await Promise.all([
+					fetchJSON("https://cdn.jsdelivr.net/gh/mledoze/countries@master/dist/countries.json").catch(() => []),
+					fetchJSON("https://cdn.jsdelivr.net/gh/samayo/country-json@master/src/country-by-population.json").catch(() => []),
+				]);
+				const popMap = {};
+				(popList || []).forEach(p => { if (p.country) popMap[p.country.toLowerCase()] = p.population; });
+				const byName = {};
+				(countries || []).forEach(c => {
+					const common = c.name?.common || "";
+					if (!common) return;
+					const entry = {
+						name: common,
+						capital: (c.capital || [])[0] || "",
+						region: c.region || "",
+						subregion: c.subregion || "",
+						population: popMap[common.toLowerCase()] ?? null,
+						currencies: c.currencies ? Object.values(c.currencies).map(v => `${v.name} (${v.symbol || ""})`).join(", ") : "",
+						languages: c.languages ? Object.values(c.languages).join(", ") : "",
+						flag: c.flag || "",
+					};
+					byName[common.toLowerCase()] = entry;
+					(c.altSpellings || []).forEach(a => { if (a && !byName[a.toLowerCase()]) byName[a.toLowerCase()] = entry; });
+				});
+				return byName;
+			})();
+			return countryDatasetPromise;
+		}
+		async function fetchCountryDetails(countryName) {
+			if (!countryName) return null;
+			try {
+				const byName = await loadCountryDataset();
+				return byName[countryName.toLowerCase()] || null;
+			} catch {
+				return null;
+			}
+		}
+
+		async function fetchWeather(lat, lon) {
+			try {
+				const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=auto`;
+				const data = await fetchJSON(url);
+				const cw = data.current_weather;
+				if (!cw) return null;
+				return {
+					tempC: cw.temperature,
+					windKph: cw.windspeed,
+					code: cw.weathercode,
+					localTime: cw.time,
+					timezone: data.timezone || "",
+				};
+			} catch {
+				return null;
+			}
+		}
+
+		const WEATHER_CODES = {
+			0:"Clear sky",1:"Mainly clear",2:"Partly cloudy",3:"Overcast",
+			45:"Fog",48:"Freezing fog",51:"Light drizzle",53:"Drizzle",55:"Dense drizzle",
+			61:"Light rain",63:"Rain",65:"Heavy rain",71:"Light snow",73:"Snow",75:"Heavy snow",
+			80:"Rain showers",81:"Rain showers",82:"Violent rain showers",
+			95:"Thunderstorm",96:"Thunderstorm w/ hail",99:"Thunderstorm w/ heavy hail",
+		};
+
+		async function fetchNearbyWiki(lat, lon) {
+			try {
+				const url = `https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${lat}|${lon}&gsradius=10000&gslimit=6&format=json&origin=*`;
+				const data = await fetchJSON(url);
+				return (data?.query?.geosearch || []).map(g => ({
+					title: g.title,
+					dist: g.dist,
+					url: `https://en.wikipedia.org/wiki/${encodeURIComponent(g.title.replace(/ /g,"_"))}`,
+				}));
+			} catch {
+				return [];
+			}
+		}
+
+		async function geocodeSearch(q) {
+			if (!q || q.trim().length < 2) return [];
+			try {
+				const url = `https://nominatim.openstreetmap.org/search?format=json&limit=6&q=${encodeURIComponent(q)}`;
+				const res = await fetchJSON(url);
+				return (res || []).map(r => ({
+					label: r.display_name,
+					lat: parseFloat(r.lat),
+					lon: parseFloat(r.lon),
+				}));
+			} catch {
+				return [];
+			}
+		}
+
+		function infoRow(k, v) {
+			if (!v) return "";
+			return `<div class="geo-info-row"><span class="k">${k}</span><span class="v">${v}</span></div>`;
+		}
+
+		async function renderPlaceInfo(p) {
+			const label = placeLabel(p) || `${p.lat.toFixed(3)}, ${p.lon.toFixed(3)}`;
+			infoCol.innerHTML = `<div class="geo-loading">Loading details for ${label}…</div>`;
+			const [country, weather, nearby] = await Promise.all([
+				fetchCountryDetails(p.countryName),
+				fetchWeather(p.lat, p.lon),
+				fetchNearbyWiki(p.lat, p.lon),
+			]);
+			const sections = [];
+			sections.push(`
+				<div class="geo-info-section">
+					<h4>${country?.flag ? `<span class="geo-flag">${country.flag}</span>` : ""}${label}</h4>
+					${infoRow("Coordinates", `${p.lat.toFixed(4)}, ${p.lon.toFixed(4)}`)}
+				</div>
+			`);
+			if (country) {
+				sections.push(`
+					<div class="geo-info-section">
+						<h4>Country facts</h4>
+						${infoRow("Country", country.name)}
+						${infoRow("Capital", country.capital)}
+						${infoRow("Region", [country.subregion, country.region].filter(Boolean).join(", "))}
+						${infoRow("Population", country.population ? country.population.toLocaleString() : "")}
+						${infoRow("Languages", country.languages)}
+						${infoRow("Currency", country.currencies)}
+					</div>
+				`);
+			}
+			if (weather) {
+				const desc = WEATHER_CODES[weather.code] || "";
+				sections.push(`
+					<div class="geo-info-section">
+						<h4>Current weather</h4>
+						${infoRow("Conditions", desc)}
+						${infoRow("Temperature", `${weather.tempC}°C`)}
+						${infoRow("Wind", `${weather.windKph} km/h`)}
+						${infoRow("Local time", weather.localTime ? weather.localTime.replace("T"," ") : "")}
+					</div>
+				`);
+			}
+			if (nearby && nearby.length) {
+				const items = nearby.map(n => `<div class="geo-info-row"><a href="${n.url}" target="_blank" rel="noopener noreferrer">${n.title}</a><span class="v">${Math.round(n.dist)} m</span></div>`).join("");
+				sections.push(`<div class="geo-info-section"><h4>Nearby on Wikipedia</h4>${items}</div>`);
+			}
+			sections.push(`<div class="geo-info-section"><a href="#" id="geo-wiki-link">Full Wikipedia summary for ${country?.name || label}</a></div>`);
+			infoCol.innerHTML = sections.join("");
+			const wikiLink = document.getElementById("geo-wiki-link");
+			if (wikiLink) {
+				wikiLink.addEventListener("click", async (ev) => {
+					ev.preventDefault();
+					await fetchWikiForCountry(country?.name || label);
+				});
+			}
+		}
+
 		if (!requireLeaflet()) return;
 		const map = L.map(mapDiv).setView([20, 0], 2);
 		L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 			attribution: "© OpenStreetMap contributors"
 		}).addTo(map);
-		map.on("click", async (e) => {
-			const { lat, lng } = e.latlng;
+
+		async function selectLatLon(lat, lng) {
 			selected = await reverseGeocode(lat, lng);
-			status.textContent = placeLabel(selected) || `${lat.toFixed(2)}, ${lng.toFixed(2)}`;
 			if (marker) marker.remove();
 			marker = L.marker([lat, lng]).addTo(map);
+			map.setView([lat, lng], Math.max(map.getZoom(), 6));
+			await renderPlaceInfo(selected);
+		}
+
+		map.on("click", async (e) => {
+			await selectLatLon(e.latlng.lat, e.latlng.lng);
 		});
+
+		let searchDebounce = null;
+		searchInput.addEventListener("input", () => {
+			clearTimeout(searchDebounce);
+			const q = searchInput.value;
+			searchDebounce = setTimeout(async () => {
+				const results = await geocodeSearch(q);
+				if (!results.length) { searchResults.classList.add("hidden"); searchResults.innerHTML = ""; return; }
+				searchResults.innerHTML = results.map((r,i) => `<div data-i="${i}">${r.label}</div>`).join("");
+				searchResults.classList.remove("hidden");
+				Array.from(searchResults.children).forEach((el, i) => {
+					el.addEventListener("click", async () => {
+						searchResults.classList.add("hidden");
+						searchInput.value = results[i].label;
+						await selectLatLon(results[i].lat, results[i].lon);
+					});
+				});
+			}, 400);
+		});
+		document.addEventListener("click", (e) => {
+			if (e.target !== searchInput && !searchResults.contains(e.target)) {
+				searchResults.classList.add("hidden");
+			}
+		});
+
 		btnNews.addEventListener("click", async () => {
 			if (!selected) { renderOutputBlock("Pick a location on the map first.\n"); return; }
 			await fetchNewsForPlace(selected);
 		});
 		btnInfo.addEventListener("click", async () => {
 			if (!selected) { renderOutputBlock("Pick a location on the map first.\n"); return; }
-			await fetchWikiForCountry(selected.countryName || "");
+			await renderPlaceInfo(selected);
 		});
 	}
 

@@ -17,6 +17,24 @@ def parse_pubdate(pub: str):
 	except Exception:
 		return None
 
+def extract_excerpt(url: str, max_chars: int = 280) -> str:
+	"""Fetch an article URL and return a short plain-text excerpt (not the full body),
+	to keep feed previews informative without reproducing whole articles."""
+	if not url:
+		return ""
+	try:
+		import trafilatura
+		downloaded = fetch(url, headers={"User-Agent":"Mozilla/5.0"}, timeout=10)
+		if not downloaded:
+			return ""
+		text = trafilatura.extract(downloaded, favor_recall=True) or ""
+		text = " ".join(text.split())
+		if len(text) > max_chars:
+			text = text[:max_chars].rsplit(" ", 1)[0] + "…"
+		return text
+	except Exception:
+		return ""
+
 def sort_items_by_date(items: List[Dict[str,str]]) -> List[Dict[str,str]]:
 	def key(it):
 		dt = parse_pubdate(it.get("pubDate",""))
@@ -366,14 +384,18 @@ def main():
 						pub = (it.findtext("pubDate") or "").strip()
 						out.append({"title":title,"link":link,"pubDate":pub})
 					if out:
-						return out
+						return sort_items_by_date(out)
 			except Exception:
 				time.sleep(0.6)
 				continue
 		return []
+	EXCERPT_COUNT = 5  # only fetch full-page excerpts for the top N items per feed (bounds total requests)
 	feeds_payload = {"feeds":[{"abbr":f["abbr"],"title":f["title"],"url":f.get("url","")} for f in feeds],"data":{}}
 	for f in feeds:
-		feeds_payload["data"][f["abbr"]] = fetch_feed(f["url"])
+		items = fetch_feed(f["url"])
+		for it in items[:EXCERPT_COUNT]:
+			it["excerpt"] = extract_excerpt(it.get("link",""))
+		feeds_payload["data"][f["abbr"]] = items
 	write_json(os.path.join(OUT_DIR, "feeds.json"), feeds_payload)
 	# Precompute recent work for directory entries using Python (avoids browser CORS)
 	write_json(os.path.join(OUT_DIR, "recent.json"), build_recent_map())
